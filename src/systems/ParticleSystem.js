@@ -66,19 +66,20 @@ ParticleSystem.prototype.satisfyConstraints = function () {
   var global = this._globalConstraints;
   var local = this._localConstraints;
   var p0 = this.positions;
+  var p1 = this.positionsPrev;
   var i, il, j, jl, k;
 
   for (k = 0; k < iterations; k ++) {
     // Global
     for (i = 0, il = this._count * 3; i < il; i += 3) {
       for (j = 0, jl = global.length; j < jl; j ++) {
-        global[j].applyConstraint(i, p0);
+        global[j].applyConstraint(i, p0, p1);
       }
     }
 
     // Local
     for (i = 0, il = local.length; i < il; i ++) {
-      local[i].applyConstraint(p0);
+      local[i].applyConstraint(p0, p1);
     }
   }
 };
