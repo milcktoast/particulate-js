@@ -95,12 +95,13 @@ ParticleSystem.prototype.addForce = function (force) {
 ParticleSystem.prototype.accumulateForces = function (delta) {
   var forces = this._forces;
   var f0 = this.accumulatedForces;
+  var p0 = this.positions;
 
   for (var i = 0, il = this._count * 3; i < il; i += 3) {
     f0[i] = f0[i + 1] = f0[i + 2] = 0;
 
     for (var j = 0, jl = forces.length; j < jl; j ++) {
-      forces[j].applyForce(i, f0);
+      forces[j].applyForce(i, f0, p0);
     }
   }
 };
