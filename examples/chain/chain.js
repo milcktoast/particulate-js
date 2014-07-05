@@ -13,12 +13,14 @@
   var gravityForce = new PTCL.DirectionalForce();
 
   system.each(function (i) {
-    if (i > 0) {
+    if (i > 0 && i < PARTICLES - 1) {
       system.setPosition(i,
         (Math.random() - 0.5) * 20,
         (Math.random() - 0.5) * 20,
         (Math.random() - 0.5) * 20);
+    }
 
+    if (i > 0) {
       system.addConstraint(new PTCL.DistanceConstraint(LINK_DISTANCE, i - 1, i));
     }
   });
@@ -56,7 +58,8 @@
   demo.animate(function () {
     gravityForce.set(up.x * GRAVITY, up.y * GRAVITY, up.z * GRAVITY);
     system.tick(1);
-    system.setPosition(0, 0, 0, 0);
+    system.setPosition(0, -10, 0, 0);
+    system.setPosition(PARTICLES - 1, 10, 0, 0);
     geometry.attributes.position.needsUpdate = true;
     demo.update();
     demo.render();
