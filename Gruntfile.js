@@ -8,7 +8,6 @@ module.exports = function (grunt) {
     lib: 'node_modules/'
   };
 
-  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -24,31 +23,12 @@ module.exports = function (grunt) {
     },
 
     neuter: {
-      lib: {
-        options: {
-          basePath: config.lib,
-          template: '{%= src %}'
-        },
-        src: config.src + 'libs.js',
-        dest: config.dest + 'libs-bundle.js'
-      },
       src: {
         options: {
           basePath: config.src,
           template: '{%= src %}'
         },
         src: config.src + 'main.js',
-        dest: config.dest + 'main-bundle.js'
-      }
-    },
-
-    concat: {
-      build: {
-        src: [
-          'intro.js',
-          config.dest + 'main-bundle.js',
-          'outro.js'
-        ],
         dest: config.dest + 'particle-physics.js'
       }
     },
@@ -61,12 +41,8 @@ module.exports = function (grunt) {
     },
 
     watch: {
-      lib: {
-        files: [config.src + 'libs.js'],
-        tasks: ['neuter:lib']
-      },
       src: {
-        files: [config.src + '**/*', '!' + config.src + 'libs.js'],
+        files: [config.src + '**/*'],
         tasks: ['neuter:src']
       }
     },
@@ -76,7 +52,7 @@ module.exports = function (grunt) {
         options: {
           port: 8000,
           hostname: '*',
-          base: config.dest,
+          base: '',
           open: true
         }
       }
@@ -86,7 +62,6 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'jshint',
     'neuter',
-    'concat',
     'uglify'
   ]);
 
