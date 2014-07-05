@@ -8,6 +8,7 @@ function ParticleSystem(count, iterations) {
   this._count = count;
   this._globalConstraints = [];
   this._localConstraints = [];
+  this._forces = [];
 }
 
 ParticleSystem.prototype.setPosition = function (i, x, y, z) {
@@ -84,13 +85,23 @@ ParticleSystem.prototype.satisfyConstraints = function () {
   }
 };
 
+// Forces
+// ------
+
+ParticleSystem.prototype.addForce = function (force) {
+  this._forces.push(force);
+};
+
 ParticleSystem.prototype.accumulateForces = function (delta) {
+  var forces = this._forces;
   var f0 = this.accumulatedForces;
 
-  for (var i = 0, j = 0, il = this._count * 3; i < il; i += 3) {
-    f0[i]     = 0;
-    f0[i + 1] = -0.05;
-    f0[i + 2] = 0.0;
+  for (var i = 0, il = this._count * 3; i < il; i += 3) {
+    f0[i] = f0[i + 1] = f0[i + 2] = 0;
+
+    for (var j = 0, jl = forces.length; j < jl; j ++) {
+      forces[j].applyForce(i, f0);
+    }
   }
 };
 

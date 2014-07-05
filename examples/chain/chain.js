@@ -4,25 +4,26 @@
   // Simulation
   // ----------
 
-  var PARTICLES = 200;
+  var PARTICLES = 150;
   var LINK_DISTANCE = 1;
+  var GRAVITY = -0.05;
   var system = new PP.ParticleSystem(PARTICLES, 2);
   var bounds = new PP.BoxConstraint(-50, -50, -50, 50, 50, 50);
+  var gravityForce = new PP.DirectionalForce();
 
   system.each(function (i) {
     if (i > 0) {
       system.setPosition(i,
         (Math.random() - 0.5) * 20,
-        50 - Math.random() * 20,
+        (Math.random() - 0.5) * 20,
         (Math.random() - 0.5) * 20);
 
       system.addConstraint(new PP.DistanceConstraint(LINK_DISTANCE, i - 1, i));
-    } else {
-      system.setPosition(i, 0, 50, 0);
     }
   });
 
   system.addConstraint(bounds);
+  system.addForce(gravityForce);
 
   // Visualization
   // -------------
@@ -49,9 +50,12 @@
     }));
   demo.scene.add(box);
 
+  var up = demo.controls.object.up;
+
   demo.animate(function () {
+    gravityForce.set(up.x * GRAVITY, up.y * GRAVITY, up.z * GRAVITY);
     system.tick(1);
-    system.setPosition(0, 0, 50, 0);
+    system.setPosition(0, 0, 0, 0);
     geometry.attributes.position.needsUpdate = true;
     demo.update();
     demo.render();
