@@ -29,14 +29,14 @@ module.exports = function (grunt) {
           template: '{%= src %}'
         },
         src: config.src + 'main.js',
-        dest: config.dest + 'particle-physics.js'
+        dest: config.dest + 'particulate.js'
       }
     },
 
     uglify: {
       build: {
-        src: config.dest + 'particle-physics.js',
-        dest: config.dest + 'particle-physics.min.js'
+        src: config.dest + 'particulate.js',
+        dest: config.dest + 'particulate.min.js'
       },
     },
 
@@ -71,6 +71,8 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
+      'jshint',
+      'neuter',
       'connect',
       'watch'
     ]);

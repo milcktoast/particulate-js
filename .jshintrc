@@ -48,6 +48,6 @@
   "globals": {
     "require": true,
     "lib": true,
-    "PP": true
+    "Particulate": true
   }
 }

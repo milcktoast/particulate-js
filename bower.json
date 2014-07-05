@@ -1,5 +1,5 @@
 {
-  "name": "particle-physics",
+  "name": "particulate",
   "version": "0.0.1",
   "dependencies": {
     "threejs": "*"

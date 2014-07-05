@@ -1,5 +1,5 @@
 /*global THREE*/
-PP.DemoScene = DemoScene;
+Particulate.DemoScene = DemoScene;
 function DemoScene() {
   this.el = document.getElementById('container');
   this.renderer = new THREE.WebGLRenderer({antialias: false});
