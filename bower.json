@@ -1,7 +1,13 @@
 {
   "name": "particulate",
   "version": "0.0.1",
-  "dependencies": {
-    "threejs": "*"
-  }
+  "main": "dist/particulate.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "examples",
+    "Gruntfile.js",
+    "package.json"
+  ]
 }
