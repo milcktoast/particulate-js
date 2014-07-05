@@ -3,14 +3,13 @@ lib.PointForce = PointForce;
 function PointForce(x, y, z, opts) {
   opts = opts || {};
   lib.Force.apply(this, arguments);
-  this.type = opts.type || PointForce.ATTRACTOR;
   this.intensity = opts.intensity || 0.05;
   this.setRadius(opts.radius || 0);
 }
 
-var pf_ATTRACTOR = PointForce.ATTRACTOR = 0;
-var pf_REPULSOR = PointForce.REPULSOR = 1;
-var pf_ATTRACTOR_REPULSOR = PointForce.ATTRACTOR_REPULSOR = 2;
+var pf_ATTRACTOR = lib.Force.ATTRACTOR;
+var pf_REPULSOR = lib.Force.REPULSOR;
+var pf_ATTRACTOR_REPULSOR = lib.Force.ATTRACTOR_REPULSOR;
 
 PointForce.prototype = Object.create(lib.Force.prototype);
 
@@ -18,9 +17,8 @@ PointForce.prototype.setRadius = function (r) {
   this._radius2 = r * r;
 };
 
-PointForce.prototype.applyForce = function (i, f0, p0) {
+PointForce.prototype.applyForce = function (ix, f0, p0) {
   var v0 = this.vec;
-  var ix = i;
   var iy = ix + 1;
   var iz = ix + 2;
 

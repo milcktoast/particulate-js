@@ -1,9 +1,11 @@
 require('./Constraint');
 lib.BoxConstraint = BoxConstraint;
-function BoxConstraint(x0, y0, z0, x1, y1, z1) {
+function BoxConstraint(opts) {
   this._isGlobal = true;
-  this.bounds = new Float32Array(arguments.length ? [x0, y0, z0, x1, y1, z1] : 6);
+  this.bounds = new Float32Array(6);
   this.friction = 0.05;
+  if (opts.min) { this.setMin.apply(this, opts.min); }
+  if (opts.max) { this.setMax.apply(this, opts.max); }
 }
 
 BoxConstraint.prototype = Object.create(lib.Constraint.prototype);

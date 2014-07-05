@@ -9,8 +9,11 @@
   var LINK_DISTANCE = 1;
   var GRAVITY = -0.05;
   var system = new PTCL.ParticleSystem(PARTICLES, 2);
-  var bounds = new PTCL.BoxConstraint(-50, -50, -50, 50, 50, 50);
   var gravityForce = new PTCL.DirectionalForce();
+  var bounds = new PTCL.BoxConstraint({
+    min : [-50, -50, -50],
+    max : [50, 50, 50]
+  });
 
   system.each(function (i) {
     if (i > 0 && i < PARTICLES - 1) {
