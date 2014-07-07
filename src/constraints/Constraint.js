@@ -1,7 +1,13 @@
 lib.Constraint = Constraint;
 function Constraint() {}
 
-Constraint.prototype.setParticleIndex = function (index) {
-  this._isGlobal = index == null;
-  if (!this._isGlobal) { this._particleIndex = index; }
+Constraint.setIndices = function (itemSize) {
+  return function () {
+    var indices = this._indices;
+    for (var i = 0; i < arguments.length; i ++) {
+      for (var j = 0; j < itemSize; j ++) {
+        indices[i * itemSize + j] = arguments[i] * itemSize + j;
+      }
+    }
+  };
 };
