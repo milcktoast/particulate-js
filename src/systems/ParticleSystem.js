@@ -27,6 +27,10 @@ ParticleSystem.prototype.setPosition = function (i, x, y, z) {
   p0[iz] = p1[iz] = z;
 };
 
+ParticleSystem.prototype.getDistance = function (a, b) {
+  return lib.Math.distanceTo(this.positions, a, b);
+};
+
 ParticleSystem.prototype.each = function (iterator) {
   for (var i = 0, il = this._count; i < il; i ++) {
     iterator.call(this, i);
