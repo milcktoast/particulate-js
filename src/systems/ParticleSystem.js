@@ -1,11 +1,15 @@
 lib.ParticleSystem = ParticleSystem;
-function ParticleSystem(count, iterations) {
-  this.positions = new Float32Array(count * 3);
-  this.positionsPrev = new Float32Array(count * 3);
-  this.accumulatedForces = new Float32Array(count * 3);
+function ParticleSystem(particles, iterations) {
+  var isCount = typeof particles === 'number';
+  var length = isCount ? particles * 3 : particles.length;
+  var positions = isCount ? length : particles;
+
+  this.positions = new Float32Array(positions);
+  this.positionsPrev = new Float32Array(positions);
+  this.accumulatedForces = new Float32Array(length);
   this.constraintIterations = iterations || 1;
 
-  this._count = count;
+  this._count = length / 3;
   this._globalConstraints = [];
   this._localConstraints = [];
   this._forces = [];
