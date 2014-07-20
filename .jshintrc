@@ -48,6 +48,7 @@
   "globals": {
     "require": true,
     "lib": true,
-    "Particulate": true
+    "Particulate": true,
+    "App": true
   }
 }

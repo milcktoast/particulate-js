@@ -1,0 +1,51 @@
+body {
+  margin: 0;
+  font-family: 'Monaco', monospace;
+  color: #fff;
+  background: #111;
+  -webkit-font-smoothing: antialiased;
+}
+h1 {
+  display: inline-block;
+  margin:  0 0 8px 0;
+  padding: 0 0 12px 0;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+}
+h1 a {
+  color: #fff;
+}
+h1 a:hover {
+  text-decoration: none;
+}
+h3 {
+  font-size: 12px;
+}
+p {
+  margin: 6px 0;
+  font-size: 11px;
+}
+a {
+  color: #e30060;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+.dl {
+  color: #00e5e8;
+}
+.content {
+  position: relative;
+  padding: 30px 40px;
+  max-width: 240px;
+  text-shadow: #000 0 1px 1px;
+}
+#container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
