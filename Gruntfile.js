@@ -5,6 +5,7 @@ module.exports = function (grunt) {
   var config = {
     src: 'src/',
     dest: 'dist/',
+    test: 'test/',
     lib: 'node_modules/'
   };
 
@@ -30,6 +31,13 @@ module.exports = function (grunt) {
         },
         src: config.src + 'main.js',
         dest: config.dest + 'particulate.js'
+      },
+      test: {
+        options: {
+          basePath: config.test
+        },
+        src: config.test + 'test.js',
+        dest: config.test + 'test-bundle.js'
       }
     },
 
@@ -38,12 +46,20 @@ module.exports = function (grunt) {
         src: config.dest + 'particulate.js',
         dest: config.dest + 'particulate.min.js'
       },
+      test: {
+        src: config.test + 'test-bundle.js',
+        dest: config.test + 'test-bundle.js'
+      }
     },
 
     watch: {
       src: {
         files: [config.src + '**/*'],
         tasks: ['neuter:src']
+      },
+      test: {
+        files: [config.test + '**/*', '!' + config.test + 'test-bundle.js'],
+        tasks: ['neuter:test']
       }
     },
 

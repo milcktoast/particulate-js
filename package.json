@@ -8,6 +8,8 @@
     "grunt-contrib-uglify": "^0.3.3",
     "grunt-contrib-watch": "^0.5.3",
     "grunt-neuter": "~0.6.0",
+    "qunit-theme-ninja": "^1.1.0",
+    "qunitjs": "^1.14.0",
     "three": "^0.67.0"
   }
 }
