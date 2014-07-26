@@ -12,10 +12,7 @@
   var GRAVITY = -0.05;
   var system = new PTCL.ParticleSystem(PARTICLES, 2);
   var gravityForce = new PTCL.DirectionalForce();
-  var bounds = new PTCL.BoxConstraint({
-    min : [-50, -50, -50],
-    max : [50, 50, 50]
-  });
+  var bounds = new PTCL.BoxConstraint([-50, -50, -50], [50, 50, 50]);
 
   // Reference to links for visualization
   var linkIndices = [];

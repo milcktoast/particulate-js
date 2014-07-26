@@ -7,7 +7,7 @@ function DirectionalForce(x, y, z) {
 DirectionalForce.prototype = Object.create(lib.Force.prototype);
 
 DirectionalForce.prototype.applyForce = function (i, f0) {
-  var v0 = this.vec;
+  var v0 = this.vector;
   f0[i]     += v0[0];
   f0[i + 1] += v0[1];
   f0[i + 2] += v0[2];

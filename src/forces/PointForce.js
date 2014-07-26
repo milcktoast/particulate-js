@@ -18,7 +18,7 @@ PointForce.prototype.setRadius = function (r) {
 };
 
 PointForce.prototype.applyForce = function (ix, f0, p0) {
-  var v0 = this.vec;
+  var v0 = this.vector;
   var iy = ix + 1;
   var iz = ix + 2;
 

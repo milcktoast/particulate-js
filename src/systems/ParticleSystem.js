@@ -16,28 +16,12 @@ function ParticleSystem(particles, iterations) {
 }
 
 ParticleSystem.prototype.setPosition = function (i, x, y, z) {
-  var ix = i * 3, iy = ix + 1, iz = ix + 2;
-  var p0 = this.positions;
-  var p1 = this.positionsPrev;
-
-  if (arguments.length === 2) {
-    z = x[2];
-    y = x[1];
-    x = x[0];
-  }
-
-  p0[ix] = p1[ix] = x;
-  p0[iy] = p1[iy] = y;
-  p0[iz] = p1[iz] = z;
+  lib.Vec3.set(this.positions, i, x, y, z);
+  lib.Vec3.set(this.positionsPrev, i, x, y, z);
 };
 
 ParticleSystem.prototype.getPosition = function (i, out) {
-  var ix = i * 3, iy = ix + 1, iz = ix + 2;
-  var p0 = this.positions;
-
-  out[0] = p0[ix];
-  out[1] = p0[iy];
-  out[2] = p0[iz];
+  return lib.Vec3.get(this.positions, i, out);
 };
 
 ParticleSystem.prototype.getDistance = function (a, b) {

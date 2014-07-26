@@ -72,21 +72,3 @@ test('Adding and removing forces', function () {
   system.removeForce(force);
   equal(forces.length, 0, 'Should remove forces from _forces.');
 });
-
-// Helpers
-// -------
-
-test('Setting a particle\'s position', function () {
-  var system = new ParticleSystem(10);
-  var position = [3, 4, 5];
-  var index = 1;
-  var ix = index * 3;
-
-  system.setPosition(index, position);
-
-  var p0 = slice.call(system.positions, ix, ix + 3);
-  var p1 = slice.call(system.positionsPrev, ix, ix + 3);
-
-  Test.assert.equalArray(p0, position, 'Should set the vec3 in positions.');
-  Test.assert.equalArray(p1, position, 'Should set the vec3 in positionsPrev.');
-});

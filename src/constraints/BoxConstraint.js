@@ -1,29 +1,22 @@
 require('./Constraint');
 lib.BoxConstraint = BoxConstraint;
-function BoxConstraint(opts) {
+function BoxConstraint(min, max) {
   this._isGlobal = true;
   this.bounds = new Float32Array(6);
   this.friction = 0.05;
-  if (opts.min) { this.setMin.apply(this, opts.min); }
-  if (opts.max) { this.setMax.apply(this, opts.max); }
+
+  if (min) { this.setMin(min); }
+  if (max) { this.setMax(max); }
 }
 
 BoxConstraint.prototype = Object.create(lib.Constraint.prototype);
 
 BoxConstraint.prototype.setMin = function (x, y, z) {
-  var b = this.bounds;
-
-  b[0] = x;
-  b[1] = y;
-  b[2] = z;
+  lib.Vec3.set(this.bounds, 0, x, y, z);
 };
 
 BoxConstraint.prototype.setMax = function (x, y, z) {
-  var b = this.bounds;
-
-  b[3] = x;
-  b[4] = y;
-  b[5] = z;
+  lib.Vec3.set(this.bounds, 1, x, y, z);
 };
 
 BoxConstraint.prototype.applyConstraint = function (ix, p0, p1) {
