@@ -22,7 +22,7 @@ DistanceConstraint.prototype.applyConstraint = function (p0) {
   var dy = p0[by] - p0[ay];
   var dz = p0[bz] - p0[az];
 
-  if (!(dx && dy && dz)) {
+  if (!(dx || dy || dz)) {
     dx = dy = dz = 0.1;
   }
 
