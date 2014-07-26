@@ -70,10 +70,7 @@ test('Setting a particle\'s position', function () {
   var index = 1;
   var ix = index * 3;
 
-  system.setPosition(index,
-    position[0],
-    position[1],
-    position[2]);
+  system.setPosition(index, position);
 
   var p0 = slice.call(system.positions, ix, ix + 3);
   var p1 = slice.call(system.positionsPrev, ix, ix + 3);
