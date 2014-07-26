@@ -3,10 +3,10 @@ var Test = window.Test = {
 };
 
 require('assert/*');
-require('utils/*');
-require('forces/*');
-require('constraints/*');
 require('systems/*');
+require('constraints/*');
+require('forces/*');
+require('utils/*');
 
 function setFavicon(uri) {
   var link = document.getElementById('favicon');
