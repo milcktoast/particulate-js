@@ -3,19 +3,6 @@ module('ParticleSystem');
 var ParticleSystem = Particulate.ParticleSystem;
 var slice = Array.prototype.slice;
 
-function assert_equalArray(actual, expected, message) {
-  var isEqual = true;
-
-  for (var i = 0, il = expected.length; i < il; i ++) {
-    if (actual[i] !== expected[i]) {
-      isEqual = false;
-      break;
-    }
-  }
-
-  QUnit.push(isEqual, actual, expected, message);
-}
-
 // Creation
 // --------
 
@@ -29,9 +16,9 @@ function test_systemArrays(system, size) {
 }
 
 function test_systemPositions(system, positions) {
-  assert_equalArray(system.positions, positions,
+  Test.assert.equalArray(system.positions, positions,
     'Should initialize positions with passed values.');
-  assert_equalArray(system.positionsPrev, positions,
+  Test.assert.equalArray(system.positionsPrev, positions,
     'Should initialize positionsPrev with passed values.');
 }
 
@@ -91,6 +78,6 @@ test('Setting a particle\'s position', function () {
   var p0 = slice.call(system.positions, ix, ix + 3);
   var p1 = slice.call(system.positionsPrev, ix, ix + 3);
 
-  assert_equalArray(p0, position, 'Should set the vec3 in positions.');
-  assert_equalArray(p1, position, 'Should set the vec3 in positionsPrev.');
+  Test.assert.equalArray(p0, position, 'Should set the vec3 in positions.');
+  Test.assert.equalArray(p1, position, 'Should set the vec3 in positionsPrev.');
 });

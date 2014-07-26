@@ -1,3 +1,8 @@
+var Test = window.Test = {
+  assert : {}
+};
+
+require('assert/*');
 require('utils/*');
 require('forces/*');
 require('constraints/*');

@@ -49,6 +49,7 @@
     "require": true,
     "lib": true,
     "Particulate": true,
+    "Test": true,
 
     "QUnit"          : false,
     "asyncTest"      : false,
