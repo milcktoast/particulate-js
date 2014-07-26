@@ -25,10 +25,10 @@ function setFavicon(uri) {
 
 QUnit.done(function (results) {
   if (results.failed) {
-    setFavicon('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAH0lEQVQ4T2P8z8AAROQDxlEDGEbDgGE0DIBZaBikAwCl1B/x0/RuTAAAAABJRU5ErkJggg==');
+    setFavicon('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAANElEQVQ4T2NkoBAwUqifgboG/GdgACLCAGgr3GIUF4waAA7B0UCkNAwIp0FMFdTNC+S4AAAt7hQR+uwkyQAAAABJRU5ErkJggg==');
     document.title = results.failed + ' of ' + results.total + ' failed.';
   } else {
-    setFavicon('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAHklEQVQ4T2Nk+A+EFADGUQMYRsOAYTQMgHloGKQDAJXkH/HZpKBrAAAAAElFTkSuQmCC');
+    setFavicon('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAM0lEQVQ4T2NkoBAwUqifgcoG/Gf4T5SLGBEWo7pg1AAGYBCOBiLFYUBUMkRVROW8QIYLACPuFBFvqDn4AAAAAElFTkSuQmCC');
     document.title = 'All ' + results.total + ' passed.';
   }
 });
