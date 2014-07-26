@@ -22,6 +22,10 @@ DistanceConstraint.prototype.applyConstraint = function (p0) {
   var dy = p0[by] - p0[ay];
   var dz = p0[bz] - p0[az];
 
+  if (!(dx && dy && dz)) {
+    dx = dy = dz = 0.1;
+  }
+
   var dist2 = this._distance2;
   var len2 = dx * dx + dy * dy + dz * dz;
   var diff = dist2 / (len2 + dist2) - 0.5;
