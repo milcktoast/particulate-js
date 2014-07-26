@@ -40,25 +40,37 @@ test('Creation from positions array', function () {
 // Constraints
 // -----------
 
-test('Adding constraints', function () {
+test('Adding and removing local constraints', function () {
   var system = new ParticleSystem(10);
   var constraint = new Particulate.Constraint();
-  system.addConstraint(constraint);
+  var local = system._localConstraints;
 
-  equal(system._localConstraints.length, 1,
-    'Should push new local constraints to _localConstraints.');
+  system.addConstraint(constraint);
+  equal(local.length, 1, 'Should add new local constraints to _localConstraints.');
+
+  system.addConstraint(constraint);
+  equal(local.length, 1, 'Should not add duplicate constraints.');
+
+  system.removeConstraint(constraint);
+  equal(local.length, 0, 'Should remove local constraints from _localConstraints.');
 });
 
 // Forces
 // ------
 
-test('Adding forces', function () {
+test('Adding and removing forces', function () {
   var system = new ParticleSystem(10);
   var force = new Particulate.Force();
-  system.addForce(force);
+  var forces = system._forces;
 
-  equal(system._forces.length, 1,
-    'Should push new forces to _forces.');
+  system.addForce(force);
+  equal(forces.length, 1, 'Should add new forces to _forces.');
+
+  system.addForce(force);
+  equal(forces.length, 1, 'Should not add duplicate forces.');
+
+  system.removeForce(force);
+  equal(forces.length, 0, 'Should remove forces from _forces.');
 });
 
 // Helpers

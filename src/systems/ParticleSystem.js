@@ -75,11 +75,23 @@ ParticleSystem.prototype.integrate = function (delta) {
 // Constraints
 // -----------
 
+ParticleSystem.prototype._getConstraintBuffer = function (constraint) {
+  return constraint._isGlobal ? this._globalConstraints : this._localConstraints;
+};
+
 ParticleSystem.prototype.addConstraint = function (constraint) {
-  if (constraint._isGlobal) {
-    this._globalConstraints.push(constraint);
-  } else {
-    this._localConstraints.push(constraint);
+  var buffer = this._getConstraintBuffer(constraint);
+  var index = buffer.indexOf(constraint);
+  if (index < 0) {
+    buffer.push(constraint);
+  }
+};
+
+ParticleSystem.prototype.removeConstraint = function (constraint) {
+  var buffer = this._getConstraintBuffer(constraint);
+  var index = buffer.indexOf(constraint);
+  if (index >= 0) {
+    buffer.splice(index, 1);
   }
 };
 
@@ -110,7 +122,19 @@ ParticleSystem.prototype.satisfyConstraints = function () {
 // ------
 
 ParticleSystem.prototype.addForce = function (force) {
-  this._forces.push(force);
+  var buffer = this._forces;
+  var index = buffer.indexOf(force);
+  if (index < 0) {
+    buffer.push(force);
+  }
+};
+
+ParticleSystem.prototype.removeForce = function (force) {
+  var buffer = this._forces;
+  var index = buffer.indexOf(force);
+  if (index >= 0) {
+    buffer.splice(index, 1);
+  }
 };
 
 ParticleSystem.prototype.accumulateForces = function (delta) {
