@@ -11,6 +11,10 @@ var pf_ATTRACTOR = lib.Force.ATTRACTOR;
 var pf_REPULSOR = lib.Force.REPULSOR;
 var pf_ATTRACTOR_REPULSOR = lib.Force.ATTRACTOR_REPULSOR;
 
+PointForce.create = function (x, y, z, opts) {
+  return new PointForce(x, y, z, opts);
+};
+
 PointForce.prototype = Object.create(lib.Force.prototype);
 
 PointForce.prototype.setRadius = function (r) {

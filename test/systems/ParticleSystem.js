@@ -1,7 +1,6 @@
 module('ParticleSystem');
 
 var ParticleSystem = Particulate.ParticleSystem;
-var slice = Array.prototype.slice;
 
 // Creation
 // --------
@@ -26,13 +25,13 @@ function test_systemPositions(system, positions) {
 
 test('Creation from particle count', function () {
   var particles = 3;
-  var system = new ParticleSystem(particles);
+  var system = ParticleSystem.create(particles);
   test_systemArrays(system, particles * 3);
 });
 
 test('Creation from positions array', function () {
   var positions = [1, 1, 1, 2, 2, 2, 3, 3, 3];
-  var system = new ParticleSystem(positions);
+  var system = ParticleSystem.create(positions);
   var size = positions.length;
 
   test_systemArrays(system, size);
@@ -43,8 +42,8 @@ test('Creation from positions array', function () {
 // -----------
 
 test('Adding and removing local constraints', function () {
-  var system = new ParticleSystem(10);
-  var constraint = new Particulate.Constraint();
+  var system = ParticleSystem.create(10);
+  var constraint = Particulate.Constraint.create();
   var local = system._localConstraints;
 
   system.addConstraint(constraint);
@@ -61,8 +60,8 @@ test('Adding and removing local constraints', function () {
 // ------
 
 test('Adding and removing forces', function () {
-  var system = new ParticleSystem(10);
-  var force = new Particulate.Force();
+  var system = ParticleSystem.create(10);
+  var force = Particulate.Force.create();
   var forces = system._forces;
 
   system.addForce(force);
@@ -79,7 +78,7 @@ test('Adding and removing forces', function () {
 // -------
 
 test('Setting weights', function () {
-  var system = new ParticleSystem(3);
+  var system = ParticleSystem.create(3);
   var weights = system.weights;
 
   Test.assert.equalArray(weights, [1, 1, 1],

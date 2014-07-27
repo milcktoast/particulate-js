@@ -4,6 +4,10 @@ function DirectionalForce(x, y, z) {
   lib.Force.apply(this, arguments);
 }
 
+DirectionalForce.create = function (x, y, z) {
+  return new DirectionalForce(x, y, z);
+};
+
 DirectionalForce.prototype = Object.create(lib.Force.prototype);
 
 DirectionalForce.prototype.applyForce = function (i, f0) {

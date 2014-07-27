@@ -9,7 +9,7 @@ var Vec3 = Particulate.Vec3;
 test('Creation', function () {
   var min = [-10, -10, -10];
   var max = [ 10,  10,  10];
-  var constraint = new BoxConstraint(min, max);
+  var constraint = BoxConstraint.create(min, max);
 
   Test.assert.equalArray(constraint.bounds, [].concat(min, max),
     'Should initialize bounds from min and max vec3s.');
@@ -19,10 +19,10 @@ test('Creation', function () {
 // -----------
 
 test('Application', function () {
-  var system = new Particulate.ParticleSystem(4, 10);
+  var system = Particulate.ParticleSystem.create(4, 10);
   var min = [-1, -2, -3];
   var max = [ 4,  5,  6];
-  var constraint = new BoxConstraint(min, max);
+  var constraint = BoxConstraint.create(min, max);
 
   system.setPosition(0, 20, -20, -50);
   system.addConstraint(constraint);

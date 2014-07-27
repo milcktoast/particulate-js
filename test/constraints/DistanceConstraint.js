@@ -8,7 +8,7 @@ var DistanceConstraint = Particulate.DistanceConstraint;
 test('Creation', function () {
   var dist = 2;
   var a = 1, b = 3;
-  var constraint = new DistanceConstraint(dist, a, b);
+  var constraint = DistanceConstraint.create(dist, a, b);
 
   equal(constraint._distance2, dist * dist,
     'Should initialize precalculated distance^2.');
@@ -18,10 +18,10 @@ test('Creation', function () {
 // -----------
 
 test('Application', function () {
-  var system = new Particulate.ParticleSystem(4, 10);
+  var system = Particulate.ParticleSystem.create(4, 10);
   var dist = 2;
   var a = 1, b = 3;
-  var constraint = new DistanceConstraint(dist, a, b);
+  var constraint = DistanceConstraint.create(dist, a, b);
 
   system.addConstraint(constraint);
   system.tick(1);

@@ -8,9 +8,9 @@
   var PARTICLES = 150;
   var LINK_DISTANCE = 1;
   var GRAVITY = -0.05;
-  var system = new PTCL.ParticleSystem(PARTICLES, 2);
-  var gravityForce = new PTCL.DirectionalForce();
-  var bounds = new PTCL.BoxConstraint([-50, -50, -50], [50, 50, 50]);
+  var system = PTCL.ParticleSystem.create(PARTICLES, 2);
+  var gravityForce = PTCL.DirectionalForce.create();
+  var bounds = PTCL.BoxConstraint.create([-50, -50, -50], [50, 50, 50]);
 
   // Reference to links for visualization
   var linkIndices = [];
@@ -28,7 +28,7 @@
 
     if (i > 0) {
       linkIndices.push(a, b);
-      system.addConstraint(new PTCL.DistanceConstraint(LINK_DISTANCE, a, b));
+      system.addConstraint(PTCL.DistanceConstraint.create(LINK_DISTANCE, a, b));
     }
   });
 
@@ -38,7 +38,7 @@
   // Visualization
   // -------------
 
-  var demo = new PTCL.DemoScene();
+  var demo = PTCL.DemoScene.create();
   demo.camera.position.set(0, 200, 500);
 
   var vertices = new THREE.BufferAttribute();

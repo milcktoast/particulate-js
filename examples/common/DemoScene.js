@@ -14,6 +14,10 @@ function DemoScene() {
   window.addEventListener('resize', this.onWindowResize.bind(this), false);
 }
 
+DemoScene.create = function () {
+  return new DemoScene();
+};
+
 DemoScene.prototype.initControls = function () {
   var controls = new THREE.TrackballControls(this.camera, this.el);
   controls.rotateSpeed = 1.5;
