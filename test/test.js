@@ -4,6 +4,7 @@ var Test = window.Test = {
 
 require('assert/*');
 require('systems/*');
+require('constraints/Constraint');
 require('constraints/*');
 require('forces/*');
 require('utils/*');

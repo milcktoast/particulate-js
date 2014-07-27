@@ -2,14 +2,18 @@ lib.ParticleSystem = ParticleSystem;
 function ParticleSystem(particles, iterations) {
   var isCount = typeof particles === 'number';
   var length = isCount ? particles * 3 : particles.length;
+  var count = length / 3;
   var positions = isCount ? length : particles;
 
   this.positions = new Float32Array(positions);
   this.positionsPrev = new Float32Array(positions);
   this.accumulatedForces = new Float32Array(length);
-  this.constraintIterations = iterations || 1;
 
-  this._count = length / 3;
+  this.weights = new Float32Array(count);
+  this.setWeights(1);
+
+  this._iterations = iterations || 1;
+  this._count = count;
   this._globalConstraints = [];
   this._localConstraints = [];
   this._forces = [];
@@ -26,6 +30,17 @@ ParticleSystem.prototype.getPosition = function (i, out) {
 
 ParticleSystem.prototype.getDistance = function (a, b) {
   return lib.Math.distanceTo(this.positions, a, b);
+};
+
+ParticleSystem.prototype.setWeight = function (i, w) {
+  this.weights[i] = w;
+};
+
+ParticleSystem.prototype.setWeights = function (w) {
+  var weights = this.weights;
+  for (var i = 0, il = weights.length; i < il; i ++) {
+    weights[i] = w;
+  }
 };
 
 ParticleSystem.prototype.each = function (iterator) {
@@ -80,24 +95,25 @@ ParticleSystem.prototype.removeConstraint = function (constraint) {
 };
 
 ParticleSystem.prototype.satisfyConstraints = function () {
-  var iterations = this.constraintIterations;
+  var iterations = this._iterations;
   var global = this._globalConstraints;
   var local = this._localConstraints;
   var p0 = this.positions;
   var p1 = this.positionsPrev;
+  var w0 = this.weights;
   var i, il, j, jl, k;
 
   for (k = 0; k < iterations; k ++) {
     // Global
     for (i = 0, il = this._count * 3; i < il; i += 3) {
       for (j = 0, jl = global.length; j < jl; j ++) {
-        global[j].applyConstraint(i, p0, p1);
+        global[j].applyConstraint(i, p0, p1, w0);
       }
     }
 
     // Local
     for (i = 0, il = local.length; i < il; i ++) {
-      local[i].applyConstraint(p0, p1);
+      local[i].applyConstraint(p0, p1, w0);
     }
   }
 };

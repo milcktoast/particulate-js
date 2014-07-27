@@ -19,7 +19,7 @@ BoxConstraint.prototype.setMax = function (x, y, z) {
   lib.Vec3.set(this.bounds, 1, x, y, z);
 };
 
-BoxConstraint.prototype.applyConstraint = function (ix, p0, p1) {
+BoxConstraint.prototype.applyConstraint = function (ix, p0, p1, w0) {
   var friction = this.friction;
   var b = this.bounds;
   var iy = ix + 1;
