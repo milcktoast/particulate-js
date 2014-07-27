@@ -17,9 +17,13 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
     jshint: {
-      all: {
+      src: {
         options: { jshintrc: true },
-        files: { src: [config.src + '**/*.js'] }
+        src: [config.src + '**/*.js']
+      },
+      test: {
+        options: { jshintrc: true },
+        src: [config.test + '**/*.js', '!' + config.test + 'test-bundle.js']
       }
     },
 
