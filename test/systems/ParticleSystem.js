@@ -13,6 +13,8 @@ function test_systemArrays(system, size) {
     'Should initialize positionsPrev as vec3 array.');
   equal(system.accumulatedForces.length, size,
     'Should initialize accumulatedForces as vec3 array.');
+  equal(system.weights.length, size / 3,
+    'Should initialize weights as float array.');
 }
 
 function test_systemPositions(system, positions) {
@@ -23,7 +25,7 @@ function test_systemPositions(system, positions) {
 }
 
 test('Creation from particle count', function () {
-  var particles = 10;
+  var particles = 3;
   var system = new ParticleSystem(particles);
   test_systemArrays(system, particles * 3);
 });
@@ -71,4 +73,21 @@ test('Adding and removing forces', function () {
 
   system.removeForce(force);
   equal(forces.length, 0, 'Should remove forces from _forces.');
+});
+
+// Weights
+// -------
+
+test('Setting weights', function () {
+  var system = new ParticleSystem(3);
+  var weights = system.weights;
+
+  Test.assert.equalArray(weights, [1, 1, 1],
+    'Should initialize weights with neutral value of 1.');
+
+  system.setWeight(1, 2);
+  equal(weights[1], 2, 'Should set particle weight at index.');
+
+  system.setWeights(3);
+  Test.assert.equalArray(weights, [3, 3, 3], 'Should set all weights.');
 });

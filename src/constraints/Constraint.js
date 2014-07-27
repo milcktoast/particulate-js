@@ -1,13 +1,13 @@
 lib.Constraint = Constraint;
-function Constraint() {}
+function Constraint(size) {
+  this.indices = new Uint16Array(size || 2);
+}
 
-Constraint.setIndices = function (itemSize) {
-  return function () {
-    var indices = this._indices;
-    for (var i = 0; i < arguments.length; i ++) {
-      for (var j = 0; j < itemSize; j ++) {
-        indices[i * itemSize + j] = arguments[i] * itemSize + j;
-      }
-    }
-  };
+Constraint.prototype.setIndices = function (indices) {
+  var inx = indices.length ? indices : arguments;
+  var ii = this.indices;
+
+  for (var i = 0; i < inx.length; i ++) {
+    ii[i] = inx[i];
+  }
 };
