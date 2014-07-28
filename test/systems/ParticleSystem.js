@@ -56,6 +56,21 @@ test('Adding and removing local constraints', function () {
   equal(local.length, 0, 'Should remove local constraints from _localConstraints.');
 });
 
+test('Adding and removing pin constraints', function () {
+  var system = ParticleSystem.create(10);
+  var constraint = Particulate.Constraint.create();
+  var pin = system._pinConstraints;
+
+  system.addPinConstraint(constraint);
+  equal(pin.length, 1, 'Should add new pin constraints to _pinConstraints.');
+
+  system.addPinConstraint(constraint);
+  equal(pin.length, 1, 'Should not add duplicate constraints.');
+
+  system.removePinConstraint(constraint);
+  equal(pin.length, 0, 'Should remove pin constraints from _pinConstraints.');
+});
+
 // Forces
 // ------
 

@@ -16,6 +16,7 @@ function ParticleSystem(particles, iterations) {
   this._count = count;
   this._globalConstraints = [];
   this._localConstraints = [];
+  this._pinConstraints = [];
   this._forces = [];
 }
 
@@ -98,10 +99,27 @@ ParticleSystem.prototype.removeConstraint = function (constraint) {
   }
 };
 
+ParticleSystem.prototype.addPinConstraint = function (constraint) {
+  var buffer = this._pinConstraints;
+  var index = buffer.indexOf(constraint);
+  if (index < 0) {
+    buffer.push(constraint);
+  }
+};
+
+ParticleSystem.prototype.removePinConstraint = function (constraint) {
+  var buffer = this._pinConstraints;
+  var index = buffer.indexOf(constraint);
+  if (index >= 0) {
+    buffer.splice(index, 1);
+  }
+};
+
 ParticleSystem.prototype.satisfyConstraints = function () {
   var iterations = this._iterations;
   var global = this._globalConstraints;
   var local = this._localConstraints;
+  var pins = this._pinConstraints;
   var p0 = this.positions;
   var p1 = this.positionsPrev;
   var w0 = this.weights;
@@ -118,6 +136,12 @@ ParticleSystem.prototype.satisfyConstraints = function () {
     // Local
     for (i = 0, il = local.length; i < il; i ++) {
       local[i].applyConstraint(p0, p1, w0);
+    }
+
+    // Pins
+    if (!pins.length) { continue; }
+    for (i = 0, il = pins.length; i < il; i ++) {
+      pins[i].applyConstraint(p0, p1, w0);
     }
   }
 };
@@ -146,12 +170,16 @@ ParticleSystem.prototype.accumulateForces = function (delta) {
   var f0 = this.accumulatedForces;
   var p0 = this.positions;
   var p1 = this.positionsPrev;
+  var w0 = this.weights;
+  var ix, w;
 
-  for (var i = 0, il = this._count * 3; i < il; i += 3) {
-    f0[i] = f0[i + 1] = f0[i + 2] = 0;
+  for (var i = 0, il = this._count; i < il; i ++) {
+    ix = i * 3;
+    w = w0[i];
+    f0[ix] = f0[ix + 1] = f0[ix + 2] = 0;
 
     for (var j = 0, jl = forces.length; j < jl; j ++) {
-      forces[j].applyForce(i, f0, p0, p1);
+      forces[j].applyForce(ix, f0, p0, p1, w);
     }
   }
 };
