@@ -1,4 +1,4 @@
-module('DirectionalForce');
+module('Force.Directional');
 
 var DirectionalForce = Particulate.DirectionalForce;
 var push = Array.prototype.push;

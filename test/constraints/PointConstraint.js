@@ -1,4 +1,4 @@
-module('PointConstraint');
+module('Constraint.Point');
 
 var PointConstraint = Particulate.PointConstraint;
 var slice = Array.prototype.slice;

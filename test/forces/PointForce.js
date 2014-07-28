@@ -1,4 +1,4 @@
-module('PointForce');
+module('Force.Point');
 
 var PointForce = Particulate.PointForce;
 var push = Array.prototype.push;

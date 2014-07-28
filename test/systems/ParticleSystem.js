@@ -1,4 +1,4 @@
-module('ParticleSystem');
+module('System.Particle');
 
 var ParticleSystem = Particulate.ParticleSystem;
 

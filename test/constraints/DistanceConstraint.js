@@ -1,4 +1,4 @@
-module('DistanceConstraint');
+module('Constraint.Distance');
 
 var DistanceConstraint = Particulate.DistanceConstraint;
 

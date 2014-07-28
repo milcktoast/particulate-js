@@ -1,4 +1,4 @@
-module('BoxConstraint');
+module('Constraint.Box');
 
 var BoxConstraint = Particulate.BoxConstraint;
 var Vec3 = Particulate.Vec3;
