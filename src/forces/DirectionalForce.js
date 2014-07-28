@@ -1,7 +1,7 @@
 require('./Force');
 lib.DirectionalForce = DirectionalForce;
 function DirectionalForce(vector) {
-  lib.Force.apply(this, arguments);
+  lib.Force.call(this, vector);
 }
 
 DirectionalForce.create = function (vector) {

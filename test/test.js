@@ -6,6 +6,7 @@ require('assert/*');
 require('systems/*');
 require('constraints/Constraint');
 require('constraints/*');
+require('forces/Force');
 require('forces/*');
 require('utils/*');
 
