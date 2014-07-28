@@ -34,7 +34,7 @@ ParticleSystem.prototype.getPosition = function (i, out) {
 };
 
 ParticleSystem.prototype.getDistance = function (a, b) {
-  return lib.Math.distanceTo(this.positions, a, b);
+  return lib.Vec3.distance(this.positions, a, b);
 };
 
 ParticleSystem.prototype.setWeight = function (i, w) {
