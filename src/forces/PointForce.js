@@ -1,6 +1,6 @@
 require('./Force');
 lib.PointForce = PointForce;
-function PointForce(x, y, z, opts) {
+function PointForce(position, opts) {
   opts = opts || {};
   lib.Force.apply(this, arguments);
   this.intensity = opts.intensity || 0.05;
@@ -11,8 +11,8 @@ var pf_ATTRACTOR = lib.Force.ATTRACTOR;
 var pf_REPULSOR = lib.Force.REPULSOR;
 var pf_ATTRACTOR_REPULSOR = lib.Force.ATTRACTOR_REPULSOR;
 
-PointForce.create = function (x, y, z, opts) {
-  return new PointForce(x, y, z, opts);
+PointForce.create = function (position, opts) {
+  return new PointForce(position, opts);
 };
 
 PointForce.prototype = Object.create(lib.Force.prototype);

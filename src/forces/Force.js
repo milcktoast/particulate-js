@@ -1,18 +1,18 @@
 lib.Force = Force;
-function Force(x, y, z, opts) {
+function Force(vector, opts) {
   opts = opts || {};
   this.vector = new Float32Array(3);
   this.type = opts.type || Force.ATTRACTOR;
 
-  if (x != null) { this.set(x, y, z); }
+  if (vector != null) { this.set(vector); }
 }
 
 Force.ATTRACTOR = 0;
 Force.REPULSOR = 1;
 Force.ATTRACTOR_REPULSOR = 2;
 
-Force.create = function (x, y, z, opts) {
-  return new Force(x, y, z, opts);
+Force.create = function (vector, opts) {
+  return new Force(vector, opts);
 };
 
 Force.prototype.set = function (x, y, z) {
