@@ -32,13 +32,13 @@ MainScene.prototype.initSimulation = function () {
   var distance = 0.8;
   var simulation = new Particulate.ParticleSystem(particles, 2);
 
-  var attractor = new Particulate.PointForce(0, 0, 0, {
+  var attractor = new Particulate.PointForce([0, 0, 0], {
     type : Particulate.Force.ATTRACTOR,
     intensity : 0.15,
     radius : 30
   });
 
-  var repulsor = new Particulate.PointForce(0, 0, 0, {
+  var repulsor = new Particulate.PointForce([0, 0, 0], {
     type : Particulate.Force.REPULSOR,
     intensity : 0.15,
     radius : 20
