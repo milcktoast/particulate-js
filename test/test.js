@@ -2,6 +2,8 @@ var Test = window.Test = {
   assert : {}
 };
 
+require('../node_modules/qunitjs/qunit/qunit.js');
+
 require('assert/*');
 require('systems/*');
 require('constraints/Constraint');
