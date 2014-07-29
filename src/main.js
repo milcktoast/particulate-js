@@ -1,8 +1,8 @@
-// Particulate.js 0.0.1
+// Particulate.js 0.1.0
 // ====================
 
 (function () {
-  var lib = {VERSION : '0.0.1'};
+  var lib = {VERSION : '0.1.0'};
   require('utils/*');
   require('forces/*');
   require('constraints/*');
