@@ -30,24 +30,26 @@ MainScene.prototype.initSimulation = function () {
   var tris = 5000;
   var particles = tris * 3;
   var distance = 0.8;
-  var simulation = new Particulate.ParticleSystem(particles, 2);
+  var simulation = Particulate.ParticleSystem.create(particles, 2);
 
-  var attractor = new Particulate.PointForce([0, 0, 0], {
+  var attractor = Particulate.PointForce.create([0, 0, 0], {
     type : Particulate.Force.ATTRACTOR,
     intensity : 0.15,
     radius : 30
   });
 
-  var repulsor = new Particulate.PointForce([0, 0, 0], {
+  var repulsor = Particulate.PointForce.create([0, 0, 0], {
     type : Particulate.Force.REPULSOR,
     intensity : 0.15,
     radius : 20
   });
 
   var linkIndices = this.linkIndices = [];
+
+  // FIXME
   function addLink(a, b) {
     linkIndices.push(a, b);
-    simulation.addConstraint(new Particulate.DistanceConstraint(distance, a, b));
+    simulation._localConstraints.push(Particulate.DistanceConstraint.create(distance, a, b));
   }
 
   var a, b, c;
