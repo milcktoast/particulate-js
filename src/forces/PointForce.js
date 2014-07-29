@@ -1,6 +1,6 @@
 require('./Force');
 lib.PointForce = PointForce;
-function PointForce(x, y, z, opts) {
+function PointForce(position, opts) {
   opts = opts || {};
   lib.Force.apply(this, arguments);
   this.intensity = opts.intensity || 0.05;
@@ -11,14 +11,18 @@ var pf_ATTRACTOR = lib.Force.ATTRACTOR;
 var pf_REPULSOR = lib.Force.REPULSOR;
 var pf_ATTRACTOR_REPULSOR = lib.Force.ATTRACTOR_REPULSOR;
 
+PointForce.create = function (position, opts) {
+  return new PointForce(position, opts);
+};
+
 PointForce.prototype = Object.create(lib.Force.prototype);
 
 PointForce.prototype.setRadius = function (r) {
   this._radius2 = r * r;
 };
 
-PointForce.prototype.applyForce = function (ix, f0, p0) {
-  var v0 = this.vec;
+PointForce.prototype.applyForce = function (ix, f0, p0, p1, weight) {
+  var v0 = this.vector;
   var iy = ix + 1;
   var iz = ix + 2;
 
@@ -43,7 +47,7 @@ PointForce.prototype.applyForce = function (ix, f0, p0) {
   }
 
   if (isActive) {
-    scale = diff / dist * this.intensity;
+    scale = diff / dist * (this.intensity * weight);
 
     f0[ix] -= dx * scale;
     f0[iy] -= dy * scale;

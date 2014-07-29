@@ -3,7 +3,7 @@ Particulate.DemoScene = DemoScene;
 function DemoScene() {
   this.el = document.getElementById('container');
   this.renderer = new THREE.WebGLRenderer({antialias: false});
-  this.renderer.setClearColor(0x050505, 1);
+  this.renderer.setClearColor(0x111111, 1);
   this.el.appendChild(this.renderer.domElement);
 
   this.scene = new THREE.Scene();
@@ -13,6 +13,10 @@ function DemoScene() {
   this.onWindowResize();
   window.addEventListener('resize', this.onWindowResize.bind(this), false);
 }
+
+DemoScene.create = function () {
+  return new DemoScene();
+};
 
 DemoScene.prototype.initControls = function () {
   var controls = new THREE.TrackballControls(this.camera, this.el);

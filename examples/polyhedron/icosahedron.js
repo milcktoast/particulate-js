@@ -50,12 +50,9 @@
   var RADIUS = 12;
   var GRAVITY = -0.1;
 
-  var system = new PTCL.ParticleSystem(icosahedron(RADIUS), 2);
-  var gravityForce = new PTCL.DirectionalForce();
-  var bounds = new PTCL.BoxConstraint({
-    min : [-50, -50, -50],
-    max : [50, 50, 50]
-  });
+  var system = PTCL.ParticleSystem.create(icosahedron(RADIUS), 2);
+  var gravityForce = PTCL.DirectionalForce.create();
+  var bounds = PTCL.BoxConstraint.create([-50, -50, -50], [50, 50, 50]);
 
   // Reference to links for visualization
   var linkIndices = edges.concat(struts);
@@ -66,7 +63,7 @@
       a = linkIndices[i * 2];
       b = linkIndices[i * 2 + 1];
       dist = system.getDistance(a, b);
-      system.addConstraint(new PTCL.DistanceConstraint(dist, a, b));
+      system.addConstraint(PTCL.DistanceConstraint.create(dist, a, b));
     }
   }());
 
@@ -76,7 +73,7 @@
   // Visualization
   // -------------
 
-  var demo = new PTCL.DemoScene();
+  var demo = PTCL.DemoScene.create();
   demo.camera.position.set(0, 200, 500);
 
   var vertices = new THREE.BufferAttribute();

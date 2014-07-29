@@ -10,19 +10,16 @@
   var PARTICLES = WIDTH * HEIGHT;
   var LINK_DISTANCE = 2;
   var GRAVITY = -0.05;
-  var system = new PTCL.ParticleSystem(PARTICLES, 2);
-  var gravityForce = new PTCL.DirectionalForce();
-  var bounds = new PTCL.BoxConstraint({
-    min : [-50, -50, -50],
-    max : [50, 50, 50]
-  });
+  var system = PTCL.ParticleSystem.create(PARTICLES, 2);
+  var gravityForce = PTCL.DirectionalForce.create();
+  var bounds = PTCL.BoxConstraint.create([-50, -50, -50], [50, 50, 50]);
 
   // Reference to links for visualization
   var linkIndices = [];
 
   function addLink(a, b) {
     linkIndices.push(a, b);
-    system.addConstraint(new PTCL.DistanceConstraint(LINK_DISTANCE, a, b));
+    system.addConstraint(PTCL.DistanceConstraint.create(LINK_DISTANCE, a, b));
   }
 
   (function createClothLinks() {
@@ -49,13 +46,22 @@
     }
   });
 
+  var pinX = WIDTH * LINK_DISTANCE * 0.5;
+  var pin0 = PTCL.PointConstraint.create([-pinX, 0, 0], 0);
+  var pin1 = PTCL.PointConstraint.create([ pinX, 0, 0], WIDTH - 1);
+
+  system.setWeight(pin0.index, 0);
+  system.setWeight(pin1.index, 0);
+  system.addPinConstraint(pin0);
+  system.addPinConstraint(pin1);
+
   system.addConstraint(bounds);
   system.addForce(gravityForce);
 
   // Visualization
   // -------------
 
-  var demo = new PTCL.DemoScene();
+  var demo = PTCL.DemoScene.create();
   demo.camera.position.set(0, 200, 500);
 
   var vertices = new THREE.BufferAttribute();
@@ -91,12 +97,9 @@
   demo.scene.add(box);
 
   var up = demo.controls.object.up;
-  var pinX = WIDTH * LINK_DISTANCE * 0.5;
   demo.animate(function () {
     gravityForce.set(up.x * GRAVITY, up.y * GRAVITY, up.z * GRAVITY);
     system.tick(1);
-    system.setPosition(0, -pinX, 0, 0);
-    system.setPosition(WIDTH - 1, pinX, 0, 0);
     dots.attributes.position.needsUpdate = true;
     demo.update();
     demo.render();

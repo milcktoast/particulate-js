@@ -49,7 +49,23 @@
     "require": true,
     "lib": true,
     "Particulate": true,
-    "App": true,
-    "QUnit": true
+    "Test": true,
+
+    "QUnit"          : false,
+    "asyncTest"      : false,
+    "deepEqual"      : false,
+    "equal"          : false,
+    "expect"         : false,
+    "module"         : false,
+    "notDeepEqual"   : false,
+    "notEqual"       : false,
+    "notStrictEqual" : false,
+    "ok"             : false,
+    "raises"         : false,
+    "start"          : false,
+    "stop"           : false,
+    "strictEqual"    : false,
+    "test"           : false,
+    "throws"         : false
   }
 }

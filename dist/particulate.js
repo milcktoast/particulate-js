@@ -1,62 +1,102 @@
-// Particulate.js 0.0.1
+// Particulate.js 0.1.0
 // ====================
 
 (function () {
-  var lib = {VERSION : '0.0.1'};
+  var lib = {VERSION : '0.1.0'};
 
 
 lib.Math = {};
+
 lib.Math.clamp = function (min, max, v) {
   return Math.min(Math.max(v, min), max);
 };
 
-lib.Math.distanceTo = function (b0, a, b) {
+
+lib.Vec3 = {};
+
+lib.Vec3.create = function () {
+  return new Float32Array(3);
+};
+
+lib.Vec3.set = function (b0, i, x, y, z) {
+  var ix = i * 3, iy = ix + 1, iz = ix + 2;
+
+  if (y == null) {
+    z = x[2];
+    y = x[1];
+    x = x[0];
+  }
+
+  b0[ix] = x;
+  b0[iy] = y;
+  b0[iz] = z;
+};
+
+lib.Vec3.get = function (b0, i, out) {
+  var ix = i * 3, iy = ix + 1, iz = ix + 2;
+
+  out[0] = b0[ix];
+  out[1] = b0[iy];
+  out[2] = b0[iz];
+
+  return out;
+};
+
+lib.Vec3.distance = function (b0, a, b) {
   var ax = a * 3, ay = ax + 1, az = ax + 2;
   var bx = b * 3, by = bx + 1, bz = bx + 2;
+
   var dx = b0[ax] - b0[bx];
   var dy = b0[ay] - b0[by];
   var dz = b0[az] - b0[bz];
+
   return Math.sqrt(dx * dx + dy * dy + dz * dz);
 };
 
 
 lib.Force = Force;
-function Force(x, y, z, opts) {
+function Force(vector, opts) {
   opts = opts || {};
-  this.vec = new Float32Array(3);
+  this.vector = new Float32Array(3);
   this.type = opts.type || Force.ATTRACTOR;
-  if (arguments.length) { this.set(x, y, z); }
+
+  if (vector != null) { this.set(vector); }
 }
 
 Force.ATTRACTOR = 0;
 Force.REPULSOR = 1;
 Force.ATTRACTOR_REPULSOR = 2;
 
+Force.create = function (vector, opts) {
+  return new Force(vector, opts);
+};
+
 Force.prototype.set = function (x, y, z) {
-  var vec = this.vec;
-  vec[0] = x;
-  vec[1] = y;
-  vec[2] = z;
+  lib.Vec3.set(this.vector, 0, x, y, z);
 };
 
 
 lib.DirectionalForce = DirectionalForce;
-function DirectionalForce(x, y, z) {
-  lib.Force.apply(this, arguments);
+function DirectionalForce(vector) {
+  lib.Force.call(this, vector);
 }
+
+DirectionalForce.create = function (vector) {
+  return new DirectionalForce(vector);
+};
 
 DirectionalForce.prototype = Object.create(lib.Force.prototype);
 
-DirectionalForce.prototype.applyForce = function (i, f0) {
-  var v0 = this.vec;
-  f0[i]     += v0[0];
-  f0[i + 1] += v0[1];
-  f0[i + 2] += v0[2];
+DirectionalForce.prototype.applyForce = function (ix, f0, p0, p1, weight) {
+  var v0 = this.vector;
+  f0[ix]     += (v0[0] * weight);
+  f0[ix + 1] += (v0[1] * weight);
+  f0[ix + 2] += (v0[2] * weight);
 };
 
 
 lib.PointForce = PointForce;
-function PointForce(x, y, z, opts) {
+function PointForce(position, opts) {
   opts = opts || {};
   lib.Force.apply(this, arguments);
   this.intensity = opts.intensity || 0.05;
@@ -67,14 +107,18 @@ var pf_ATTRACTOR = lib.Force.ATTRACTOR;
 var pf_REPULSOR = lib.Force.REPULSOR;
 var pf_ATTRACTOR_REPULSOR = lib.Force.ATTRACTOR_REPULSOR;
 
+PointForce.create = function (position, opts) {
+  return new PointForce(position, opts);
+};
+
 PointForce.prototype = Object.create(lib.Force.prototype);
 
 PointForce.prototype.setRadius = function (r) {
   this._radius2 = r * r;
 };
 
-PointForce.prototype.applyForce = function (ix, f0, p0) {
-  var v0 = this.vec;
+PointForce.prototype.applyForce = function (ix, f0, p0, p1, weight) {
+  var v0 = this.vector;
   var iy = ix + 1;
   var iz = ix + 2;
 
@@ -99,7 +143,7 @@ PointForce.prototype.applyForce = function (ix, f0, p0) {
   }
 
   if (isActive) {
-    scale = diff / dist * this.intensity;
+    scale = diff / dist * (this.intensity * weight);
 
     f0[ix] -= dx * scale;
     f0[iy] -= dy * scale;
@@ -109,48 +153,49 @@ PointForce.prototype.applyForce = function (ix, f0, p0) {
 
 
 lib.Constraint = Constraint;
-function Constraint() {}
+function Constraint(size) {
+  this.indices = new Uint16Array(size || 2);
+}
 
-Constraint.setIndices = function (itemSize) {
-  return function () {
-    var indices = this._indices;
-    for (var i = 0; i < arguments.length; i ++) {
-      for (var j = 0; j < itemSize; j ++) {
-        indices[i * itemSize + j] = arguments[i] * itemSize + j;
-      }
-    }
-  };
+Constraint.create = function (size) {
+  return new Constraint(size);
+};
+
+Constraint.prototype.setIndices = function (indices) {
+  var inx = indices.length ? indices : arguments;
+  var ii = this.indices;
+
+  for (var i = 0; i < inx.length; i ++) {
+    ii[i] = inx[i];
+  }
 };
 
 
 lib.BoxConstraint = BoxConstraint;
-function BoxConstraint(opts) {
+function BoxConstraint(min, max) {
   this._isGlobal = true;
   this.bounds = new Float32Array(6);
   this.friction = 0.05;
-  if (opts.min) { this.setMin.apply(this, opts.min); }
-  if (opts.max) { this.setMax.apply(this, opts.max); }
+
+  if (min) { this.setMin(min); }
+  if (max) { this.setMax(max); }
 }
+
+BoxConstraint.create = function (min, max) {
+  return new BoxConstraint(min, max);
+};
 
 BoxConstraint.prototype = Object.create(lib.Constraint.prototype);
 
 BoxConstraint.prototype.setMin = function (x, y, z) {
-  var b = this.bounds;
-
-  b[0] = x;
-  b[1] = y;
-  b[2] = z;
+  lib.Vec3.set(this.bounds, 0, x, y, z);
 };
 
 BoxConstraint.prototype.setMax = function (x, y, z) {
-  var b = this.bounds;
-
-  b[3] = x;
-  b[4] = y;
-  b[5] = z;
+  lib.Vec3.set(this.bounds, 1, x, y, z);
 };
 
-BoxConstraint.prototype.applyConstraint = function (ix, p0, p1) {
+BoxConstraint.prototype.applyConstraint = function (ix, p0, p1, w0) {
   var friction = this.friction;
   var b = this.bounds;
   var iy = ix + 1;
@@ -178,42 +223,80 @@ BoxConstraint.prototype.applyConstraint = function (ix, p0, p1) {
 
 lib.DistanceConstraint = DistanceConstraint;
 function DistanceConstraint(distance, a, b) {
-  this._indices = new Uint16Array(2 * 3);
+  lib.Constraint.call(this, 2);
   this.setDistance(distance);
   this.setIndices(a, b);
 }
 
+DistanceConstraint.create = function (distance, a, b) {
+  return new DistanceConstraint(distance, a, b);
+};
+
 DistanceConstraint.prototype = Object.create(lib.Constraint.prototype);
-DistanceConstraint.prototype.setIndices = lib.Constraint.setIndices(3);
 
 DistanceConstraint.prototype.setDistance = function (distance) {
   this._distance2 = distance * distance;
 };
 
-DistanceConstraint.prototype.applyConstraint = function (p0) {
-  var ii = this._indices;
-  var ax = ii[0], ay = ii[1], az = ii[2];
-  var bx = ii[3], by = ii[4], bz = ii[5];
+DistanceConstraint.prototype.applyConstraint = function (p0, p1, w0) {
+  var ii = this.indices;
+  var ai = ii[0], bi = ii[1];
+  var ax = ai * 3, ay = ax + 1, az = ax + 2;
+  var bx = bi * 3, by = bx + 1, bz = bx + 2;
 
   var dx = p0[bx] - p0[ax];
   var dy = p0[by] - p0[ay];
   var dz = p0[bz] - p0[az];
 
+  if (!(dx || dy || dz)) {
+    dx = dy = dz = 0.1;
+  }
+
+  var aw = w0[ai];
+  var bw = w0[bi];
+  var tw = aw + bw;
+
   var dist2 = this._distance2;
   var len2 = dx * dx + dy * dy + dz * dz;
-  var diff = dist2 / (len2 + dist2) - 0.5;
+  var diff = dist2 / (len2 + dist2);
 
-  dx *= diff;
-  dy *= diff;
-  dz *= diff;
+  var aDiff = diff - aw / tw;
+  var bDiff = diff - bw / tw;
 
-  p0[ax] -= dx;
-  p0[ay] -= dy;
-  p0[az] -= dz;
+  p0[ax] -= dx * aDiff;
+  p0[ay] -= dy * aDiff;
+  p0[az] -= dz * aDiff;
 
-  p0[bx] += dx;
-  p0[by] += dy;
-  p0[bz] += dz;
+  p0[bx] += dx * bDiff;
+  p0[by] += dy * bDiff;
+  p0[bz] += dz * bDiff;
+};
+
+
+lib.PointConstraint = PointConstraint;
+function PointConstraint(position, index) {
+  this.position = new Float32Array(position);
+  this.index = index;
+}
+
+PointConstraint.create = function (position, index) {
+  return new PointConstraint(position, index);
+};
+
+PointConstraint.prototype = Object.create(lib.Constraint.prototype);
+
+PointConstraint.prototype.setPosition = function (x, y, z) {
+  lib.Vec3.set(this.position, 0, x, y, z);
+};
+
+PointConstraint.prototype.applyConstraint = function (p0, p1, w0) {
+  var i = this.index;
+  var ix = i * 3, iy = ix + 1, iz = ix + 2;
+  var p = this.position;
+
+  p0[ix] = p1[ix] = p[0];
+  p0[iy] = p1[iy] = p[1];
+  p0[iz] = p1[iz] = p[2];
 };
 
 
@@ -221,33 +304,50 @@ lib.ParticleSystem = ParticleSystem;
 function ParticleSystem(particles, iterations) {
   var isCount = typeof particles === 'number';
   var length = isCount ? particles * 3 : particles.length;
+  var count = length / 3;
   var positions = isCount ? length : particles;
 
   this.positions = new Float32Array(positions);
   this.positionsPrev = new Float32Array(positions);
   this.accumulatedForces = new Float32Array(length);
-  this.constraintIterations = iterations || 1;
 
-  this._count = length / 3;
+  this.weights = new Float32Array(count);
+  this.setWeights(1);
+
+  this._iterations = iterations || 1;
+  this._count = count;
   this._globalConstraints = [];
   this._localConstraints = [];
+  this._pinConstraints = [];
   this._forces = [];
 }
 
-ParticleSystem.prototype.setPosition = function (i, x, y, z) {
-  var p0 = this.positions;
-  var p1 = this.positionsPrev;
-  var ix = i * 3;
-  var iy = ix + 1;
-  var iz = ix + 2;
+ParticleSystem.create = function (particles, iterations) {
+  return new ParticleSystem(particles, iterations);
+};
 
-  p0[ix] = p1[ix] = x;
-  p0[iy] = p1[iy] = y;
-  p0[iz] = p1[iz] = z;
+ParticleSystem.prototype.setPosition = function (i, x, y, z) {
+  lib.Vec3.set(this.positions, i, x, y, z);
+  lib.Vec3.set(this.positionsPrev, i, x, y, z);
+};
+
+ParticleSystem.prototype.getPosition = function (i, out) {
+  return lib.Vec3.get(this.positions, i, out);
 };
 
 ParticleSystem.prototype.getDistance = function (a, b) {
-  return lib.Math.distanceTo(this.positions, a, b);
+  return lib.Vec3.distance(this.positions, a, b);
+};
+
+ParticleSystem.prototype.setWeight = function (i, w) {
+  this.weights[i] = w;
+};
+
+ParticleSystem.prototype.setWeights = function (w) {
+  var weights = this.weights;
+  for (var i = 0, il = weights.length; i < il; i ++) {
+    weights[i] = w;
+  }
 };
 
 ParticleSystem.prototype.each = function (iterator) {
@@ -281,33 +381,69 @@ ParticleSystem.prototype.integrate = function (delta) {
 // Constraints
 // -----------
 
+ParticleSystem.prototype._getConstraintBuffer = function (constraint) {
+  return constraint._isGlobal ? this._globalConstraints : this._localConstraints;
+};
+
 ParticleSystem.prototype.addConstraint = function (constraint) {
-  if (constraint._isGlobal) {
-    this._globalConstraints.push(constraint);
-  } else {
-    this._localConstraints.push(constraint);
+  var buffer = this._getConstraintBuffer(constraint);
+  var index = buffer.indexOf(constraint);
+  if (index < 0) {
+    buffer.push(constraint);
+  }
+};
+
+ParticleSystem.prototype.removeConstraint = function (constraint) {
+  var buffer = this._getConstraintBuffer(constraint);
+  var index = buffer.indexOf(constraint);
+  if (index >= 0) {
+    buffer.splice(index, 1);
+  }
+};
+
+ParticleSystem.prototype.addPinConstraint = function (constraint) {
+  var buffer = this._pinConstraints;
+  var index = buffer.indexOf(constraint);
+  if (index < 0) {
+    buffer.push(constraint);
+  }
+};
+
+ParticleSystem.prototype.removePinConstraint = function (constraint) {
+  var buffer = this._pinConstraints;
+  var index = buffer.indexOf(constraint);
+  if (index >= 0) {
+    buffer.splice(index, 1);
   }
 };
 
 ParticleSystem.prototype.satisfyConstraints = function () {
-  var iterations = this.constraintIterations;
+  var iterations = this._iterations;
   var global = this._globalConstraints;
   var local = this._localConstraints;
+  var pins = this._pinConstraints;
   var p0 = this.positions;
   var p1 = this.positionsPrev;
+  var w0 = this.weights;
   var i, il, j, jl, k;
 
   for (k = 0; k < iterations; k ++) {
     // Global
     for (i = 0, il = this._count * 3; i < il; i += 3) {
       for (j = 0, jl = global.length; j < jl; j ++) {
-        global[j].applyConstraint(i, p0, p1);
+        global[j].applyConstraint(i, p0, p1, w0);
       }
     }
 
     // Local
     for (i = 0, il = local.length; i < il; i ++) {
-      local[i].applyConstraint(p0, p1);
+      local[i].applyConstraint(p0, p1, w0);
+    }
+
+    // Pins
+    if (!pins.length) { continue; }
+    for (i = 0, il = pins.length; i < il; i ++) {
+      pins[i].applyConstraint(p0, p1, w0);
     }
   }
 };
@@ -316,7 +452,19 @@ ParticleSystem.prototype.satisfyConstraints = function () {
 // ------
 
 ParticleSystem.prototype.addForce = function (force) {
-  this._forces.push(force);
+  var buffer = this._forces;
+  var index = buffer.indexOf(force);
+  if (index < 0) {
+    buffer.push(force);
+  }
+};
+
+ParticleSystem.prototype.removeForce = function (force) {
+  var buffer = this._forces;
+  var index = buffer.indexOf(force);
+  if (index >= 0) {
+    buffer.splice(index, 1);
+  }
 };
 
 ParticleSystem.prototype.accumulateForces = function (delta) {
@@ -324,12 +472,16 @@ ParticleSystem.prototype.accumulateForces = function (delta) {
   var f0 = this.accumulatedForces;
   var p0 = this.positions;
   var p1 = this.positionsPrev;
+  var w0 = this.weights;
+  var ix, w;
 
-  for (var i = 0, il = this._count * 3; i < il; i += 3) {
-    f0[i] = f0[i + 1] = f0[i + 2] = 0;
+  for (var i = 0, il = this._count; i < il; i ++) {
+    ix = i * 3;
+    w = w0[i];
+    f0[ix] = f0[ix + 1] = f0[ix + 2] = 0;
 
     for (var j = 0, jl = forces.length; j < jl; j ++) {
-      forces[j].applyForce(i, f0, p0, p1);
+      forces[j].applyForce(ix, f0, p0, p1, w);
     }
   }
 };
