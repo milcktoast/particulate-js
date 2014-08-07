@@ -4,10 +4,7 @@ function PointConstraint(position, index) {
   this.index = index;
 }
 
-PointConstraint.create = function (position, index) {
-  return new PointConstraint(position, index);
-};
-
+PointConstraint.create = lib.ctor(PointConstraint);
 PointConstraint.prototype = Object.create(lib.Constraint.prototype);
 
 PointConstraint.prototype.setPosition = function (x, y, z) {

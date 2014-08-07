@@ -6,10 +6,7 @@ function DistanceConstraint(distance, a, b) {
   this.setIndices(a, b);
 }
 
-DistanceConstraint.create = function (distance, a, b) {
-  return new DistanceConstraint(distance, a, b);
-};
-
+DistanceConstraint.create = lib.ctor(DistanceConstraint);
 DistanceConstraint.prototype = Object.create(lib.Constraint.prototype);
 
 DistanceConstraint.prototype.setDistance = function (distance) {

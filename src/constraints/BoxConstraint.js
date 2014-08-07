@@ -9,10 +9,7 @@ function BoxConstraint(min, max) {
   if (max) { this.setMax(max); }
 }
 
-BoxConstraint.create = function (min, max) {
-  return new BoxConstraint(min, max);
-};
-
+BoxConstraint.create = lib.ctor(BoxConstraint);
 BoxConstraint.prototype = Object.create(lib.Constraint.prototype);
 
 BoxConstraint.prototype.setMin = function (x, y, z) {

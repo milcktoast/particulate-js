@@ -4,10 +4,7 @@ function DirectionalForce(vector) {
   lib.Force.call(this, vector);
 }
 
-DirectionalForce.create = function (vector) {
-  return new DirectionalForce(vector);
-};
-
+DirectionalForce.create = lib.ctor(DirectionalForce);
 DirectionalForce.prototype = Object.create(lib.Force.prototype);
 
 DirectionalForce.prototype.applyForce = function (ix, f0, p0, p1, weight) {
