@@ -82,35 +82,19 @@ ParticleSystem.prototype._getConstraintBuffer = function (constraint) {
 };
 
 ParticleSystem.prototype.addConstraint = function (constraint) {
-  var buffer = this._getConstraintBuffer(constraint);
-  var index = buffer.indexOf(constraint);
-  if (index < 0) {
-    buffer.push(constraint);
-  }
+  this._getConstraintBuffer(constraint).push(constraint);
 };
 
 ParticleSystem.prototype.removeConstraint = function (constraint) {
-  var buffer = this._getConstraintBuffer(constraint);
-  var index = buffer.indexOf(constraint);
-  if (index >= 0) {
-    buffer.splice(index, 1);
-  }
+  lib.Collection.removeAll(this._getConstraintBuffer(constraint), constraint);
 };
 
 ParticleSystem.prototype.addPinConstraint = function (constraint) {
-  var buffer = this._pinConstraints;
-  var index = buffer.indexOf(constraint);
-  if (index < 0) {
-    buffer.push(constraint);
-  }
+  this._pinConstraints.push(constraint);
 };
 
 ParticleSystem.prototype.removePinConstraint = function (constraint) {
-  var buffer = this._pinConstraints;
-  var index = buffer.indexOf(constraint);
-  if (index >= 0) {
-    buffer.splice(index, 1);
-  }
+  lib.Collection.removeAll(this._pinConstraints, constraint);
 };
 
 ParticleSystem.prototype.satisfyConstraints = function () {
@@ -148,19 +132,11 @@ ParticleSystem.prototype.satisfyConstraints = function () {
 // ------
 
 ParticleSystem.prototype.addForce = function (force) {
-  var buffer = this._forces;
-  var index = buffer.indexOf(force);
-  if (index < 0) {
-    buffer.push(force);
-  }
+  this._forces.push(force);
 };
 
 ParticleSystem.prototype.removeForce = function (force) {
-  var buffer = this._forces;
-  var index = buffer.indexOf(force);
-  if (index >= 0) {
-    buffer.splice(index, 1);
-  }
+  lib.Collection.removeAll(this._forces, force);
 };
 
 ParticleSystem.prototype.accumulateForces = function (delta) {
