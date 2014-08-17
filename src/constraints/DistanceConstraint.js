@@ -29,7 +29,7 @@ DistanceConstraint.prototype.setMax = function (max) {
   this._max2 = max * max;
 };
 
-function dc_applyConstraint(p0, p1, w0, min2, max2, ai, bi) {
+function dc_applyConstraint(p0, w0, min2, max2, ai, bi) {
   var ax = ai * 3, ay = ax + 1, az = ax + 2;
   var bx = bi * 3, by = bx + 1, bz = bx + 2;
 
@@ -68,7 +68,7 @@ DistanceConstraint.prototype.applyConstraint = function (p0, p1, w0) {
   var ii = this.indices;
 
   if (count === 1) {
-    dc_applyConstraint(p0, p1, w0, min2, max2, ii[0], ii[1]);
+    dc_applyConstraint(p0, w0, min2, max2, ii[0], ii[1]);
     return;
   }
 
@@ -76,6 +76,6 @@ DistanceConstraint.prototype.applyConstraint = function (p0, p1, w0) {
   for (i = 0; i < count; i ++) {
     ai = i * 2;
     bi = ai + 1;
-    dc_applyConstraint(p0, p1, w0, min2, max2, ii[ai], ii[bi]);
+    dc_applyConstraint(p0, w0, min2, max2, ii[ai], ii[bi]);
   }
 };
