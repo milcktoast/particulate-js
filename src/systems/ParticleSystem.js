@@ -46,9 +46,10 @@ ParticleSystem.prototype.setWeights = function (w) {
   }
 };
 
-ParticleSystem.prototype.each = function (iterator) {
+ParticleSystem.prototype.each = function (iterator, context) {
+  context = context || this;
   for (var i = 0, il = this._count; i < il; i ++) {
-    iterator.call(this, i);
+    iterator.call(context, i, this);
   }
 };
 
