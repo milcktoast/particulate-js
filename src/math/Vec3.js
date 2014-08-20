@@ -1,10 +1,10 @@
-lib.Vec3 = {};
+var Vec3 = lib.Vec3 = {};
 
-lib.Vec3.create = function () {
+Vec3.create = function () {
   return new Float32Array(3);
 };
 
-lib.Vec3.set = function (b0, i, x, y, z) {
+Vec3.set = function (b0, i, x, y, z) {
   var ix = i * 3, iy = ix + 1, iz = ix + 2;
 
   if (y == null) {
@@ -18,7 +18,7 @@ lib.Vec3.set = function (b0, i, x, y, z) {
   b0[iz] = z;
 };
 
-lib.Vec3.get = function (b0, i, out) {
+Vec3.get = function (b0, i, out) {
   var ix = i * 3, iy = ix + 1, iz = ix + 2;
 
   out[0] = b0[ix];
@@ -28,7 +28,7 @@ lib.Vec3.get = function (b0, i, out) {
   return out;
 };
 
-lib.Vec3.distance = function (b0, a, b) {
+Vec3.distance = function (b0, a, b) {
   var ax = a * 3, ay = ax + 1, az = ax + 2;
   var bx = b * 3, by = bx + 1, bz = bx + 2;
 
