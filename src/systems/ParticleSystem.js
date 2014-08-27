@@ -35,6 +35,10 @@ ParticleSystem.prototype.getDistance = function (a, b) {
   return lib.Vec3.distance(this.positions, a, b);
 };
 
+ParticleSystem.prototype.getAngle = function (a, b, c) {
+  return lib.Vec3.angle(this.positions, a, b, c);
+};
+
 ParticleSystem.prototype.setWeight = function (i, w) {
   this.weights[i] = w;
 };

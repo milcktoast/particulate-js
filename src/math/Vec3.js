@@ -28,13 +28,34 @@ Vec3.get = function (b0, i, out) {
   return out;
 };
 
-Vec3.distance = function (b0, a, b) {
-  var ax = a * 3, ay = ax + 1, az = ax + 2;
-  var bx = b * 3, by = bx + 1, bz = bx + 2;
+Vec3.distance = function (b0, ai, bi) {
+  var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
+  var bix = bi * 3, biy = bix + 1, biz = bix + 2;
 
-  var dx = b0[ax] - b0[bx];
-  var dy = b0[ay] - b0[by];
-  var dz = b0[az] - b0[bz];
+  var dx = b0[aix] - b0[bix];
+  var dy = b0[aiy] - b0[biy];
+  var dz = b0[aiz] - b0[biz];
 
   return Math.sqrt(dx * dx + dy * dy + dz * dz);
+};
+
+Vec3.angle = function (b0, ai, bi, ci) {
+  var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
+  var bix = bi * 3, biy = bix + 1, biz = bix + 2;
+  var cix = ci * 3, ciy = cix + 1, ciz = cix + 2;
+
+  var abLen = 1 / Vec3.distance(b0, ai, bi);
+  var bcLen = 1 / Vec3.distance(b0, bi, ci);
+
+  var abX = (b0[bix] - b0[aix]) * abLen;
+  var abY = (b0[biy] - b0[aiy]) * abLen;
+  var abZ = (b0[biz] - b0[aiz]) * abLen;
+
+  var bcX = (b0[cix] - b0[bix]) * bcLen;
+  var bcY = (b0[ciy] - b0[biy]) * bcLen;
+  var bcZ = (b0[ciz] - b0[biz]) * bcLen;
+
+  var dot = abX * bcX + abY * bcY + abZ * bcZ;
+
+  return Math.acos(dot);
 };
