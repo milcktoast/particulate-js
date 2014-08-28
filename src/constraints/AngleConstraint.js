@@ -16,16 +16,21 @@ AngleConstraint.prototype = Object.create(lib.Constraint.prototype);
 
 AngleConstraint.prototype.setAngle = function (min, max) {
   max = max != null ? max : min;
-  this._min = min;
-  this._max = max;
+  this.setMin(min);
+  this.setMax(max);
 };
 
 AngleConstraint.prototype.setMin = function (min) {
-  this._min = min;
+  this._min = this.clampAngle(min);
 };
 
 AngleConstraint.prototype.setMax = function (max) {
-  this._max = max;
+  this._max = this.clampAngle(max);
+};
+
+AngleConstraint.prototype.clampAngle = function (angle) {
+  var p = 0.0000001;
+  return lib.Math.clamp(p, Math.PI - p, angle);
 };
 
 function angleConstraint_apply(p0, w0, min, max, ai, bi, ci) {
@@ -34,25 +39,41 @@ function angleConstraint_apply(p0, w0, min, max, ai, bi, ci) {
   var cix = ci * 3, ciy = cix + 1, ciz = cix + 2;
 
   var bAngleTarget = min;
-  var cAngle = lib.Vec3.angle(p0, bi, ci, ai);
 
-  var abLen = lib.Vec3.distance(p0, ai, bi);
-  var acLen = lib.Vec3.distance(p0, ai, ci);
+  // A -> B
+  var abX = p0[bix] - p0[aix];
+  var abY = p0[biy] - p0[aiy];
+  var abZ = p0[biz] - p0[aiz];
 
-  var acLenTarget = abLen / Math.sin(cAngle) * Math.sin(bAngleTarget);
+  // B -> C
+  var bcX = p0[cix] - p0[bix];
+  var bcY = p0[ciy] - p0[biy];
+  var bcZ = p0[ciz] - p0[biz];
+
+  // A -> C
+  var acX = p0[cix] - p0[aix];
+  var acY = p0[ciy] - p0[aiy];
+  var acZ = p0[ciz] - p0[aiz];
+
+  var abLenSq = abX * abX + abY * abY + abZ * abZ;
+  var bcLenSq = bcX * bcX + bcY * bcY + bcZ * bcZ;
+  var acLenSq = acX * acX + acY * acY + acZ * acZ;
+
+  var abLen = Math.sqrt(abLenSq);
+  var bcLen = Math.sqrt(bcLenSq);
+  var acLen = Math.sqrt(acLenSq);
+
+  var acLenTarget = Math.sqrt(
+    abLenSq + bcLenSq - 2 * abLen * bcLen * Math.cos(bAngleTarget));
   var acDiff = (acLen - acLenTarget) / acLen * 0.5;
 
-  var dx = p0[cix] - p0[aix];
-  var dy = p0[ciy] - p0[aiy];
-  var dz = p0[ciz] - p0[aiz];
+  p0[aix] += acX * acDiff;
+  p0[aiy] += acY * acDiff;
+  p0[aiz] += acZ * acDiff;
 
-  p0[aix] += dx * acDiff;
-  p0[aiy] += dy * acDiff;
-  p0[aiz] += dz * acDiff;
-
-  p0[cix] -= dx * acDiff;
-  p0[ciy] -= dy * acDiff;
-  p0[ciz] -= dz * acDiff;
+  p0[cix] -= acX * acDiff;
+  p0[ciy] -= acY * acDiff;
+  p0[ciz] -= acZ * acDiff;
 }
 
 AngleConstraint.prototype.applyConstraint = function (p0, p1, w0) {
