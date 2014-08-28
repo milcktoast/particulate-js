@@ -33,6 +33,10 @@ AngleConstraint.prototype.clampAngle = function (angle) {
   return lib.Math.clamp(p, Math.PI - p, angle);
 };
 
+// TODO:
+// Add support for angle range
+// Handle cases of coincident particles
+// Optimize, reduce usage of Math.sqrt
 function angleConstraint_apply(p0, w0, min, max, ai, bi, ci) {
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
   var bix = bi * 3, biy = bix + 1, biz = bix + 2;
@@ -40,17 +44,17 @@ function angleConstraint_apply(p0, w0, min, max, ai, bi, ci) {
 
   var bAngleTarget = min;
 
-  // A -> B
+  // AB (A -> B)
   var abX = p0[bix] - p0[aix];
   var abY = p0[biy] - p0[aiy];
   var abZ = p0[biz] - p0[aiz];
 
-  // B -> C
+  // BC (B -> C)
   var bcX = p0[cix] - p0[bix];
   var bcY = p0[ciy] - p0[biy];
   var bcZ = p0[ciz] - p0[biz];
 
-  // A -> C
+  // AC (A -> C)
   var acX = p0[cix] - p0[aix];
   var acY = p0[ciy] - p0[aiy];
   var acZ = p0[ciz] - p0[aiz];
@@ -63,13 +67,45 @@ function angleConstraint_apply(p0, w0, min, max, ai, bi, ci) {
   var bcLen = Math.sqrt(bcLenSq);
   var acLen = Math.sqrt(acLenSq);
 
-  var acLenTarget = Math.sqrt(
-    abLenSq + bcLenSq - 2 * abLen * bcLen * Math.cos(bAngleTarget));
+  // Unit vector AC
+  var acLenInv = 1 / acLen;
+  var acuX = acX * acLenInv;
+  var acuY = acY * acLenInv;
+  var acuZ = acZ * acLenInv;
+
+  // Target length for AC
+  var acLenTargetSq = abLenSq + bcLenSq - 2 * abLen * bcLen * Math.cos(bAngleTarget);
+  var acLenTarget = Math.sqrt(acLenTargetSq);
+
+  // Target angle for A
+  var aAngleTarget = Math.acos((abLenSq + acLenTargetSq - bcLenSq) / (2 * abLen * acLenTarget));
+
+  // Project B onto AC as vector AP
+  var pt = acuX * abX + acuY * abY + acuZ * abZ;
+  var apX = acuX * pt;
+  var apY = acuY * pt;
+  var apZ = acuZ * pt;
+
+  // BP (B -> P)
+  var bpX = apX - abX;
+  var bpY = apY - abY;
+  var bpZ = apZ - abZ;
+
+  var apLenSq = apX * apX + apY * apY + apZ * apZ;
+  var apLen = Math.sqrt(apLenSq);
+  var bpLen = Math.sqrt(abLenSq - apLenSq);
+  var bpLenTarget = apLen * Math.tan(aAngleTarget);
+
+  var bpDiff = (bpLen - bpLenTarget) / bpLen;
   var acDiff = (acLen - acLenTarget) / acLen * 0.5;
 
   p0[aix] += acX * acDiff;
   p0[aiy] += acY * acDiff;
   p0[aiz] += acZ * acDiff;
+
+  p0[bix] += bpX * bpDiff;
+  p0[biy] += bpY * bpDiff;
+  p0[biz] += bpZ * bpDiff;
 
   p0[cix] -= acX * acDiff;
   p0[ciy] -= acY * acDiff;

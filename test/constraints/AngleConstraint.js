@@ -21,19 +21,27 @@ test('Creation', function () {
 // Application
 // -----------
 
-test('Application of angle', function () {
-  var system = Particulate.ParticleSystem.create(9, 15);
-  var angle = Math.PI * 0.5;
+function testAtAngle(angle) {
+  var system = Particulate.ParticleSystem.create(9, 10);
+  var dist = Particulate.DistanceConstraint.create(2, [0, 1, 1, 2]);
   var single = AngleConstraint.create(angle, 0, 1, 2);
 
-  system.setPosition(0, [0, 1, 0]);
-  system.setPosition(2, [1, 1, 0]);
+  system.setPosition(0, [1, 0, 0]);
+  system.setPosition(1, [2, 2, 0]);
+  system.setPosition(2, [3, 0, 0]);
 
+  system.addConstraint(dist);
   system.addConstraint(single);
   system.tick(1);
 
-  var angle0 = system.getAngle(0, 1, 2);
+  var approxAngle = ('' + angle).slice(0, 5);
+  Test.assert.close(system.getAngle(0, 1, 2), angle, 0.1,
+    'Should constrain particles to ' + approxAngle + ' radians.');
+}
 
-  Test.assert.close(angle0, angle, 0.1,
-    'Should constrain single set of particles to angle.');
+test('Application of angles', function () {
+  var angles = 10;
+  for (var i = 0; i < angles; i ++) {
+    testAtAngle(Math.PI * i / (angles - 1));
+  }
 });
