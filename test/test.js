@@ -1,4 +1,4 @@
-var Test = window.Test = {
+window.Test = {
   assert : {}
 };
 
