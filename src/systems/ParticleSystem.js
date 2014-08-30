@@ -57,6 +57,18 @@ ParticleSystem.prototype.each = function (iterator, context) {
   }
 };
 
+ParticleSystem.prototype.perturb = function (scale) {
+  var positions = this.positions;
+  var positionsPrev = this.positionsPrev;
+  var dist;
+
+  for (var i = 0, il = positions.length; i < il; i ++) {
+    dist = Math.random() * scale;
+    positions[i] += dist;
+    positionsPrev[i] += dist;
+  }
+};
+
 // Verlet integration
 // ------------------
 
