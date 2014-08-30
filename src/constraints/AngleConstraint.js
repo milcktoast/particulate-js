@@ -35,7 +35,6 @@ AngleConstraint.prototype.clampAngle = function (angle) {
 
 // TODO:
 // Add support for angle range
-// Handle cases of coincident particles
 // Optimize, reduce usage of Math.sqrt
 function angleConstraint_apply(p0, w0, min, max, ai, bi, ci) {
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
@@ -92,12 +91,25 @@ function angleConstraint_apply(p0, w0, min, max, ai, bi, ci) {
   var bpZ = apZ - abZ;
 
   var apLenSq = apX * apX + apY * apY + apZ * apZ;
+  var bpLenSq = bpX * bpX + bpY * bpY + bpZ * bpZ;
   var apLen = Math.sqrt(apLenSq);
-  var bpLen = Math.sqrt(abLenSq - apLenSq);
+  var bpLen = Math.sqrt(bpLenSq);
   var bpLenTarget = apLen * Math.tan(aAngleTarget);
 
-  var bpDiff = (bpLen - bpLenTarget) / bpLen;
+  var bpDiff = Math.max(0, (bpLen - bpLenTarget) / bpLen);
   var acDiff = (acLen - acLenTarget) / acLen * 0.5;
+
+  if (!(acX || acY || acZ)) {
+    acX = 0.1;
+    acY = acZ = 0;
+    acDiff = 1;
+  }
+
+  if (!(bpX || bpY || bpZ)) {
+    bpY = 0.1;
+    bpX = bpZ = 0;
+    bpDiff = 1;
+  }
 
   p0[aix] += acX * acDiff;
   p0[aiy] += acY * acDiff;
