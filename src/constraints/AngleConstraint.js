@@ -58,6 +58,13 @@ function angleConstraint_apply(p0, w0, min, max, ai, bi, ci) {
   var acY = p0[ciy] - p0[aiy];
   var acZ = p0[ciz] - p0[aiz];
 
+  if (!(acX || acY || acZ)) {
+    p0[aix] += 0.1;
+    p0[biy] += 0.1;
+    p0[cix] -= 0.1;
+    return;
+  }
+
   var abLenSq = abX * abX + abY * abY + abZ * abZ;
   var bcLenSq = bcX * bcX + bcY * bcY + bcZ * bcZ;
   var acLenSq = acX * acX + acY * acY + acZ * acZ;
@@ -98,18 +105,6 @@ function angleConstraint_apply(p0, w0, min, max, ai, bi, ci) {
 
   var bpDiff = Math.max(0, (bpLen - bpLenTarget) / bpLen);
   var acDiff = (acLen - acLenTarget) / acLen * 0.5;
-
-  if (!(acX || acY || acZ)) {
-    acX = 0.1;
-    acY = acZ = 0;
-    acDiff = 1;
-  }
-
-  if (!(bpX || bpY || bpZ)) {
-    bpY = 0.1;
-    bpX = bpZ = 0;
-    bpDiff = 1;
-  }
 
   p0[aix] += acX * acDiff;
   p0[aiy] += acY * acDiff;
