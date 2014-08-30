@@ -33,15 +33,15 @@ AngleConstraint.prototype.clampAngle = function (angle) {
   return lib.Math.clamp(p, Math.PI - p, angle);
 };
 
-// TODO:
-// Add support for angle range
-// Optimize, reduce usage of Math.sqrt
+AngleConstraint.ANGLE_OBTUSE = Math.PI * 0.75;
+
+// TODO: Optimize, reduce usage of Math.sqrt
 function angleConstraint_apply(p0, w0, min, max, ai, bi, ci) {
+  // TODO: Refactor into smaller bits
+  /*jshint maxcomplexity:15*/
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
   var bix = bi * 3, biy = bix + 1, biz = bix + 2;
   var cix = ci * 3, ciy = cix + 1, ciz = cix + 2;
-
-  var bAngleTarget = min;
 
   // AB (A -> B)
   var abX = p0[bix] - p0[aix];
@@ -58,6 +58,7 @@ function angleConstraint_apply(p0, w0, min, max, ai, bi, ci) {
   var acY = p0[ciy] - p0[aiy];
   var acZ = p0[ciz] - p0[aiz];
 
+  // Perturb coincident particles
   if (!(acX || acY || acZ)) {
     p0[aix] += 0.1;
     p0[biy] += 0.1;
@@ -73,18 +74,41 @@ function angleConstraint_apply(p0, w0, min, max, ai, bi, ci) {
   var bcLen = Math.sqrt(bcLenSq);
   var acLen = Math.sqrt(acLenSq);
 
+  var abLenInv = 1 / abLen;
+  var bcLenInv = 1 / bcLen;
+
+  var bAngle = Math.acos(
+    -abX * abLenInv * bcX * bcLenInv +
+    -abY * abLenInv * bcY * bcLenInv +
+    -abZ * abLenInv * bcZ * bcLenInv);
+
+  if (bAngle > min && bAngle < max) { return; }
+  var bAngleTarget = bAngle < min ? min : max;
+
+  // Target length for AC
+  var acLenTargetSq = abLenSq + bcLenSq - 2 * abLen * bcLen * Math.cos(bAngleTarget);
+  var acLenTarget = Math.sqrt(acLenTargetSq);
+  var acDiff = (acLen - acLenTarget) / acLen * 0.5;
+
+  p0[aix] += acX * acDiff;
+  p0[aiy] += acY * acDiff;
+  p0[aiz] += acZ * acDiff;
+
+  p0[cix] -= acX * acDiff;
+  p0[ciy] -= acY * acDiff;
+  p0[ciz] -= acZ * acDiff;
+
+  // Only manipulate particle B for obtuse targets
+  if (bAngleTarget < AngleConstraint.ANGLE_OBTUSE) { return; }
+
+  // Target angle for A
+  var aAngleTarget = Math.acos((abLenSq + acLenTargetSq - bcLenSq) / (2 * abLen * acLenTarget));
+
   // Unit vector AC
   var acLenInv = 1 / acLen;
   var acuX = acX * acLenInv;
   var acuY = acY * acLenInv;
   var acuZ = acZ * acLenInv;
-
-  // Target length for AC
-  var acLenTargetSq = abLenSq + bcLenSq - 2 * abLen * bcLen * Math.cos(bAngleTarget);
-  var acLenTarget = Math.sqrt(acLenTargetSq);
-
-  // Target angle for A
-  var aAngleTarget = Math.acos((abLenSq + acLenTargetSq - bcLenSq) / (2 * abLen * acLenTarget));
 
   // Project B onto AC as vector AP
   var pt = acuX * abX + acuY * abY + acuZ * abZ;
@@ -97,26 +121,27 @@ function angleConstraint_apply(p0, w0, min, max, ai, bi, ci) {
   var bpY = apY - abY;
   var bpZ = apZ - abZ;
 
+  // B is inline with AC
+  if (!(bpX || bpY || bpZ)) {
+    if (bAngleTarget < Math.PI) {
+      p0[bix] += 0.1;
+      p0[biy] += 0.1;
+      p0[biz] += 0.1;
+    }
+    return;
+  }
+
   var apLenSq = apX * apX + apY * apY + apZ * apZ;
   var bpLenSq = bpX * bpX + bpY * bpY + bpZ * bpZ;
   var apLen = Math.sqrt(apLenSq);
   var bpLen = Math.sqrt(bpLenSq);
+
   var bpLenTarget = apLen * Math.tan(aAngleTarget);
-
-  var bpDiff = Math.max(0, (bpLen - bpLenTarget) / bpLen);
-  var acDiff = (acLen - acLenTarget) / acLen * 0.5;
-
-  p0[aix] += acX * acDiff;
-  p0[aiy] += acY * acDiff;
-  p0[aiz] += acZ * acDiff;
+  var bpDiff = (bpLen - bpLenTarget) / bpLen;
 
   p0[bix] += bpX * bpDiff;
   p0[biy] += bpY * bpDiff;
   p0[biz] += bpZ * bpDiff;
-
-  p0[cix] -= acX * acDiff;
-  p0[ciy] -= acY * acDiff;
-  p0[ciz] -= acZ * acDiff;
 }
 
 AngleConstraint.prototype.applyConstraint = function (p0, p1, w0) {
