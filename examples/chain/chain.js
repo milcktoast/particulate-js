@@ -6,14 +6,14 @@
 
   var PTCL = Particulate;
   var PARTICLES = 150;
-  var LINK_DISTANCE = 1;
-  var GRAVITY = -0.05;
+  var LINK_DISTANCE = 2;
+  var GRAVITY = -0.02;
   var system = PTCL.ParticleSystem.create(PARTICLES, 2);
   var gravityForce = PTCL.DirectionalForce.create();
   var bounds = PTCL.BoxConstraint.create([-50, -50, -50], [50, 50, 50]);
 
-  // Reference to links for visualization
   var linkIndices = [];
+  var angleIndices = [];
 
   system.each(function (i) {
     var a = i - 1;
@@ -28,9 +28,15 @@
 
     if (i > 0) {
       linkIndices.push(a, b);
-      system.addConstraint(PTCL.DistanceConstraint.create(LINK_DISTANCE, a, b));
+    }
+
+    if (i > 0 && i < PARTICLES - 1) {
+      angleIndices.push(a, b, b + 1);
     }
   });
+
+  system.addConstraint(PTCL.DistanceConstraint.create(LINK_DISTANCE, linkIndices));
+  system.addConstraint(PTCL.AngleConstraint.create(Math.PI * 0.5, angleIndices));
 
   var pinX = 10;
   var pin0 = PTCL.PointConstraint.create([-pinX, 0, 0], 0);
