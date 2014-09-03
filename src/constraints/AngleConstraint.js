@@ -5,10 +5,9 @@ function AngleConstraint(angle, a, b, c) {
   var min = angle.length ? angle[0] : angle;
   var max = angle.length ? angle[1] : angle;
 
-  lib.Constraint.call(this, size);
+  lib.Constraint.call(this, size, 3);
   this.setAngle(min, max);
   this.setIndices(a, b, c);
-  this._count = size / 3;
 }
 
 AngleConstraint.create = lib.ctor(AngleConstraint);
@@ -36,9 +35,12 @@ AngleConstraint.prototype.clampAngle = function (angle) {
 AngleConstraint.ANGLE_OBTUSE = Math.PI * 0.75;
 
 // TODO: Optimize, reduce usage of Math.sqrt
-function angleConstraint_apply(p0, w0, min, max, ai, bi, ci) {
-  // TODO: Refactor into smaller bits
+AngleConstraint.prototype.applyConstraint = function (index, p0, p1) {
   /*jshint maxcomplexity:15*/
+
+  var ii = this.indices;
+  var ai = ii[index], bi = ii[index + 1], ci = ii[index + 2];
+
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
   var bix = bi * 3, biy = bix + 1, biz = bix + 2;
   var cix = ci * 3, ciy = cix + 1, ciz = cix + 2;
@@ -77,13 +79,15 @@ function angleConstraint_apply(p0, w0, min, max, ai, bi, ci) {
   var abLenInv = 1 / abLen;
   var bcLenInv = 1 / bcLen;
 
+  var minAngle = this._min;
+  var maxAngle = this._max;
   var bAngle = Math.acos(
     -abX * abLenInv * bcX * bcLenInv +
     -abY * abLenInv * bcY * bcLenInv +
     -abZ * abLenInv * bcZ * bcLenInv);
 
-  if (bAngle > min && bAngle < max) { return; }
-  var bAngleTarget = bAngle < min ? min : max;
+  if (bAngle > minAngle && bAngle < maxAngle) { return; }
+  var bAngleTarget = bAngle < minAngle ? minAngle : maxAngle;
 
   // Target length for AC
   var acLenTargetSq = abLenSq + bcLenSq - 2 * abLen * bcLen * Math.cos(bAngleTarget);
@@ -142,24 +146,4 @@ function angleConstraint_apply(p0, w0, min, max, ai, bi, ci) {
   p0[bix] += bpX * bpDiff;
   p0[biy] += bpY * bpDiff;
   p0[biz] += bpZ * bpDiff;
-}
-
-AngleConstraint.prototype.applyConstraint = function (p0, p1, w0) {
-  var min = this._min;
-  var max = this._max;
-  var count = this._count;
-  var ii = this.indices;
-
-  if (count === 1) {
-    angleConstraint_apply(p0, w0, min, max, ii[0], ii[1], ii[2]);
-    return;
-  }
-
-  var i, ai, bi, ci;
-  for (i = 0; i < count; i ++) {
-    ai = i * 3;
-    bi = ai + 1;
-    ci = ai + 2;
-    angleConstraint_apply(p0, w0, min, max, ii[ai], ii[bi], ii[ci]);
-  }
 };

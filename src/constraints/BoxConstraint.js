@@ -5,12 +5,16 @@ function BoxConstraint(min, max) {
   this.bounds = new Float32Array(6);
   this.friction = 0.05;
 
-  if (min) { this.setMin(min); }
-  if (max) { this.setMax(max); }
+  this.setBounds(min, max);
 }
 
 BoxConstraint.create = lib.ctor(BoxConstraint);
 BoxConstraint.prototype = Object.create(lib.Constraint.prototype);
+
+BoxConstraint.prototype.setBounds = function (min, max) {
+  this.setMin(min);
+  this.setMax(max);
+};
 
 BoxConstraint.prototype.setMin = function (x, y, z) {
   lib.Vec3.set(this.bounds, 0, x, y, z);
@@ -20,7 +24,7 @@ BoxConstraint.prototype.setMax = function (x, y, z) {
   lib.Vec3.set(this.bounds, 1, x, y, z);
 };
 
-BoxConstraint.prototype.applyConstraint = function (ix, p0, p1, w0) {
+BoxConstraint.prototype.applyConstraint = function (ix, p0, p1) {
   var friction = this.friction;
   var b = this.bounds;
   var iy = ix + 1;

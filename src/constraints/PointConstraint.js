@@ -2,6 +2,7 @@ lib.PointConstraint = PointConstraint;
 function PointConstraint(position, index) {
   this.position = new Float32Array(position);
   this.index = index;
+  this._count = 1;
 }
 
 PointConstraint.create = lib.ctor(PointConstraint);
@@ -11,7 +12,7 @@ PointConstraint.prototype.setPosition = function (x, y, z) {
   lib.Vec3.set(this.position, 0, x, y, z);
 };
 
-PointConstraint.prototype.applyConstraint = function (p0, p1, w0) {
+PointConstraint.prototype.applyConstraint = function (index, p0, p1) {
   var i = this.index;
   var ix = i * 3, iy = ix + 1, iz = ix + 2;
   var p = this.position;

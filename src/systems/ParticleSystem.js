@@ -119,28 +119,34 @@ ParticleSystem.prototype.satisfyConstraints = function () {
   var global = this._globalConstraints;
   var local = this._localConstraints;
   var pins = this._pinConstraints;
+  var globalCount = this._count * 3;
+  var globalItemSize = 3;
+
+  for (var i = 0; i < iterations; i ++) {
+    this.satisfyConstraintGroup(global, globalCount, globalItemSize);
+    this.satisfyConstraintGroup(local);
+
+    if (!pins.length) { continue; }
+    this.satisfyConstraintGroup(pins);
+  }
+};
+
+ParticleSystem.prototype.satisfyConstraintGroup = function (group, count, itemSize) {
   var p0 = this.positions;
   var p1 = this.positionsPrev;
-  var w0 = this.weights;
-  var i, il, j, jl, k;
+  var hasUniqueCount = !count;
+  var constraint;
 
-  for (k = 0; k < iterations; k ++) {
-    // Global
-    for (i = 0, il = this._count * 3; i < il; i += 3) {
-      for (j = 0, jl = global.length; j < jl; j ++) {
-        global[j].applyConstraint(i, p0, p1, w0);
-      }
+  for (var i = 0, il = group.length; i < il; i ++) {
+    constraint = group[i];
+
+    if (hasUniqueCount) {
+      count = constraint._count || 1;
+      itemSize = constraint._itemSize;
     }
 
-    // Local
-    for (i = 0, il = local.length; i < il; i ++) {
-      local[i].applyConstraint(p0, p1, w0);
-    }
-
-    // Pins
-    if (!pins.length) { continue; }
-    for (i = 0, il = pins.length; i < il; i ++) {
-      pins[i].applyConstraint(p0, p1, w0);
+    for (var j = 0; j < count; j ++) {
+      constraint.applyConstraint(j * itemSize, p0, p1);
     }
   }
 };

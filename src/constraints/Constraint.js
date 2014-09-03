@@ -1,6 +1,8 @@
 lib.Constraint = Constraint;
-function Constraint(size) {
+function Constraint(size, itemSize) {
   this.indices = new Uint16Array(size || 2);
+  this._count = size / itemSize;
+  this._itemSize = itemSize;
 }
 
 Constraint.create = lib.ctor(Constraint);
