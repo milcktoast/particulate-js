@@ -18,7 +18,7 @@ PointForce.prototype.setRadius = function (r) {
   this._radius2 = r * r;
 };
 
-PointForce.prototype.applyForce = function (ix, f0, p0, p1, weight) {
+PointForce.prototype.applyForce = function (ix, f0, p0, p1) {
   var v0 = this.vector;
   var iy = ix + 1;
   var iz = ix + 2;
@@ -44,7 +44,7 @@ PointForce.prototype.applyForce = function (ix, f0, p0, p1, weight) {
   }
 
   if (isActive) {
-    scale = diff / dist * (this.intensity * weight);
+    scale = diff / dist * this.intensity;
 
     f0[ix] -= dx * scale;
     f0[iy] -= dy * scale;

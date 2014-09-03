@@ -72,9 +72,9 @@ ParticleSystem.prototype.perturb = function (scale) {
 // Verlet integration
 // ------------------
 
-function ps_integrateParticle(i, p0, p1, f0, d2) {
+function ps_integrateParticle(i, p0, p1, f0, weight, d2) {
   var pt = p0[i];
-  p0[i] += pt - p1[i] + f0[i] * d2;
+  p0[i] += pt - p1[i] + f0[i] * weight * d2;
   p1[i] = pt;
 }
 
@@ -83,11 +83,16 @@ ParticleSystem.prototype.integrate = function (delta) {
   var p0 = this.positions;
   var p1 = this.positionsPrev;
   var f0 = this.accumulatedForces;
+  var w0 = this.weights;
+  var ix, weight;
 
-  for (var i = 0, il = this._count * 3; i < il; i += 3) {
-    ps_integrateParticle(i,     p0, p1, f0, d2);
-    ps_integrateParticle(i + 1, p0, p1, f0, d2);
-    ps_integrateParticle(i + 2, p0, p1, f0, d2);
+  for (var i = 0, il = this._count; i < il; i ++) {
+    weight = w0[i];
+    ix = i * 3;
+
+    ps_integrateParticle(ix,     p0, p1, f0, weight, d2);
+    ps_integrateParticle(ix + 1, p0, p1, f0, weight, d2);
+    ps_integrateParticle(ix + 2, p0, p1, f0, weight, d2);
   }
 };
 
@@ -167,16 +172,14 @@ ParticleSystem.prototype.accumulateForces = function (delta) {
   var f0 = this.accumulatedForces;
   var p0 = this.positions;
   var p1 = this.positionsPrev;
-  var w0 = this.weights;
-  var ix, w;
+  var ix;
 
   for (var i = 0, il = this._count; i < il; i ++) {
     ix = i * 3;
-    w = w0[i];
     f0[ix] = f0[ix + 1] = f0[ix + 2] = 0;
 
     for (var j = 0, jl = forces.length; j < jl; j ++) {
-      forces[j].applyForce(ix, f0, p0, p1, w);
+      forces[j].applyForce(ix, f0, p0, p1);
     }
   }
 };
