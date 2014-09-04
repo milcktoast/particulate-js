@@ -124,7 +124,7 @@ ParticleSystem.prototype.satisfyConstraints = function () {
   var global = this._globalConstraints;
   var local = this._localConstraints;
   var pins = this._pinConstraints;
-  var globalCount = this._count * 3;
+  var globalCount = this._count;
   var globalItemSize = 3;
 
   for (var i = 0; i < iterations; i ++) {

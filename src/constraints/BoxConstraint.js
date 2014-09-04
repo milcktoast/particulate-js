@@ -24,11 +24,10 @@ BoxConstraint.prototype.setMax = function (x, y, z) {
   lib.Vec3.set(this.bounds, 1, x, y, z);
 };
 
-BoxConstraint.prototype.applyConstraint = function (ix, p0, p1) {
+BoxConstraint.prototype.applyConstraint = function (index, p0, p1) {
   var friction = this.friction;
   var b = this.bounds;
-  var iy = ix + 1;
-  var iz = ix + 2;
+  var ix = index, iy = ix + 1, iz = ix + 2;
 
   var px = lib.Math.clamp(b[0], b[3], p0[ix]);
   var py = lib.Math.clamp(b[1], b[4], p0[iy]);
