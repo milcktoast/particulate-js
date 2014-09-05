@@ -11,9 +11,7 @@ Force.ATTRACTOR = 0;
 Force.REPULSOR = 1;
 Force.ATTRACTOR_REPULSOR = 2;
 
-Force.create = function (vector, opts) {
-  return new Force(vector, opts);
-};
+Force.create = lib.ctor(Force);
 
 Force.prototype.set = function (x, y, z) {
   lib.Vec3.set(this.vector, 0, x, y, z);

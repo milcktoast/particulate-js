@@ -1,4 +1,4 @@
-var Test = window.Test = {
+window.Test = {
   assert : {}
 };
 
@@ -10,6 +10,7 @@ require('constraints/Constraint');
 require('constraints/*');
 require('forces/Force');
 require('forces/*');
+require('math/*');
 require('utils/*');
 
 function setFavicon(uri) {
