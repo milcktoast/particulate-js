@@ -21,6 +21,7 @@ function MainScene() {
 
 MainScene.prototype.initScene = function () {
   this.scene = new THREE.Scene();
+  window.fog = this.scene.fog = new THREE.Fog(0x050505, 40, 150);
   this.camera = new THREE.PerspectiveCamera(30, 1, 5, 3500);
   this.camera.position.set(0, 50, 100);
   this.camera.lookAt(this.scene.position);
@@ -90,7 +91,8 @@ MainScene.prototype.initVisualization = function () {
       blending : THREE.AdditiveBlending,
       transparent : true,
       map : texture,
-      size : 1.5
+      size : 1.5,
+      fog : false
     }));
   this.scene.add(visParticles);
 
