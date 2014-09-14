@@ -1,10 +1,10 @@
 {
   "globals": {
-    "require": true,
-    "lib": true,
-    "Particulate": true,
-    "App": true,
-    "QUnit": true
+    "require"      : true,
+    "lib"          : true,
+    "Particulate"  : true,
+    "App"          : true,
+    "QUnit"        : true
   },
 
   "browser"        : true,

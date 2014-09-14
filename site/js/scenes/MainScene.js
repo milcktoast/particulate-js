@@ -21,6 +21,7 @@ function MainScene() {
 
 MainScene.prototype.initScene = function () {
   this.scene = new THREE.Scene();
+  window.fog = this.scene.fog = new THREE.Fog(0x050505, 40, 150);
   this.camera = new THREE.PerspectiveCamera(30, 1, 5, 3500);
   this.camera.position.set(0, 50, 100);
   this.camera.lookAt(this.scene.position);
@@ -44,23 +45,17 @@ MainScene.prototype.initSimulation = function () {
     radius : 20
   });
 
-  var linkIndices = this.linkIndices = [];
-
-  // FIXME
-  function addLink(a, b) {
-    linkIndices.push(a, b);
-    simulation._localConstraints.push(Particulate.DistanceConstraint.create(distance, a, b));
-  }
-
-  var a, b, c;
-  for (var i = 2, il = particles; i < il; i ++) {
-    a = i;
-    b = a - 1;
-    c = a - 2;
-    addLink(a, b);
-    addLink(b, c);
-    addLink(c, a);
-  }
+  var linkIndices = this.linkIndices = (function () {
+    var indices = [];
+    var a, b, c;
+    for (var i = 2, il = particles; i < il; i ++) {
+      a = i;
+      b = a - 1;
+      c = a - 2;
+      indices.push(a, b, b, c, c, a);
+    }
+    return indices;
+  }());
 
   simulation.each(function (i) {
     simulation.setPosition(i,
@@ -68,6 +63,9 @@ MainScene.prototype.initSimulation = function () {
       (Math.random() - 0.5) * 50,
       (Math.random() - 0.5) * 50);
   });
+
+  simulation.addConstraint(
+    Particulate.DistanceConstraint.create(distance, linkIndices));
 
   simulation.addForce(attractor);
   simulation.addForce(repulsor);
@@ -93,7 +91,8 @@ MainScene.prototype.initVisualization = function () {
       blending : THREE.AdditiveBlending,
       transparent : true,
       map : texture,
-      size : 1.5
+      size : 1.5,
+      fog : false
     }));
   this.scene.add(visParticles);
 
