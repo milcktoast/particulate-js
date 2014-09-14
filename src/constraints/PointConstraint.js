@@ -10,6 +10,7 @@ function PointConstraint(position, a) {
 
 PointConstraint.create = lib.ctor(PointConstraint);
 PointConstraint.prototype = Object.create(lib.Constraint.prototype);
+PointConstraint.prototype.constructor = PointConstraint;
 
 PointConstraint.prototype.setPosition = function (x, y, z) {
   lib.Vec3.set(this.bufferVec3, 0, x, y, z);

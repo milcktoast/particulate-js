@@ -21,6 +21,7 @@ function ParticleSystem(particles, iterations) {
 }
 
 ParticleSystem.create = lib.ctor(ParticleSystem);
+ParticleSystem.prototype.constructor = ParticleSystem;
 
 ParticleSystem.prototype.setPosition = function (i, x, y, z) {
   lib.Vec3.set(this.positions, i, x, y, z);

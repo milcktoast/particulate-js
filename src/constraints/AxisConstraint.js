@@ -10,6 +10,7 @@ function AxisConstraint(start, end, a) {
 
 AxisConstraint.create = lib.ctor(AxisConstraint);
 AxisConstraint.prototype = Object.create(lib.Constraint.prototype);
+AxisConstraint.prototype.constructor = AxisConstraint;
 
 AxisConstraint.prototype.setAxis = function (start, end) {
   this.start = start;

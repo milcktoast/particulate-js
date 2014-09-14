@@ -12,6 +12,7 @@ function DistanceConstraint(distance, a, b) {
 
 DistanceConstraint.create = lib.ctor(DistanceConstraint);
 DistanceConstraint.prototype = Object.create(lib.Constraint.prototype);
+DistanceConstraint.prototype.constructor = DistanceConstraint;
 
 DistanceConstraint.prototype.setDistance = function (min, max) {
   var min2 = min * min;

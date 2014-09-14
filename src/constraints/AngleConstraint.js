@@ -12,6 +12,7 @@ function AngleConstraint(angle, a, b, c) {
 
 AngleConstraint.create = lib.ctor(AngleConstraint);
 AngleConstraint.prototype = Object.create(lib.Constraint.prototype);
+AngleConstraint.prototype.constructor = AngleConstraint;
 
 AngleConstraint.prototype.setAngle = function (min, max) {
   max = max != null ? max : min;

@@ -12,6 +12,7 @@ function PlaneConstraint(origin, normal, distance) {
 
 PlaneConstraint.create = lib.ctor(PlaneConstraint);
 PlaneConstraint.prototype = Object.create(lib.Constraint.prototype);
+PlaneConstraint.prototype.constructor = PlaneConstraint;
 
 PlaneConstraint.prototype.setOrigin = function (x, y, z) {
   lib.Vec3.set(this.bufferVec3, 0, x, y, z);
