@@ -1,8 +1,9 @@
-// Particulate.js 0.2.0
+// Particulate.js 0.3.0
 // ====================
 
 (function () {
-  var lib = {VERSION : '0.2.0'};
+  'use strict';
+  var lib = {VERSION : '0.3.0'};
   require('utils/*');
   require('math/*');
   require('forces/*');

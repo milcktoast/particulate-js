@@ -1,8 +1,9 @@
-// Particulate.js 0.2.0
+// Particulate.js 0.3.0
 // ====================
 
 (function () {
-  var lib = {VERSION : '0.2.0'};
+  'use strict';
+  var lib = {VERSION : '0.3.0'};
 
 
 var Collection = lib.Collection = {};
@@ -37,8 +38,9 @@ lib.Math.clamp = function (min, max, v) {
 
 var Vec3 = lib.Vec3 = {};
 
-Vec3.create = function () {
-  return new Float32Array(3);
+Vec3.create = function (count) {
+  var size = (count || 1) * 3;
+  return new Float32Array(size);
 };
 
 Vec3.set = function (b0, i, x, y, z) {
@@ -105,21 +107,33 @@ Vec3.distance = function (b0, ai, bi) {
   return Math.sqrt(dx * dx + dy * dy + dz * dz);
 };
 
+Vec3.normalize = function (b0, ai) {
+  var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
+  var x = b0[aix];
+  var y = b0[aiy];
+  var z = b0[aiz];
+  var lenInv = 1 / Math.sqrt(x * x + y * y + z * z);
+
+  b0[aix] *= lenInv;
+  b0[aiy] *= lenInv;
+  b0[aiz] *= lenInv;
+};
+
 Vec3.angle = function (b0, ai, bi, ci) {
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
   var bix = bi * 3, biy = bix + 1, biz = bix + 2;
   var cix = ci * 3, ciy = cix + 1, ciz = cix + 2;
 
-  var baLen = 1 / Vec3.distance(b0, bi, ai);
-  var bcLen = 1 / Vec3.distance(b0, bi, ci);
+  var baLenInv = 1 / Vec3.distance(b0, bi, ai);
+  var bcLenInv = 1 / Vec3.distance(b0, bi, ci);
 
-  var baX = (b0[aix] - b0[bix]) * baLen;
-  var baY = (b0[aiy] - b0[biy]) * baLen;
-  var baZ = (b0[aiz] - b0[biz]) * baLen;
+  var baX = (b0[aix] - b0[bix]) * baLenInv;
+  var baY = (b0[aiy] - b0[biy]) * baLenInv;
+  var baZ = (b0[aiz] - b0[biz]) * baLenInv;
 
-  var bcX = (b0[cix] - b0[bix]) * bcLen;
-  var bcY = (b0[ciy] - b0[biy]) * bcLen;
-  var bcZ = (b0[ciz] - b0[biz]) * bcLen;
+  var bcX = (b0[cix] - b0[bix]) * bcLenInv;
+  var bcY = (b0[ciy] - b0[biy]) * bcLenInv;
+  var bcZ = (b0[ciz] - b0[biz]) * bcLenInv;
 
   var dot = baX * bcX + baY * bcY + baZ * bcZ;
 
@@ -219,7 +233,7 @@ PointForce.prototype.applyForce = function (ix, f0, p0, p1) {
 
 lib.Constraint = Constraint;
 function Constraint(size, itemSize) {
-  this.indices = new Uint16Array(size || 2);
+  this.indices = new Uint16Array(size);
   this._count = size / itemSize;
   this._itemSize = itemSize;
 }
@@ -386,10 +400,67 @@ AngleConstraint.prototype.applyConstraint = function (index, p0, p1) {
 };
 
 
+lib.AxisConstraint = AxisConstraint;
+function AxisConstraint(start, end, a) {
+  var size = a.length || 1;
+
+  lib.Constraint.call(this, size, 1);
+  this.setAxis(start, end);
+  this.setIndices(a);
+}
+
+AxisConstraint.create = lib.ctor(AxisConstraint);
+AxisConstraint.prototype = Object.create(lib.Constraint.prototype);
+
+AxisConstraint.prototype.setAxis = function (start, end) {
+  this.start = start;
+  this.end = end;
+};
+
+AxisConstraint.prototype.applyConstraint = function (index, p0, p1) {
+  var ai = this.start;
+  var bi = this.indices[index];
+  var ci = this.end;
+
+  var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
+  var bix = bi * 3, biy = bix + 1, biz = bix + 2;
+  var cix = ci * 3, ciy = cix + 1, ciz = cix + 2;
+
+  // AB (A -> B)
+  var abX = p0[bix] - p0[aix];
+  var abY = p0[biy] - p0[aiy];
+  var abZ = p0[biz] - p0[aiz];
+
+  // AC (A -> C)
+  var acX = p0[cix] - p0[aix];
+  var acY = p0[ciy] - p0[aiy];
+  var acZ = p0[ciz] - p0[aiz];
+
+  var acLenSq = acX * acX + acY * acY + acZ * acZ;
+  var acLen = Math.sqrt(acLenSq);
+
+  // Unit vector AC
+  var acLenInv = 1 / acLen;
+  var acuX = acX * acLenInv;
+  var acuY = acY * acLenInv;
+  var acuZ = acZ * acLenInv;
+
+  // Project B onto AC as vector AP
+  var pt = acuX * abX + acuY * abY + acuZ * abZ;
+  var apX = acuX * pt;
+  var apY = acuY * pt;
+  var apZ = acuZ * pt;
+
+  p0[bix] = p0[aix] + apX;
+  p0[biy] = p0[aiy] + apY;
+  p0[biz] = p0[aiz] + apZ;
+};
+
+
 lib.BoxConstraint = BoxConstraint;
 function BoxConstraint(min, max) {
   this._isGlobal = true;
-  this.bounds = new Float32Array(6);
+  this.bufferVec3 = lib.Vec3.create(2);
   this.friction = 0.05;
 
   this.setBounds(min, max);
@@ -404,22 +475,21 @@ BoxConstraint.prototype.setBounds = function (min, max) {
 };
 
 BoxConstraint.prototype.setMin = function (x, y, z) {
-  lib.Vec3.set(this.bounds, 0, x, y, z);
+  lib.Vec3.set(this.bufferVec3, 0, x, y, z);
 };
 
 BoxConstraint.prototype.setMax = function (x, y, z) {
-  lib.Vec3.set(this.bounds, 1, x, y, z);
+  lib.Vec3.set(this.bufferVec3, 1, x, y, z);
 };
 
-BoxConstraint.prototype.applyConstraint = function (ix, p0, p1) {
+BoxConstraint.prototype.applyConstraint = function (index, p0, p1) {
   var friction = this.friction;
-  var b = this.bounds;
-  var iy = ix + 1;
-  var iz = ix + 2;
+  var b0 = this.bufferVec3;
+  var ix = index, iy = ix + 1, iz = ix + 2;
 
-  var px = lib.Math.clamp(b[0], b[3], p0[ix]);
-  var py = lib.Math.clamp(b[1], b[4], p0[iy]);
-  var pz = lib.Math.clamp(b[2], b[5], p0[iz]);
+  var px = lib.Math.clamp(b0[0], b0[3], p0[ix]);
+  var py = lib.Math.clamp(b0[1], b0[4], p0[iy]);
+  var pz = lib.Math.clamp(b0[2], b0[5], p0[iz]);
 
   var dx = p0[ix] - px;
   var dy = p0[iy] - py;
@@ -502,28 +572,83 @@ DistanceConstraint.prototype.applyConstraint = function (index, p0, p1) {
 };
 
 
+lib.PlaneConstraint = PlaneConstraint;
+function PlaneConstraint(origin, normal, distance) {
+  this._isGlobal = true;
+  this.bufferVec3 = lib.Vec3.create(2);
+  this.distance = distance || 0;
+  this.friction = 0.05;
+
+  this.setOrigin(origin);
+  this.setNormal(normal);
+}
+
+PlaneConstraint.create = lib.ctor(PlaneConstraint);
+PlaneConstraint.prototype = Object.create(lib.Constraint.prototype);
+
+PlaneConstraint.prototype.setOrigin = function (x, y, z) {
+  lib.Vec3.set(this.bufferVec3, 0, x, y, z);
+};
+
+PlaneConstraint.prototype.setNormal = function (x, y, z) {
+  lib.Vec3.set(this.bufferVec3, 1, x, y, z);
+  lib.Vec3.normalize(this.bufferVec3, 1);
+};
+
+PlaneConstraint.prototype.applyConstraint = function (index, p0, p1) {
+  var friction = this.friction;
+  var b0 = this.bufferVec3;
+  var ix = index, iy = ix + 1, iz = ix + 2;
+
+  // OP (O -> P)
+  var opX = p0[ix] - b0[0];
+  var opY = p0[iy] - b0[1];
+  var opZ = p0[iz] - b0[2];
+
+  // N
+  var nX = b0[3];
+  var nY = b0[4];
+  var nZ = b0[5];
+
+  // Project OP onto normal vector N
+  var pt = opX * nX + opY * nY + opZ * nZ;
+  if (pt > this.distance) { return; }
+
+  p0[ix] -= nX * pt;
+  p0[iy] -= nY * pt;
+  p0[iz] -= nZ * pt;
+
+  p1[ix] -= (p1[ix] - p0[ix]) * friction;
+  p1[iy] -= (p1[iy] - p0[iy]) * friction;
+  p1[iz] -= (p1[iz] - p0[iz]) * friction;
+};
+
+
 lib.PointConstraint = PointConstraint;
-function PointConstraint(position, index) {
-  this.position = new Float32Array(position);
-  this.index = index;
-  this._count = 1;
+function PointConstraint(position, a) {
+  var size = a.length || 1;
+
+  lib.Constraint.call(this, size, 1);
+  this.bufferVec3 = lib.Vec3.create(1);
+  this.setPosition(position);
+  this.setIndices(a);
 }
 
 PointConstraint.create = lib.ctor(PointConstraint);
 PointConstraint.prototype = Object.create(lib.Constraint.prototype);
 
 PointConstraint.prototype.setPosition = function (x, y, z) {
-  lib.Vec3.set(this.position, 0, x, y, z);
+  lib.Vec3.set(this.bufferVec3, 0, x, y, z);
 };
 
 PointConstraint.prototype.applyConstraint = function (index, p0, p1) {
-  var i = this.index;
-  var ix = i * 3, iy = ix + 1, iz = ix + 2;
-  var p = this.position;
+  var b0 = this.bufferVec3;
+  var ai = this.indices[index];
+  var ix = ai * 3, iy = ix + 1, iz = ix + 2;
 
-  p0[ix] = p1[ix] = p[0];
-  p0[iy] = p1[iy] = p[1];
-  p0[iz] = p1[iz] = p[2];
+  p0[ix] = p1[ix] = b0[0];
+  p0[iy] = p1[iy] = b0[1];
+  p0[iz] = p1[iz] = b0[2];
 };
 
 
@@ -653,7 +778,7 @@ ParticleSystem.prototype.satisfyConstraints = function () {
   var global = this._globalConstraints;
   var local = this._localConstraints;
   var pins = this._pinConstraints;
-  var globalCount = this._count * 3;
+  var globalCount = this._count;
   var globalItemSize = 3;
 
   for (var i = 0; i < iterations; i ++) {
@@ -675,7 +800,7 @@ ParticleSystem.prototype.satisfyConstraintGroup = function (group, count, itemSi
     constraint = group[i];
 
     if (hasUniqueCount) {
-      count = constraint._count || 1;
+      count = constraint._count;
       itemSize = constraint._itemSize;
     }
 
