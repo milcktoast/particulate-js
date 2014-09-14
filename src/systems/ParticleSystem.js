@@ -20,9 +20,7 @@ function ParticleSystem(particles, iterations) {
   this._forces = [];
 }
 
-ParticleSystem.create = function (particles, iterations) {
-  return new ParticleSystem(particles, iterations);
-};
+ParticleSystem.create = lib.ctor(ParticleSystem);
 
 ParticleSystem.prototype.setPosition = function (i, x, y, z) {
   lib.Vec3.set(this.positions, i, x, y, z);
@@ -37,6 +35,10 @@ ParticleSystem.prototype.getDistance = function (a, b) {
   return lib.Vec3.distance(this.positions, a, b);
 };
 
+ParticleSystem.prototype.getAngle = function (a, b, c) {
+  return lib.Vec3.angle(this.positions, a, b, c);
+};
+
 ParticleSystem.prototype.setWeight = function (i, w) {
   this.weights[i] = w;
 };
@@ -48,18 +50,31 @@ ParticleSystem.prototype.setWeights = function (w) {
   }
 };
 
-ParticleSystem.prototype.each = function (iterator) {
+ParticleSystem.prototype.each = function (iterator, context) {
+  context = context || this;
   for (var i = 0, il = this._count; i < il; i ++) {
-    iterator.call(this, i);
+    iterator.call(context, i, this);
+  }
+};
+
+ParticleSystem.prototype.perturb = function (scale) {
+  var positions = this.positions;
+  var positionsPrev = this.positionsPrev;
+  var dist;
+
+  for (var i = 0, il = positions.length; i < il; i ++) {
+    dist = Math.random() * scale;
+    positions[i] += dist;
+    positionsPrev[i] += dist;
   }
 };
 
 // Verlet integration
 // ------------------
 
-function ps_integrateParticle(i, p0, p1, f0, d2) {
+function ps_integrateParticle(i, p0, p1, f0, weight, d2) {
   var pt = p0[i];
-  p0[i] += pt - p1[i] + f0[i] * d2;
+  p0[i] += pt - p1[i] + f0[i] * weight * d2;
   p1[i] = pt;
 }
 
@@ -68,11 +83,16 @@ ParticleSystem.prototype.integrate = function (delta) {
   var p0 = this.positions;
   var p1 = this.positionsPrev;
   var f0 = this.accumulatedForces;
+  var w0 = this.weights;
+  var ix, weight;
 
-  for (var i = 0, il = this._count * 3; i < il; i += 3) {
-    ps_integrateParticle(i,     p0, p1, f0, d2);
-    ps_integrateParticle(i + 1, p0, p1, f0, d2);
-    ps_integrateParticle(i + 2, p0, p1, f0, d2);
+  for (var i = 0, il = this._count; i < il; i ++) {
+    weight = w0[i];
+    ix = i * 3;
+
+    ps_integrateParticle(ix,     p0, p1, f0, weight, d2);
+    ps_integrateParticle(ix + 1, p0, p1, f0, weight, d2);
+    ps_integrateParticle(ix + 2, p0, p1, f0, weight, d2);
   }
 };
 
@@ -84,35 +104,19 @@ ParticleSystem.prototype._getConstraintBuffer = function (constraint) {
 };
 
 ParticleSystem.prototype.addConstraint = function (constraint) {
-  var buffer = this._getConstraintBuffer(constraint);
-  var index = buffer.indexOf(constraint);
-  if (index < 0) {
-    buffer.push(constraint);
-  }
+  this._getConstraintBuffer(constraint).push(constraint);
 };
 
 ParticleSystem.prototype.removeConstraint = function (constraint) {
-  var buffer = this._getConstraintBuffer(constraint);
-  var index = buffer.indexOf(constraint);
-  if (index >= 0) {
-    buffer.splice(index, 1);
-  }
+  lib.Collection.removeAll(this._getConstraintBuffer(constraint), constraint);
 };
 
 ParticleSystem.prototype.addPinConstraint = function (constraint) {
-  var buffer = this._pinConstraints;
-  var index = buffer.indexOf(constraint);
-  if (index < 0) {
-    buffer.push(constraint);
-  }
+  this._pinConstraints.push(constraint);
 };
 
 ParticleSystem.prototype.removePinConstraint = function (constraint) {
-  var buffer = this._pinConstraints;
-  var index = buffer.indexOf(constraint);
-  if (index >= 0) {
-    buffer.splice(index, 1);
-  }
+  lib.Collection.removeAll(this._pinConstraints, constraint);
 };
 
 ParticleSystem.prototype.satisfyConstraints = function () {
@@ -120,28 +124,34 @@ ParticleSystem.prototype.satisfyConstraints = function () {
   var global = this._globalConstraints;
   var local = this._localConstraints;
   var pins = this._pinConstraints;
+  var globalCount = this._count;
+  var globalItemSize = 3;
+
+  for (var i = 0; i < iterations; i ++) {
+    this.satisfyConstraintGroup(global, globalCount, globalItemSize);
+    this.satisfyConstraintGroup(local);
+
+    if (!pins.length) { continue; }
+    this.satisfyConstraintGroup(pins);
+  }
+};
+
+ParticleSystem.prototype.satisfyConstraintGroup = function (group, count, itemSize) {
   var p0 = this.positions;
   var p1 = this.positionsPrev;
-  var w0 = this.weights;
-  var i, il, j, jl, k;
+  var hasUniqueCount = !count;
+  var constraint;
 
-  for (k = 0; k < iterations; k ++) {
-    // Global
-    for (i = 0, il = this._count * 3; i < il; i += 3) {
-      for (j = 0, jl = global.length; j < jl; j ++) {
-        global[j].applyConstraint(i, p0, p1, w0);
-      }
+  for (var i = 0, il = group.length; i < il; i ++) {
+    constraint = group[i];
+
+    if (hasUniqueCount) {
+      count = constraint._count;
+      itemSize = constraint._itemSize;
     }
 
-    // Local
-    for (i = 0, il = local.length; i < il; i ++) {
-      local[i].applyConstraint(p0, p1, w0);
-    }
-
-    // Pins
-    if (!pins.length) { continue; }
-    for (i = 0, il = pins.length; i < il; i ++) {
-      pins[i].applyConstraint(p0, p1, w0);
+    for (var j = 0; j < count; j ++) {
+      constraint.applyConstraint(j * itemSize, p0, p1);
     }
   }
 };
@@ -150,19 +160,11 @@ ParticleSystem.prototype.satisfyConstraints = function () {
 // ------
 
 ParticleSystem.prototype.addForce = function (force) {
-  var buffer = this._forces;
-  var index = buffer.indexOf(force);
-  if (index < 0) {
-    buffer.push(force);
-  }
+  this._forces.push(force);
 };
 
 ParticleSystem.prototype.removeForce = function (force) {
-  var buffer = this._forces;
-  var index = buffer.indexOf(force);
-  if (index >= 0) {
-    buffer.splice(index, 1);
-  }
+  lib.Collection.removeAll(this._forces, force);
 };
 
 ParticleSystem.prototype.accumulateForces = function (delta) {
@@ -170,16 +172,14 @@ ParticleSystem.prototype.accumulateForces = function (delta) {
   var f0 = this.accumulatedForces;
   var p0 = this.positions;
   var p1 = this.positionsPrev;
-  var w0 = this.weights;
-  var ix, w;
+  var ix;
 
   for (var i = 0, il = this._count; i < il; i ++) {
     ix = i * 3;
-    w = w0[i];
     f0[ix] = f0[ix + 1] = f0[ix + 2] = 0;
 
     for (var j = 0, jl = forces.length; j < jl; j ++) {
-      forces[j].applyForce(ix, f0, p0, p1, w);
+      forces[j].applyForce(ix, f0, p0, p1);
     }
   }
 };

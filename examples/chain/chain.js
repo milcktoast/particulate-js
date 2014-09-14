@@ -6,14 +6,14 @@
 
   var PTCL = Particulate;
   var PARTICLES = 150;
-  var LINK_DISTANCE = 1;
-  var GRAVITY = -0.05;
+  var LINK_DISTANCE = 2;
+  var GRAVITY = -0.02;
   var system = PTCL.ParticleSystem.create(PARTICLES, 2);
   var gravityForce = PTCL.DirectionalForce.create();
   var bounds = PTCL.BoxConstraint.create([-50, -50, -50], [50, 50, 50]);
 
-  // Reference to links for visualization
   var linkIndices = [];
+  var angleIndices = [];
 
   system.each(function (i) {
     var a = i - 1;
@@ -28,16 +28,24 @@
 
     if (i > 0) {
       linkIndices.push(a, b);
-      system.addConstraint(PTCL.DistanceConstraint.create(LINK_DISTANCE, a, b));
+    }
+
+    if (i > 0 && i < PARTICLES - 1) {
+      angleIndices.push(a, b, b + 1);
     }
   });
 
-  var pinX = 10;
-  var pin0 = PTCL.PointConstraint.create([-pinX, 0, 0], 0);
-  var pin1 = PTCL.PointConstraint.create([ pinX, 0, 0], PARTICLES - 1);
+  system.addConstraint(PTCL.DistanceConstraint.create(LINK_DISTANCE, linkIndices));
+  system.addConstraint(PTCL.AngleConstraint.create(Math.PI * 0.5, angleIndices));
 
-  system.setWeight(pin0.index, 0);
-  system.setWeight(pin1.index, 0);
+  var pinX = 10;
+  var index0 = 0;
+  var index1 = PARTICLES - 1;
+  var pin0 = PTCL.PointConstraint.create([-pinX, 0, 0], index0);
+  var pin1 = PTCL.PointConstraint.create([ pinX, 0, 0], index1);
+
+  system.setWeight(index0, 0);
+  system.setWeight(index1, 0);
   system.addPinConstraint(pin0);
   system.addPinConstraint(pin1);
 

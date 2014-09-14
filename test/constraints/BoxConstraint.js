@@ -11,7 +11,7 @@ test('Creation', function () {
   var max = [ 10,  10,  10];
   var constraint = BoxConstraint.create(min, max);
 
-  Test.assert.equalArray(constraint.bounds, [].concat(min, max),
+  Test.assert.equalArray(constraint.bufferVec3, [].concat(min, max),
     'Should initialize bounds from min and max vec3s.');
 });
 

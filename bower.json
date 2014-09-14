@@ -1,6 +1,6 @@
 {
   "name": "particulate",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "main": "dist/particulate.js",
   "ignore": [
     "**/.*",
@@ -8,6 +8,7 @@
     "bower_components",
     "examples",
     "src",
+    "test",
     "Gruntfile.js",
     "package.json"
   ]

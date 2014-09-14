@@ -47,13 +47,13 @@ test('Adding and removing local constraints', function () {
   var local = system._localConstraints;
 
   system.addConstraint(constraint);
-  equal(local.length, 1, 'Should add new local constraints to _localConstraints.');
+  equal(local.length, 1, 'Should add local constraint.');
 
   system.addConstraint(constraint);
-  equal(local.length, 1, 'Should not add duplicate constraints.');
+  equal(local.length, 2, 'Should allow adding duplicate constraints.');
 
   system.removeConstraint(constraint);
-  equal(local.length, 0, 'Should remove local constraints from _localConstraints.');
+  equal(local.length, 0, 'Should remove all instances of constraint.');
 });
 
 test('Adding and removing pin constraints', function () {
@@ -62,13 +62,13 @@ test('Adding and removing pin constraints', function () {
   var pin = system._pinConstraints;
 
   system.addPinConstraint(constraint);
-  equal(pin.length, 1, 'Should add new pin constraints to _pinConstraints.');
+  equal(pin.length, 1, 'Should add pin constraint.');
 
   system.addPinConstraint(constraint);
-  equal(pin.length, 1, 'Should not add duplicate constraints.');
+  equal(pin.length, 2, 'Should allow adding duplicate constraints.');
 
   system.removePinConstraint(constraint);
-  equal(pin.length, 0, 'Should remove pin constraints from _pinConstraints.');
+  equal(pin.length, 0, 'Should remove all instances of constraint.');
 });
 
 // Forces
@@ -80,13 +80,13 @@ test('Adding and removing forces', function () {
   var forces = system._forces;
 
   system.addForce(force);
-  equal(forces.length, 1, 'Should add new forces to _forces.');
+  equal(forces.length, 1, 'Should add force.');
 
   system.addForce(force);
-  equal(forces.length, 1, 'Should not add duplicate forces.');
+  equal(forces.length, 2, 'Should allow adding duplicate forces.');
 
   system.removeForce(force);
-  equal(forces.length, 0, 'Should remove forces from _forces.');
+  equal(forces.length, 0, 'Should remove all instances of force.');
 });
 
 // Weights

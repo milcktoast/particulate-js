@@ -11,17 +11,14 @@ var pf_ATTRACTOR = lib.Force.ATTRACTOR;
 var pf_REPULSOR = lib.Force.REPULSOR;
 var pf_ATTRACTOR_REPULSOR = lib.Force.ATTRACTOR_REPULSOR;
 
-PointForce.create = function (position, opts) {
-  return new PointForce(position, opts);
-};
-
+PointForce.create = lib.ctor(PointForce);
 PointForce.prototype = Object.create(lib.Force.prototype);
 
 PointForce.prototype.setRadius = function (r) {
   this._radius2 = r * r;
 };
 
-PointForce.prototype.applyForce = function (ix, f0, p0, p1, weight) {
+PointForce.prototype.applyForce = function (ix, f0, p0, p1) {
   var v0 = this.vector;
   var iy = ix + 1;
   var iz = ix + 2;
@@ -47,7 +44,7 @@ PointForce.prototype.applyForce = function (ix, f0, p0, p1, weight) {
   }
 
   if (isActive) {
-    scale = diff / dist * (this.intensity * weight);
+    scale = diff / dist * this.intensity;
 
     f0[ix] -= dx * scale;
     f0[iy] -= dy * scale;

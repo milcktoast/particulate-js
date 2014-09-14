@@ -1,25 +1,20 @@
 module('Constraint.Point');
 
+var ParticleSystem = Particulate.ParticleSystem;
 var PointConstraint = Particulate.PointConstraint;
 var slice = Array.prototype.slice;
-
-// Creation
-// --------
 
 test('Creation', function () {
   var position = [1, 2, 3];
   var index = 0;
   var constraint = PointConstraint.create(position, index);
 
-  Test.assert.equalArray(constraint.position, position,
+  Test.assert.equalArray(constraint.bufferVec3, position,
     'Should initialize position as passed vec3.');
 });
 
-// Application
-// -----------
-
 test('Application', function () {
-  var system = Particulate.ParticleSystem.create(4, 10);
+  var system = ParticleSystem.create(4, 10);
   var position = [1, 2, 3];
   var index = 2;
   var constraint = PointConstraint.create(position, index);
