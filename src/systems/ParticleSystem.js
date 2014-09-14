@@ -146,7 +146,7 @@ ParticleSystem.prototype.satisfyConstraintGroup = function (group, count, itemSi
     constraint = group[i];
 
     if (hasUniqueCount) {
-      count = constraint._count || 1;
+      count = constraint._count;
       itemSize = constraint._itemSize;
     }
 
