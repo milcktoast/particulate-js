@@ -1,18 +1,19 @@
 module('Force.Directional');
 
+var ParticleSystem = Particulate.ParticleSystem;
 var DirectionalForce = Particulate.DirectionalForce;
-var push = Array.prototype.push;
+var Vec3 = Particulate.Vec3;
 
 test('Application', function () {
-  var system = Particulate.ParticleSystem.create(4, 10);
+  var system = ParticleSystem.create(4, 10);
   var force = DirectionalForce.create([0, 1, 2]);
 
   system.addForce(force);
   system.tick(1);
 
-  var accumulated = [];
-  system.each(function () {
-    push.apply(accumulated, force.vector);
+  var accumulated = Vec3.create(4);
+  system.each(function (i, system) {
+    Vec3.set(accumulated, i, force.vector);
   });
 
   Test.assert.equalArray(system.accumulatedForces, accumulated,

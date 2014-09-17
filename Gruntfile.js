@@ -11,6 +11,7 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-neuter');
@@ -43,6 +44,10 @@ module.exports = function (grunt) {
         src: config.test + 'test.js',
         dest: config.test + 'test-bundle.js'
       }
+    },
+
+    qunit: {
+      src: ['test/index.html']
     },
 
     uglify: {
@@ -79,24 +84,30 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('build', [
+
+  grunt.registerTask('develop', [
     'jshint',
-    'neuter',
+    'neuter'
+  ]);
+
+  grunt.registerTask('build', [
+    'develop',
     'uglify'
   ]);
 
-  grunt.registerTask('develop', function (port) {
-    if (port) {
-      grunt.config('connect.server.options.port', port);
-    }
+  grunt.registerTask('test', [
+    'develop',
+    'qunit'
+  ]);
 
+  grunt.registerTask('server', function (port) {
+    grunt.config('connect.server.options.port', port || 8000);
     grunt.task.run([
-      'jshint',
-      'neuter',
+      'develop',
       'connect',
       'watch'
     ]);
   });
 
-  grunt.registerTask('default', 'develop');
+  grunt.registerTask('default', 'server');
 };
