@@ -41,6 +41,8 @@ test('Application', function () {
   system.addConstraint(many);
   system.tick(1);
 
+  Test.assert.closeArray(many.bufferVec3, [0, 0, 1], 0.1,
+    'Should cache plane normal vector.');
   Test.assert.close(getZ(singleIndex), 10, 0.1,
     'Should constrain single set of particles to plane.');
   Test.assert.closeArray(manyIndices.map(getZ), manyIndices.map(returnTen), 0.1,

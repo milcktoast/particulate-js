@@ -21,15 +21,15 @@ PlaneConstraint.prototype.setPlane = function (a, b, c) {
   ii[2] = c;
 };
 
-// TODO: Cache calculated plane normal
-PlaneConstraint.prototype.applyConstraint = function (index, p0, p1) {
+// Calculate and cache plane normal vector
+PlaneConstraint.prototype._calculateNormal = function (index, p0) {
+  var b0 = this.bufferVec3;
   var ii = this.indices;
-  var ai = ii[0], bi = ii[1], ci = ii[2], pi = ii[index + 3];
+  var ai = ii[0], bi = ii[1], ci = ii[2];
 
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
   var bix = bi * 3, biy = bix + 1, biz = bix + 2;
   var cix = ci * 3, ciy = cix + 1, ciz = cix + 2;
-  var pix = pi * 3, piy = pix + 1, piz = pix + 2;
 
   // AB (B -> A)
   var abX = p0[aix] - p0[bix];
@@ -41,34 +41,58 @@ PlaneConstraint.prototype.applyConstraint = function (index, p0, p1) {
   var bcY = p0[ciy] - p0[biy];
   var bcZ = p0[ciz] - p0[biz];
 
-  // N
+  // N (plane normal vector)
   var nX = abY * bcZ - abZ * bcY;
   var nY = abZ * bcX - abX * bcZ;
   var nZ = abX * bcY - abY * bcX;
   var nLenSq = nX * nX + nY * nY + nZ * nZ;
 
+  // AB and BC are parallel
   if (!nLenSq) {
     p0[bix] += 0.1;
     p0[biy] += 0.1;
     p0[biz] += 0.1;
+
+    this._hasNormal = false;
     return;
   }
 
-  // Unit vector N
   var nLenInv = 1 / Math.sqrt(nLenSq);
-  var nuX = nX * nLenInv;
-  var nuY = nY * nLenInv;
-  var nuZ = nZ * nLenInv;
+  b0[0] = nX * nLenInv;
+  b0[1] = nY * nLenInv;
+  b0[2] = nZ * nLenInv;
+
+  this._hasNormal = true;
+};
+
+PlaneConstraint.prototype.applyConstraint = function (index, p0, p1) {
+  var b0 = this.bufferVec3;
+  var ii = this.indices;
+  var bi = ii[1], pi = ii[index + 3];
+
+  var bix = bi * 3, biy = bix + 1, biz = bix + 2;
+  var pix = pi * 3, piy = pix + 1, piz = pix + 2;
+
+  if (index === 0) {
+    this._calculateNormal(index, p0);
+  }
+
+  if (!this._hasNormal) { return; }
+
+  // N (plane normal vector)
+  var nX = b0[0];
+  var nY = b0[1];
+  var nZ = b0[2];
 
   // BP (B -> P)
   var opX = p0[pix] - p0[bix];
   var opY = p0[piy] - p0[biy];
   var opZ = p0[piz] - p0[biz];
 
-  // Project OP onto normal vector N
-  var pt = opX * nuX + opY * nuY + opZ * nuZ;
+  // Project BP onto normal vector N
+  var pt = opX * nX + opY * nY + opZ * nZ;
 
-  p0[pix] -= nuX * pt;
-  p0[piy] -= nuY * pt;
-  p0[piz] -= nuZ * pt;
+  p0[pix] -= nX * pt;
+  p0[piy] -= nY * pt;
+  p0[piz] -= nZ * pt;
 };
