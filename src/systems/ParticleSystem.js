@@ -29,7 +29,7 @@ ParticleSystem.prototype.setPosition = function (i, x, y, z) {
 };
 
 ParticleSystem.prototype.getPosition = function (i, out) {
-  return lib.Vec3.get(this.positions, i, out);
+  return lib.Vec3.copy(this.positions, i, out);
 };
 
 ParticleSystem.prototype.getDistance = function (a, b) {

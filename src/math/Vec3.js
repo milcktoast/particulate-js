@@ -19,12 +19,12 @@ Vec3.set = function (b0, i, x, y, z) {
   b0[iz] = z;
 };
 
-Vec3.get = function (b0, i, out) {
-  var ix = i * 3, iy = ix + 1, iz = ix + 2;
+Vec3.copy = function (b0, ai, out) {
+  var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
 
-  out[0] = b0[ix];
-  out[1] = b0[iy];
-  out[2] = b0[iz];
+  out[0] = b0[aix];
+  out[1] = b0[aiy];
+  out[2] = b0[aiz];
 
   return out;
 };

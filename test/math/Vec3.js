@@ -23,8 +23,8 @@ test('Getting a vector from a float buffer', function () {
   var v1 = [3, 4, 5];
   var buffer = new Float32Array([].concat(v0, v1));
 
-  var b0 = Vec3.get(buffer, 0, Vec3.create());
-  var b1 = Vec3.get(buffer, 1, Vec3.create());
+  var b0 = Vec3.copy(buffer, 0, Vec3.create());
+  var b1 = Vec3.copy(buffer, 1, Vec3.create());
 
   Test.assert.equalArray(b0, v0, 'Should get first vec3.');
   Test.assert.equalArray(b1, v1, 'Should get second vec3.');
