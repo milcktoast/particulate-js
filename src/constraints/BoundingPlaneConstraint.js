@@ -1,6 +1,6 @@
 require('./Constraint');
-lib.PlaneConstraint = PlaneConstraint;
-function PlaneConstraint(origin, normal, distance) {
+lib.BoundingPlaneConstraint = BoundingPlaneConstraint;
+function BoundingPlaneConstraint(origin, normal, distance) {
   this._isGlobal = true;
   this.bufferVec3 = lib.Vec3.create(2);
   this.distance = distance || 0;
@@ -10,20 +10,20 @@ function PlaneConstraint(origin, normal, distance) {
   this.setNormal(normal);
 }
 
-PlaneConstraint.create = lib.ctor(PlaneConstraint);
-PlaneConstraint.prototype = Object.create(lib.Constraint.prototype);
-PlaneConstraint.prototype.constructor = PlaneConstraint;
+BoundingPlaneConstraint.create = lib.ctor(BoundingPlaneConstraint);
+BoundingPlaneConstraint.prototype = Object.create(lib.Constraint.prototype);
+BoundingPlaneConstraint.prototype.constructor = BoundingPlaneConstraint;
 
-PlaneConstraint.prototype.setOrigin = function (x, y, z) {
+BoundingPlaneConstraint.prototype.setOrigin = function (x, y, z) {
   lib.Vec3.set(this.bufferVec3, 0, x, y, z);
 };
 
-PlaneConstraint.prototype.setNormal = function (x, y, z) {
+BoundingPlaneConstraint.prototype.setNormal = function (x, y, z) {
   lib.Vec3.set(this.bufferVec3, 1, x, y, z);
   lib.Vec3.normalize(this.bufferVec3, 1);
 };
 
-PlaneConstraint.prototype.applyConstraint = function (index, p0, p1) {
+BoundingPlaneConstraint.prototype.applyConstraint = function (index, p0, p1) {
   var friction = this.friction;
   var b0 = this.bufferVec3;
   var ix = index, iy = ix + 1, iz = ix + 2;
