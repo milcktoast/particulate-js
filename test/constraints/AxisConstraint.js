@@ -11,9 +11,9 @@ test('Creation', function () {
   var fromArgs = AxisConstraint.create(start, end, a);
   var fromArray = AxisConstraint.create(start, end, indices);
 
-  Test.assert.equalArray(fromArgs.indices, [a],
+  Test.assert.equalArray(fromArgs.indices, [start, end, a],
     'Should create indices from int arguments.');
-  Test.assert.equalArray(fromArray.indices, indices,
+  Test.assert.equalArray(fromArray.indices, [start, end].concat(indices),
     'Should create indices from int array.');
 });
 

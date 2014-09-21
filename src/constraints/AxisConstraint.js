@@ -1,10 +1,10 @@
 require('./Constraint');
 lib.AxisConstraint = AxisConstraint;
-function AxisConstraint(start, end, a) {
+function AxisConstraint(axisA, axisB, a) {
   var size = a.length || 1;
 
-  lib.Constraint.call(this, size, 1);
-  this.setAxis(start, end);
+  lib.Constraint.call(this, size, 1, 2);
+  this.setAxis(axisA, axisB);
   this.setIndices(a);
 }
 
@@ -12,15 +12,16 @@ AxisConstraint.create = lib.ctor(AxisConstraint);
 AxisConstraint.prototype = Object.create(lib.Constraint.prototype);
 AxisConstraint.prototype.constructor = AxisConstraint;
 
-AxisConstraint.prototype.setAxis = function (start, end) {
-  this.start = start;
-  this.end = end;
+AxisConstraint.prototype.setAxis = function (a, b) {
+  var ii = this.indices;
+
+  ii[0] = a;
+  ii[1] = b;
 };
 
 AxisConstraint.prototype.applyConstraint = function (index, p0, p1) {
-  var ai = this.start;
-  var bi = this.indices[index];
-  var ci = this.end;
+  var ii = this.indices;
+  var ai = ii[0], bi = ii[index + 2], ci = ii[1];
 
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
   var bix = bi * 3, biy = bix + 1, biz = bix + 2;

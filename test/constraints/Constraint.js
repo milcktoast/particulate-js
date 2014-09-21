@@ -22,3 +22,19 @@ test('Setting indices', function () {
   Test.assert.equalArray(constraint.indices, indices,
     'Should set indices from array.');
 });
+
+test('Setting indices with index offset', function () {
+  var a = 1, b = 4;
+  var size = 2, itemSize = 1, offset = 3;
+  var indices = [a, b];
+  var expectedIndices = [0, 0, 0, a, b];
+  var constraint = Constraint.create(size, itemSize, offset);
+
+  constraint.setIndices(a, b);
+  Test.assert.equalArray(constraint.indices, expectedIndices,
+    'Should set indices from integers.');
+
+  constraint.setIndices(indices);
+  Test.assert.equalArray(constraint.indices, expectedIndices,
+    'Should set indices from array.');
+});
