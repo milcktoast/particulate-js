@@ -39,11 +39,13 @@
   system.addConstraint(PTCL.AngleConstraint.create(Math.PI * 0.5, angleIndices));
 
   var pinX = 10;
-  var pin0 = PTCL.PointConstraint.create([-pinX, 0, 0], 0);
-  var pin1 = PTCL.PointConstraint.create([ pinX, 0, 0], PARTICLES - 1);
+  var index0 = 0;
+  var index1 = PARTICLES - 1;
+  var pin0 = PTCL.PointConstraint.create([-pinX, 0, 0], index0);
+  var pin1 = PTCL.PointConstraint.create([ pinX, 0, 0], index1);
 
-  system.setWeight(pin0.index, 0);
-  system.setWeight(pin1.index, 0);
+  system.setWeight(index0, 0);
+  system.setWeight(index1, 0);
   system.addPinConstraint(pin0);
   system.addPinConstraint(pin1);
 

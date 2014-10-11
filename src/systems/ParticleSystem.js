@@ -21,6 +21,7 @@ function ParticleSystem(particles, iterations) {
 }
 
 ParticleSystem.create = lib.ctor(ParticleSystem);
+ParticleSystem.prototype.constructor = ParticleSystem;
 
 ParticleSystem.prototype.setPosition = function (i, x, y, z) {
   lib.Vec3.set(this.positions, i, x, y, z);
@@ -28,7 +29,7 @@ ParticleSystem.prototype.setPosition = function (i, x, y, z) {
 };
 
 ParticleSystem.prototype.getPosition = function (i, out) {
-  return lib.Vec3.get(this.positions, i, out);
+  return lib.Vec3.copy(this.positions, i, out);
 };
 
 ParticleSystem.prototype.getDistance = function (a, b) {
@@ -124,7 +125,7 @@ ParticleSystem.prototype.satisfyConstraints = function () {
   var global = this._globalConstraints;
   var local = this._localConstraints;
   var pins = this._pinConstraints;
-  var globalCount = this._count * 3;
+  var globalCount = this._count;
   var globalItemSize = 3;
 
   for (var i = 0; i < iterations; i ++) {
@@ -146,7 +147,7 @@ ParticleSystem.prototype.satisfyConstraintGroup = function (group, count, itemSi
     constraint = group[i];
 
     if (hasUniqueCount) {
-      count = constraint._count || 1;
+      count = constraint._count;
       itemSize = constraint._itemSize;
     }
 

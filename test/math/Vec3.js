@@ -23,9 +23,50 @@ test('Getting a vector from a float buffer', function () {
   var v1 = [3, 4, 5];
   var buffer = new Float32Array([].concat(v0, v1));
 
-  var b0 = Vec3.get(buffer, 0, Vec3.create());
-  var b1 = Vec3.get(buffer, 1, Vec3.create());
+  var b0 = Vec3.copy(buffer, 0, Vec3.create());
+  var b1 = Vec3.copy(buffer, 1, Vec3.create());
 
   Test.assert.equalArray(b0, v0, 'Should get first vec3.');
   Test.assert.equalArray(b1, v1, 'Should get second vec3.');
+});
+
+test('Calculating vector length', function () {
+  var length = 3.742;
+  var v0 = Vec3.create([1, 2, 3]);
+
+  Test.assert.close(Vec3.length(v0, 0), length, 0.01,
+    'Should calculate length.');
+  Test.assert.close(Vec3.lengthSq(v0, 0), length * length, 0.01,
+    'Should calculate squared length.');
+});
+
+test('Calculating vector distance', function () {
+  var length = 1.732;
+  var buffer = Vec3.create([1, 2, 3, 2, 3, 4]);
+
+  Test.assert.close(Vec3.distance(buffer, 0, 1), length, 0.1,
+    'Should calculate distance.');
+  Test.assert.close(Vec3.distanceSq(buffer, 0, 1), length * length, 0.1,
+    'Should calculate squared distance.');
+});
+
+test('Normalizing a vector', function () {
+  var buffer = Vec3.create([1, 10, 5]);
+
+  Vec3.normalize(buffer, 0);
+
+  Test.assert.close(Vec3.length(buffer, 0), 1, 0.01,
+    'Should normalize vector in place.');
+});
+
+test('Calculating vector angle', function () {
+  var angle = 2.145;
+  var buffer = Vec3.create([
+    1, 2, 3,
+    6, 5, 4,
+    7, 8, 9
+  ]);
+
+  Test.assert.close(Vec3.angle(buffer, 0, 1, 2), angle, 0.01,
+    'Should calculate angle between vectors.');
 });

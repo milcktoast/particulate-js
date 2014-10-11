@@ -14,6 +14,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-qunit-istanbul');
+  grunt.loadNpmTasks('grunt-coveralls');
   grunt.loadNpmTasks('grunt-neuter');
 
   grunt.initConfig({
@@ -32,7 +34,9 @@ module.exports = function (grunt) {
       src: {
         options: {
           basePath: config.src,
-          template: '{%= src %}'
+          template: '{%= src %}',
+          sourceRoot: '../',
+          includeSourceMap: false
         },
         src: config.src + 'main.js',
         dest: config.dest + 'particulate.js'
@@ -50,6 +54,30 @@ module.exports = function (grunt) {
         },
         src: config.site + 'js/main.js',
         dest: config.site + 'main-bundle.js'
+      }
+    },
+
+    // TODO: Generate coverage report relative to source files
+    qunit: {
+      main: ['test/index.html'],
+      options: {
+        '--web-security': 'no',
+        coverage: {
+          disposeCollector: true,
+          src: ['dist/particulate.js'],
+          instrumentedFiles: 'test-temp/',
+          htmlReport: 'test-report/coverage',
+          lcovReport: 'test-report/lcov'
+        }
+      },
+    },
+
+    coveralls: {
+      options: {
+        force: true
+      },
+      main: {
+        src: 'test-report/lcov/lcov.info'
       }
     },
 
@@ -95,24 +123,31 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('build', [
+
+  grunt.registerTask('develop', [
     'jshint',
-    'neuter',
+    'neuter'
+  ]);
+
+  grunt.registerTask('build', [
+    'develop',
     'uglify'
   ]);
 
-  grunt.registerTask('develop', function (port) {
-    if (port) {
-      grunt.config('connect.server.options.port', port);
-    }
+  grunt.registerTask('test', [
+    'develop',
+    'qunit',
+    'coveralls'
+  ]);
 
+  grunt.registerTask('server', function (port) {
+    grunt.config('connect.server.options.port', port || 8000);
     grunt.task.run([
-      'jshint',
-      'neuter',
+      'develop',
       'connect',
       'watch'
     ]);
   });
 
-  grunt.registerTask('default', 'develop');
+  grunt.registerTask('default', 'server');
 };

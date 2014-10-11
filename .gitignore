@@ -27,3 +27,7 @@ node_modules
 
 # dist
 dist/*.min.js
+*-bundle.js
+
+# test coverage
+test-report
