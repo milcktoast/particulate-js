@@ -11,9 +11,10 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-qunit-istanbul');
+  grunt.loadNpmTasks('grunt-coveralls');
   grunt.loadNpmTasks('grunt-neuter');
 
   grunt.initConfig({
@@ -32,7 +33,9 @@ module.exports = function (grunt) {
       src: {
         options: {
           basePath: config.src,
-          template: '{%= src %}'
+          template: '{%= src %}',
+          sourceRoot: '../',
+          includeSourceMap: false
         },
         src: config.src + 'main.js',
         dest: config.dest + 'particulate.js'
@@ -46,8 +49,28 @@ module.exports = function (grunt) {
       }
     },
 
+    // TODO: Generate coverage report relative to source files
     qunit: {
-      src: ['test/index.html']
+      main: ['test/index.html'],
+      options: {
+        '--web-security': 'no',
+        coverage: {
+          disposeCollector: true,
+          src: ['dist/particulate.js'],
+          instrumentedFiles: 'test-temp/',
+          htmlReport: 'test-report/coverage',
+          lcovReport: 'test-report/lcov'
+        }
+      },
+    },
+
+    coveralls: {
+      options: {
+        force: true
+      },
+      main: {
+        src: 'test-report/lcov/lcov.info'
+      }
     },
 
     uglify: {
@@ -97,7 +120,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', [
     'develop',
-    'qunit'
+    'qunit',
+    'coveralls'
   ]);
 
   grunt.registerTask('server', function (port) {
