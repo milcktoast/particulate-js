@@ -49,9 +49,9 @@ PlaneConstraint.prototype._calculateNormal = function (index, p0) {
 
   // AB and BC are parallel
   if (!nLenSq) {
-    p0[bix] += 0.1;
+    p0[aix] += 0.1;
     p0[biy] += 0.1;
-    p0[biz] += 0.1;
+    p0[cix] -= 0.1;
 
     this._hasNormal = false;
     return;

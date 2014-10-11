@@ -17,7 +17,7 @@ test('Creation', function () {
     'Should create indices from int array.');
 });
 
-test('Application', function () {
+function testPlane(v0, v1, v2) {
   var system = ParticleSystem.create(10, 10);
   var singleIndex = 3;
   var single = PlaneConstraint.create(0, 1, 2, singleIndex);
@@ -33,13 +33,13 @@ test('Application', function () {
     return 10;
   }
 
-  system.setPosition(0, [25, 15, 10]);
-  system.setPosition(1, [10, 10, 10]);
-  system.setPosition(2, [50, 30, 10]);
+  system.setPosition(0, v0);
+  system.setPosition(1, v1);
+  system.setPosition(2, v2);
 
   system.addConstraint(single);
   system.addConstraint(many);
-  system.tick(1);
+  system.tick(20);
 
   Test.assert.closeArray(many.bufferVec3, [0, 0, 1], 0.1,
     'Should cache plane normal vector.');
@@ -47,4 +47,17 @@ test('Application', function () {
     'Should constrain single set of particles to plane.');
   Test.assert.closeArray(manyIndices.map(getZ), manyIndices.map(returnTen), 0.1,
     'Should constrain multiple sets of particles to plane.');
+}
+
+test('Application', function () {
+  testPlane(
+    [25, 15, 10],
+    [10, 10, 10],
+    [50, 30, 10]);
+
+  // Plane with parallel segments
+  testPlane(
+    [5, 5, 10],
+    [10, 10, 10],
+    [15, 15, 10]);
 });
