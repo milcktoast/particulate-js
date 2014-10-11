@@ -22,23 +22,32 @@ test('Creation', function () {
 // Application
 // -----------
 
-function testAtAngle(angle) {
+function testAtAngle(angle, makePerturbed) {
   var system = Particulate.ParticleSystem.create(3, 50);
   var single = AngleConstraint.create(angle, 0, 1, 2);
 
-  system.perturb(0.5);
+  if (makePerturbed) {
+    system.perturb(0.5);
+  }
+
   system.addConstraint(single);
   system.tick(1);
 
   var approxAngle = ('' + angle).slice(0, 5);
-  Test.assert.close(system.getAngle(0, 1, 2), angle, 0.1,
-    'Should constrain particles to ' + approxAngle + ' radians.');
+  var message = makePerturbed ?
+    'Should constrain particles to ' + approxAngle + ' radians.' :
+    'Should constrain coincident particles to ' + approxAngle + ' radians.';
+
+  Test.assert.close(system.getAngle(0, 1, 2), angle, 0.1, message);
 }
 
 test('Application of angle', function () {
   var angles = 10;
+  var angle;
   for (var i = 0; i < angles; i ++) {
-    testAtAngle(PI * i / (angles - 1));
+    angle = PI * i / (angles - 1);
+    testAtAngle(angle, true);
+    testAtAngle(angle, false);
   }
 });
 
