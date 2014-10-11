@@ -1,8 +1,9 @@
 var Vec3 = lib.Vec3 = {};
 
-Vec3.create = function (count) {
-  var size = (count || 1) * 3;
-  return new Float32Array(size);
+Vec3.create = function (positions) {
+  positions = positions || 1;
+  var isCount = typeof positions === 'number';
+  return new Float32Array(isCount ? positions * 3 : positions);
 };
 
 Vec3.set = function (b0, i, x, y, z) {
