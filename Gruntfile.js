@@ -6,6 +6,7 @@ module.exports = function (grunt) {
     src: 'src/',
     dest: 'dist/',
     test: 'test/',
+    docs: 'docs/',
     lib: 'node_modules/'
   };
 
@@ -13,6 +14,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-yuidoc');
   grunt.loadNpmTasks('grunt-qunit-istanbul');
   grunt.loadNpmTasks('grunt-coveralls');
   grunt.loadNpmTasks('grunt-neuter');
@@ -102,6 +104,16 @@ module.exports = function (grunt) {
           hostname: '*',
           base: '',
           open: true
+        }
+      }
+    },
+
+    yuidoc: {
+      main: {
+        options: {
+          paths: config.src,
+          theme: 'simple',
+          outdir: config.docs
         }
       }
     }
