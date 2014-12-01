@@ -1,7 +1,10 @@
 <a name="props_{{name}}"></a>
 <div class="props item">
   <div class="signature">
-    <code class="name">{{name}}</code> <em class="type">{{#crossLink type}}{{/crossLink}}</em>{{#if final}} <em>(final)</em>{{/if}}{{#if static}} <em>(static)</em>{{/if}}<br>
+    <code class="name">{{name}}</code> <em class="type">{{#crossLink type}}{{/crossLink}}</em>
+    {{#if final}} <em>(final)</em>{{/if}}
+    {{#if static}} <em>(static)</em>{{/if}}
+    {{#if access}}<code class="access">{{access}}</code>{{/if}}
   </div>
   <span class="foundat"><a href="http://github.com/jpweeks/particulate-js/tree/master/{{file}}#L{{line}}">`{{file}}:{{line}}`</a></span>
   {{{propertyDescription}}}
