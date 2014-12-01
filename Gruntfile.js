@@ -3,10 +3,12 @@ module.exports = function (grunt) {
   'use strict';
 
   var config = {
+    version: '0.3.1',
     src: 'src/',
     dest: 'dist/',
     test: 'test/',
     docs: 'docs/',
+    docsTheme: 'docs-theme/',
     lib: 'node_modules/'
   };
 
@@ -94,6 +96,10 @@ module.exports = function (grunt) {
       test: {
         files: [config.test + '**/*', '!' + config.test + 'test-bundle.js'],
         tasks: ['neuter:test']
+      },
+      docs: {
+        files: [config.docsTheme + '**/*'],
+        tasks: ['yuidoc:main']
       }
     },
 
@@ -110,10 +116,14 @@ module.exports = function (grunt) {
 
     yuidoc: {
       main: {
+        name: 'Particulate.js',
+        url: 'particulatejs.org',
+        version: config.version,
         options: {
           paths: config.src,
-          theme: 'simple',
-          outdir: config.docs
+          themedir: config.docsTheme,
+          outdir: config.docs,
+          nocode: true
         }
       }
     }

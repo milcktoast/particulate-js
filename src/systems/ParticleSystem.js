@@ -104,7 +104,7 @@ ParticleSystem.prototype.getDistance = function (a, b) {
 /**
   Alias for `Vec3.Angle`. Calculates angle from `positions`.
 
-  @method getDistance
+  @method getAngle
   @param  {Int}   a  Particle index
   @param  {Int}   b  Particle index
   @param  {Int}   c  Particle index
