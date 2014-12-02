@@ -98,7 +98,7 @@ module.exports = function (grunt) {
         tasks: ['neuter:test']
       },
       docs: {
-        files: [config.docsTheme + '**/*'],
+        files: [config.src + '**/*', config.docsTheme + '**/*'],
         tasks: ['yuidoc:main']
       }
     },
@@ -151,7 +151,8 @@ module.exports = function (grunt) {
     grunt.task.run([
       'develop',
       'connect',
-      'watch'
+      'watch:src',
+      'watch:test'
     ]);
   });
 
