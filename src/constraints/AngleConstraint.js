@@ -1,5 +1,35 @@
+// ..................................................
+// AngleConstraint
+// ..................................................
+
 require('./Constraint');
 lib.AngleConstraint = AngleConstraint;
+
+/**
+  Defines one or many relationships between sets of three particles.
+
+  ```javascript
+  var a = 0, b = 1, c = 2;
+  var single = AngleConstraint.create(Math.PI, a, b, c);
+  var many = AngleConstraint.create(Math.PI, [a, b, c, b, c, a]);
+  ```
+
+  Particles are constrained by a fixed angle or a angle range.
+
+  ```javascript
+  var min = Math.PI * 0.25, max = Math.PI * 0.5;
+  var fixed = AngleConstraint.create(max, 0, 1, 2);
+  var range = AngleConstraint.create([min, max], 0, 1, 2);
+  ```
+
+  @class AngleConstraint
+  @extends Constraint
+  @constructor
+  @param {Float|Array}  angle  Angle or angle range `[min, max]` between particles
+  @param {Int|Array}    a      Particle index or list of many constraint sets
+  @param {Int}         [b]     Particle index (only used if `a` is not an array)
+  @param {Int}         [c]     Particle index (only used if `a` is not an array)
+*/
 function AngleConstraint(angle, a, b, c) {
   var size = a.length || arguments.length - 1;
   var min = angle.length ? angle[0] : angle;
@@ -10,29 +40,83 @@ function AngleConstraint(angle, a, b, c) {
   this.setIndices(a, b, c);
 }
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
 AngleConstraint.create = lib.ctor(AngleConstraint);
 AngleConstraint.prototype = Object.create(lib.Constraint.prototype);
 AngleConstraint.prototype.constructor = AngleConstraint;
 
+/**
+  Set angle
+
+  @method setAngle
+  @param {Float}  min
+  @param {Float} [max]
+*/
 AngleConstraint.prototype.setAngle = function (min, max) {
   max = max != null ? max : min;
   this.setMin(min);
   this.setMax(max);
 };
 
+/**
+  Set minimum angle
+
+  @method setMin
+  @param {Float} min
+*/
 AngleConstraint.prototype.setMin = function (min) {
   this._min = this.clampAngle(min);
 };
 
+/**
+  Minimum angle
+
+  @property _min
+  @type Float
+  @private
+*/
+AngleConstraint.prototype._min = null;
+
+/**
+  Set maximum angle
+
+  @method setMax
+  @param {Float} max
+*/
 AngleConstraint.prototype.setMax = function (max) {
   this._max = this.clampAngle(max);
 };
+
+/**
+  Maximum angle
+
+  @property _max
+  @type Float
+  @private
+*/
+AngleConstraint.prototype._max = null;
 
 AngleConstraint.prototype.clampAngle = function (angle) {
   var p = 0.0000001;
   return lib.Math.clamp(p, Math.PI - p, angle);
 };
 
+/**
+  Angle used to classify obtuse angles in constraint solver. For accute angles,
+  only particles `a` and `c` are repositioned to satisfy the particle set's
+  target angle. For obtuse angles, particle `b` is also repositioned.
+
+  @property ANGLE_OBTUSE
+  @type Float
+  @default 3/4 PI
+  @static
+  @private
+*/
 AngleConstraint.ANGLE_OBTUSE = Math.PI * 0.75;
 
 // TODO: Optimize, reduce usage of Math.sqrt
