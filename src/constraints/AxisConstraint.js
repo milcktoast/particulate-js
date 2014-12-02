@@ -1,5 +1,29 @@
+// ..................................................
+// AxisConstraint
+// ..................................................
+
 require('./Constraint');
 lib.AxisConstraint = AxisConstraint;
+
+/**
+  Defines one or many relationships between axis and single particles.
+
+  Particles are constrained to axis defined by segment `[axisA -> axisB]`.
+
+  ```javascript
+  var axisA = 0, axisB = 1;
+  var a = 2, b = 3, c = 4;
+  var single = AxisConstraint.create(axisA, axisB, a);
+  var many = AxisConstraint.create(axisA, axisB, [a, b, c]);
+  ```
+
+  @class AxisConstraint
+  @extends Constraint
+  @constructor
+  @param {Int}       axisA  Particle index defining start of axis
+  @param {Int}       axisB  Particle index defining end of axis
+  @param {Int|Array} a      Particle index or list of many indices
+*/
 function AxisConstraint(axisA, axisB, a) {
   var size = a.length || 1;
 
@@ -8,10 +32,23 @@ function AxisConstraint(axisA, axisB, a) {
   this.setIndices(a);
 }
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
 AxisConstraint.create = lib.ctor(AxisConstraint);
 AxisConstraint.prototype = Object.create(lib.Constraint.prototype);
 AxisConstraint.prototype.constructor = AxisConstraint;
 
+/**
+  Set particles defining constraint axis
+
+  @method setAxis
+  @param {Int} a  Particle index defining start of axis
+  @param {Int} b  Particle index defining end of axis
+*/
 AxisConstraint.prototype.setAxis = function (a, b) {
   var ii = this.indices;
 
