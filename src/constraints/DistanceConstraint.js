@@ -1,5 +1,34 @@
+// ..................................................
+// DistanceConstraint
+// ..................................................
+
 require('./Constraint');
 lib.DistanceConstraint = DistanceConstraint;
+
+/**
+  Defines one or many relationships between sets of two particles.
+
+  ```javascript
+  var a = 0, b = 1, c = 2;
+  var single = DistanceConstraint.create(10, a, b);
+  var many = DistanceConstraint.create(10, [a, b, a, c]);
+  ```
+
+  Particles are constrained by a fixed distance or a distance range.
+
+  ```javascript
+  var min = 0.5, max = 2.5;
+  var fixed = DistanceConstraint.create(max, 0, 1);
+  var range = DistanceConstraint.create([min, max], 0, 1);
+  ```
+
+  @class DistanceConstraint
+  @extends Constraint
+  @constructor
+  @param {Float|Array}  distance  Distance or distance range `[min, max]` between particles
+  @param {Int|Array}    a         Particle index or list of many constraint sets
+  @param {Int}         [b]        Particle index (only used if `a` is not an array)
+*/
 function DistanceConstraint(distance, a, b) {
   var size = a.length || arguments.length - 1;
   var min = distance.length ? distance[0] : distance;
@@ -10,22 +39,65 @@ function DistanceConstraint(distance, a, b) {
   this.setIndices(a, b);
 }
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
 DistanceConstraint.create = lib.ctor(DistanceConstraint);
 DistanceConstraint.prototype = Object.create(lib.Constraint.prototype);
 DistanceConstraint.prototype.constructor = DistanceConstraint;
 
+/**
+  Set distance
+
+  @method setDistance
+  @param {Float}  min
+  @param {Float} [max]
+*/
 DistanceConstraint.prototype.setDistance = function (min, max) {
   this.setMin(min);
   this.setMax(max != null ? max : min);
 };
 
+/**
+  Set minimum distance
+
+  @method setMin
+  @param {Float} min
+*/
 DistanceConstraint.prototype.setMin = function (min) {
   this._min2 = min * min;
 };
 
+/**
+  Cached value of minimum distance squared
+
+  @property _min2
+  @type Float
+  @private
+*/
+DistanceConstraint.prototype._min2 = null;
+
+/**
+  Set maximum distance
+
+  @method setMax
+  @param {Float} max
+*/
 DistanceConstraint.prototype.setMax = function (max) {
   this._max2 = max * max;
 };
+
+/**
+  Cached value of maximum distance squared
+
+  @property _max2
+  @type Float
+  @private
+*/
+DistanceConstraint.prototype._max2 = null;
 
 DistanceConstraint.prototype.applyConstraint = function (index, p0, p1) {
   var ii = this.indices;
