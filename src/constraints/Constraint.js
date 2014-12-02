@@ -76,3 +76,17 @@ Constraint.prototype.setIndices = function (indices) {
     ii[i + offset] = inx[i];
   }
 };
+
+/**
+  Apply constraint to one set of particles defining a constrint relation.
+  Called `_count` times per relaxation loop.
+
+  @method applyConstraint
+  @param {Int}                 index  Constraint set index
+  @param {Float32Array (Vec3)} p0     Reference to
+    {{#crossLink "ParticleSystem/positions:property"}}`ParticleSystem.positions`{{/crossLink}}
+  @param {Float32Array (Vec3)} p1     Reference to
+    {{#crossLink "ParticleSystem/positionsPrev:property"}}`ParticleSystem.positionsPrev`{{/crossLink}}
+  @private
+*/
+Constraint.prototype.applyConstraint = function (index, p0, p1) {};
