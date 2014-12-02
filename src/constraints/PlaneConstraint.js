@@ -1,5 +1,30 @@
+// ..................................................
+// PlaneConstraint
+// ..................................................
+
 require('./Constraint');
 lib.PlaneConstraint = PlaneConstraint;
+
+/**
+  Defines one or many relationships between plane and single particles.
+
+  Particles are constrained to 3-point plane defined by `[planeA, planeB, planeC]`.
+
+  ```javascript
+  var planeA = 0, planeB = 1, planeC = 2;
+  var a = 3, b = 4, c = 5;
+  var single = PlaneConstraint.create(planeA, planeB, planeC, a);
+  var many = PlaneConstraint.create(planeA, planeB, planeC, [a, b, c]);
+  ```
+
+  @class PlaneConstraint
+  @extends Constraint
+  @constructor
+  @param {Int}       planeA  Particle index defining point on plane
+  @param {Int}       planeB  Particle index defining point on plane
+  @param {Int}       planeC  Particle index defining point on plane
+  @param {Int|Array} a       Particle index or list of many indices
+*/
 function PlaneConstraint(planeA, planeB, planeC, a) {
   var size = a.length || 1;
 
@@ -9,10 +34,24 @@ function PlaneConstraint(planeA, planeB, planeC, a) {
   this.setIndices(a);
 }
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
 PlaneConstraint.create = lib.ctor(PlaneConstraint);
 PlaneConstraint.prototype = Object.create(lib.Constraint.prototype);
 PlaneConstraint.prototype.constructor = PlaneConstraint;
 
+/**
+  Set particles defining constraint plane
+
+  @method setPlane
+  @param {Int} a  Particle index point on plane
+  @param {Int} b  Particle index point on plane
+  @param {Int} c  Particle index point on plane
+*/
 PlaneConstraint.prototype.setPlane = function (a, b, c) {
   var ii = this.indices;
 
@@ -21,7 +60,16 @@ PlaneConstraint.prototype.setPlane = function (a, b, c) {
   ii[2] = c;
 };
 
-// Calculate and cache plane normal vector
+/**
+  Calculate and cache plane normal vector.
+  Calculated once per relaxation loop iteration.
+
+  @method _calculateNormal
+  @param {Int}                 index  Constraint set index
+  @param {Float32Array (Vec3)} p0     Reference to
+    {{#crossLink "ParticleSystem/positions:property"}}`ParticleSystem.positions`{{/crossLink}}
+  @private
+*/
 PlaneConstraint.prototype._calculateNormal = function (index, p0) {
   var b0 = this.bufferVec3;
   var ii = this.indices;
@@ -64,6 +112,15 @@ PlaneConstraint.prototype._calculateNormal = function (index, p0) {
 
   this._hasNormal = true;
 };
+
+/**
+  State of constraint's plane normal resolution
+
+  @property _hasNormal
+  @type Bool
+  @private
+*/
+PlaneConstraint.prototype._hasNormal = false;
 
 PlaneConstraint.prototype.applyConstraint = function (index, p0, p1) {
   var b0 = this.bufferVec3;
