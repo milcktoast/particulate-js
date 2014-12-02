@@ -52,14 +52,36 @@ function ParticleSystem(particles, iterations) {
   this.weights = new Float32Array(count);
   this.setWeights(1);
 
+  /**
+    Number of constraint relaxation loop iterations
+
+    @property _iterations
+    @type Int
+    @private
+  */
   this._iterations = iterations || 1;
+
+  /**
+    Number of particles in system
+
+    @property _count
+    @type Int
+    @private
+  */
   this._count = count;
+
   this._globalConstraints = [];
   this._localConstraints = [];
   this._pinConstraints = [];
   this._forces = [];
 }
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
 ParticleSystem.create = lib.ctor(ParticleSystem);
 ParticleSystem.prototype.constructor = ParticleSystem;
 
@@ -102,7 +124,7 @@ ParticleSystem.prototype.getDistance = function (a, b) {
 };
 
 /**
-  Alias for `Vec3.Angle`. Calculates angle from `positions`.
+  Alias for `Vec3.angle`. Calculates angle from `positions`.
 
   @method getAngle
   @param  {Int}   a  Particle index
