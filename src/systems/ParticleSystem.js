@@ -5,8 +5,11 @@
 lib.ParticleSystem = ParticleSystem;
 
 /**
-  `ParticleSystem` is responsible for managing particle state
-  as well as the forces and constraints that act on its particles.
+  @module systems
+*/
+
+/**
+  Manages particle state as well as the forces and constraints that act on its particles.
 
   @class ParticleSystem
   @constructor
