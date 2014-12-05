@@ -92,12 +92,14 @@ h4 {
 h5, h6 { font-size: 107.692%; }
 
 /* -- Code and examples ----------------------------------------------------- */
+.flag,
 code, kbd, pre, samp {
   font-family: Monaco, monospace;
   font-size: 92.308%;
   line-height: 1.35;
 }
 
+p .flag,
 p code, p kbd, p samp, li code {
   background: #111;
   border: 1px solid #444;
@@ -112,9 +114,8 @@ pre.code, pre.terminal, pre.cmd {
 }
 
 pre.code {
-  background: #FCFBFA;
-  border: 1px solid #EFEEED;
-  border-left-width: 5px;
+  border-left: 5px solid #444;
+  padding: 4px 12px;
 }
 
 pre.terminal, pre.cmd {
@@ -180,7 +181,7 @@ th {
 }
 
 #main { width: 754px; }
-#sidebar { width: 270px; margin: 0 15px; }
+#sidebar { width: 270px; margin: 0 15px 20px; }
 
 .content { padding: 0 20px 0 25px; }
 
@@ -217,6 +218,10 @@ th {
 .sidebox a:hover {
   background: #111;
   color: #fff;
+}
+
+.sidebox .flag {
+  border-color: #444;
 }
 
 /* -- Table of Contents ----------------------------------------------------- */
@@ -334,6 +339,10 @@ a.external {
   padding: 0 0 0 10px;
 }
 
+.params ul {
+  padding: 0 0 0 20px;
+}
+
 .params li {
   margin: 0.2em 0;
 }
@@ -342,9 +351,7 @@ a.external {
   margin: 0;
 }
 
-.props .type,
-.method .type,
-.params .type {
+.type {
   border-bottom: 1px dotted #444;
   color: #777;
   display: inline-block;
@@ -353,6 +360,13 @@ a.external {
   margin: 0 4px;
 }
 
+.type:hover {
+  border-color: #00e5e8;
+}
+
+.type a {
+  text-decoration: none;
+}
 
 .method .description {
   display: inline-block;
@@ -384,17 +398,6 @@ abbr {
   cursor: help;
 }
 
-.prettyprint li.L0,
-.prettyprint li.L1,
-.prettyprint li.L2,
-.prettyprint li.L3,
-.prettyprint li.L5,
-.prettyprint li.L6,
-.prettyprint li.L7,
-.prettyprint li.L8 {
-  list-style: decimal;
-}
-
 ul {
   margin: 0.4em 0;
 }
@@ -409,11 +412,33 @@ ul li p {
   margin-top: 0;
 }
 
+.module-meta {
+  font-size: 11px;
+}
+
+.module-classes {
+  border-top: 1px solid #fff;
+  padding: 0;
+  list-style: none;
+}
+
+.module-classes a {
+  border-bottom: 1px solid #444;
+  color: #ccc;
+  display: block;
+  padding: 8px 6px;
+}
+
+.module-classes a:hover {
+  background: #111;
+  color: #fff;
+}
+
 .method-args {
   background: #111;
 }
 
-.access {
+.flag {
   background: #111;
   border: 1px solid #e30060;
   border-radius: 2px;
@@ -439,3 +464,5 @@ ul li p {
   vertical-align: middle;
 }
 
+.hljs-keyword { color: #888; }
+.hljs-number { color: #fff; }

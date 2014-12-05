@@ -1,23 +1,28 @@
-<h2 class="module-name">{{moduleName}} Class</h2>
-{{#if uses}}
-  Uses:
-  {{#each uses}}
-    <a href="{{this}}.html">{{this}}</a>
-  {{/each}}
-  <br>
-{{/if}}
-{{#if extension_for}}
-  Extension For:
-  {{#each extension_for}}
-    <a href="{{this}}.html">{{this}}</a>
-  {{/each}}
-  <br>
-{{/if}}
-{{#if extends}}
-  Extends: {{#crossLink extends}}{{/crossLink}}<br>
-{{/if}}
-<span class="foundat">Defined in: <a href="http://github.com/jpweeks/particulate-js/tree/master/{{file}}#L{{line}}">`{{file}}:{{line}}`</a></span>
-<div class="intro">{{{classDescription}}}</div>
+<h2 class="module-name">{{moduleName}}</h2>
+<div class="module-meta">
+  {{#if uses}}
+    Uses:
+    {{#each uses}}
+      <a href="{{this}}.html">{{this}}</a>
+    {{/each}}
+    <br>
+  {{/if}}
+  {{#if extension_for}}
+    Extension For:
+    {{#each extension_for}}
+      <a href="{{this}}.html">{{this}}</a>
+    {{/each}}
+    <br>
+  {{/if}}
+  {{#if extends}}
+    Extends: {{#crossLink extends}}{{/crossLink}}<br>
+  {{/if}}
+  <span class="foundat">Defined in: <a href="http://github.com/jpweeks/particulate-js/tree/master/{{file}}#L{{line}}">`{{file}}:{{line}}`</a></span>
+</div>
+
+<div class="intro">
+  {{{classDescription}}}
+</div>
 
 {{#if is_constructor}}
   {{#is_constructor}}

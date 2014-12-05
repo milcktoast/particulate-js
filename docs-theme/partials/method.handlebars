@@ -3,7 +3,9 @@
   <div class="signature">
     {{#if final}}<code>final</code> {{/if}}
     <code class="name">{{name}}</code>( <code class="method-args">{{paramsList}}</code> )
-    {{#if access}}<code class="access">{{access}}</code>{{/if}}
+    {{#if access}}<span class="flag access">{{access}}</span>{{/if}}
+    {{#if static}}<span class="flag static">static</span>{{/if}}
+    {{#if deprecated}}<span class="flag deprecated">deprecated</span>{{/if}}
     {{#if returnType}}<em class="type">{{#crossLink returnType}}{{/crossLink}}</em>{{/if}}
   </div>
   <span class="foundat">
@@ -33,11 +35,17 @@
     {{#if props}}
       <ul>
       {{#props}}
-        <li>`{{name}}` <em class="type">{{#crossLink type}}{{/crossLink}}</em> {{{description}}}
+        <li>`{{name}}` <em class="type">{{#crossLink type}}{{/crossLink}}</em>
+          <div class="description">
+            {{{description}}}
+          </div>
         {{#if props}}
           <ul>
             {{#props}}
-              <li>`{{name}}` <em class="type">&lt;{{#crossLink type}}{{/crossLink}}</em> {{{description}}} </li>
+              <li>`{{name}}` <em class="type">{{#crossLink type}}{{/crossLink}}</em>
+              <div class="description">
+                {{{description}}}
+              </div>
             {{/props}}
           </ul>
         {{/if}}
