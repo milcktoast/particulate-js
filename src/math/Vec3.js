@@ -1,11 +1,43 @@
+// ..................................................
+// Vec3
+// ..................................................
+
 var Vec3 = lib.Vec3 = {};
 
+/**
+  @module math
+*/
+
+/**
+  Vector utilities.
+
+  @class Vec3
+  @static
+*/
+
+/**
+  @method create
+  @static
+  @param  {Int|Array}    positions  Number of vectors or array of initial values
+  @return {Float32Array} Vec3 buffer
+*/
 Vec3.create = function (positions) {
   positions = positions || 1;
   var isCount = typeof positions === 'number';
   return new Float32Array(isCount ? positions * 3 : positions);
 };
 
+/**
+  Set single vector in buffer
+
+  @method set
+  @static
+  @param {Array}        b0  Vec3 buffer
+  @param {Int}          i   Vector index
+  @param {Array|Float}  x   Vector or x component value
+  @param {Float}       [y]
+  @param {Float}       [z]
+*/
 Vec3.set = function (b0, i, x, y, z) {
   var ix = i * 3, iy = ix + 1, iz = ix + 2;
 
@@ -20,6 +52,13 @@ Vec3.set = function (b0, i, x, y, z) {
   b0[iz] = z;
 };
 
+/**
+  @method copy
+  @static
+  @param {Array} b0   Vec3 buffer
+  @param {Int}   ai   Vector index
+  @param {Array} out  Destination vector
+*/
 Vec3.copy = function (b0, ai, out) {
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
 
@@ -30,6 +69,13 @@ Vec3.copy = function (b0, ai, out) {
   return out;
 };
 
+/**
+  @method lengthSq
+  @static
+  @param  {Array} b0   Vec3 buffer
+  @param  {Int}   ai   Vector index
+  @return {Float} Squared length of vector
+*/
 Vec3.lengthSq = function (b0, ai) {
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
   var x = b0[aix];
@@ -39,6 +85,13 @@ Vec3.lengthSq = function (b0, ai) {
   return x * x + y * y + z * z;
 };
 
+/**
+  @method length
+  @static
+  @param  {Array} b0   Vec3 buffer
+  @param  {Int}   ai   Vector index
+  @return {Float} Length of vector
+*/
 Vec3.length = function (b0, ai) {
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
   var x = b0[aix];
@@ -48,6 +101,14 @@ Vec3.length = function (b0, ai) {
   return Math.sqrt(x * x + y * y + z * z);
 };
 
+/**
+  @method distanceSq
+  @static
+  @param  {Array} b0   Vec3 buffer
+  @param  {Int}   ai   Vector index a
+  @param  {Int}   bi   Vector index b
+  @return {Float} Squared distance from a to b
+*/
 Vec3.distanceSq = function (b0, ai, bi) {
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
   var bix = bi * 3, biy = bix + 1, biz = bix + 2;
@@ -59,6 +120,14 @@ Vec3.distanceSq = function (b0, ai, bi) {
   return dx * dx + dy * dy + dz * dz;
 };
 
+/**
+  @method distance
+  @static
+  @param  {Array} b0   Vec3 buffer
+  @param  {Int}   ai   Vector index a
+  @param  {Int}   bi   Vector index b
+  @return {Float} Distance from a to b
+*/
 Vec3.distance = function (b0, ai, bi) {
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
   var bix = bi * 3, biy = bix + 1, biz = bix + 2;
@@ -70,6 +139,14 @@ Vec3.distance = function (b0, ai, bi) {
   return Math.sqrt(dx * dx + dy * dy + dz * dz);
 };
 
+/**
+  Normalize vector in place
+
+  @method normalize
+  @static
+  @param {Array} b0  Vec3 buffer
+  @param {Int}   ai  Vector index a
+*/
 Vec3.normalize = function (b0, ai) {
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
   var x = b0[aix];
@@ -82,6 +159,17 @@ Vec3.normalize = function (b0, ai) {
   b0[aiz] *= lenInv;
 };
 
+/**
+  Calculate angle between segments `ab` and `bc`
+
+  @method angle
+  @static
+  @param  {Array} b0   Vec3 buffer
+  @param  {Int}   ai   Vector index a
+  @param  {Int}   bi   Vector index b
+  @param  {Int}   ci   Vector index c
+  @return {Float} Angle in radians
+*/
 Vec3.angle = function (b0, ai, bi, ci) {
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
   var bix = bi * 3, biy = bix + 1, biz = bix + 2;
