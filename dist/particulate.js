@@ -1,9 +1,9 @@
-// Particulate.js 0.3.0
+// Particulate.js 0.3.1
 // ====================
 
 (function () {
   'use strict';
-  var lib = {VERSION : '0.3.0'};
+  var lib = {VERSION : '0.3.1'};
 
 
 var Collection = lib.Collection = {};
@@ -38,9 +38,10 @@ lib.Math.clamp = function (min, max, v) {
 
 var Vec3 = lib.Vec3 = {};
 
-Vec3.create = function (count) {
-  var size = (count || 1) * 3;
-  return new Float32Array(size);
+Vec3.create = function (positions) {
+  positions = positions || 1;
+  var isCount = typeof positions === 'number';
+  return new Float32Array(isCount ? positions * 3 : positions);
 };
 
 Vec3.set = function (b0, i, x, y, z) {
@@ -57,12 +58,12 @@ Vec3.set = function (b0, i, x, y, z) {
   b0[iz] = z;
 };
 
-Vec3.get = function (b0, i, out) {
-  var ix = i * 3, iy = ix + 1, iz = ix + 2;
+Vec3.copy = function (b0, ai, out) {
+  var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
 
-  out[0] = b0[ix];
-  out[1] = b0[iy];
-  out[2] = b0[iz];
+  out[0] = b0[aix];
+  out[1] = b0[aiy];
+  out[2] = b0[aiz];
 
   return out;
 };
@@ -168,6 +169,7 @@ function DirectionalForce(vector) {
 
 DirectionalForce.create = lib.ctor(DirectionalForce);
 DirectionalForce.prototype = Object.create(lib.Force.prototype);
+DirectionalForce.prototype.constructor = DirectionalForce;
 
 DirectionalForce.prototype.applyForce = function (ix, f0, p0, p1) {
   var v0 = this.vector;
@@ -191,6 +193,7 @@ var pf_ATTRACTOR_REPULSOR = lib.Force.ATTRACTOR_REPULSOR;
 
 PointForce.create = lib.ctor(PointForce);
 PointForce.prototype = Object.create(lib.Force.prototype);
+PointForce.prototype.constructor = PointForce;
 
 PointForce.prototype.setRadius = function (r) {
   this._radius2 = r * r;
@@ -232,20 +235,23 @@ PointForce.prototype.applyForce = function (ix, f0, p0, p1) {
 
 
 lib.Constraint = Constraint;
-function Constraint(size, itemSize) {
-  this.indices = new Uint16Array(size);
+function Constraint(size, itemSize, indexOffset) {
+  indexOffset = indexOffset || 0;
+  this.indices = new Uint16Array(size + indexOffset);
   this._count = size / itemSize;
   this._itemSize = itemSize;
+  this._offset = indexOffset;
 }
 
 Constraint.create = lib.ctor(Constraint);
 
 Constraint.prototype.setIndices = function (indices) {
+  var offset = this._offset;
   var inx = indices.length ? indices : arguments;
   var ii = this.indices;
 
   for (var i = 0; i < inx.length; i ++) {
-    ii[i] = inx[i];
+    ii[i + offset] = inx[i];
   }
 };
 
@@ -263,6 +269,7 @@ function AngleConstraint(angle, a, b, c) {
 
 AngleConstraint.create = lib.ctor(AngleConstraint);
 AngleConstraint.prototype = Object.create(lib.Constraint.prototype);
+AngleConstraint.prototype.constructor = AngleConstraint;
 
 AngleConstraint.prototype.setAngle = function (min, max) {
   max = max != null ? max : min;
@@ -401,26 +408,28 @@ AngleConstraint.prototype.applyConstraint = function (index, p0, p1) {
 
 
 lib.AxisConstraint = AxisConstraint;
-function AxisConstraint(start, end, a) {
+function AxisConstraint(axisA, axisB, a) {
   var size = a.length || 1;
 
-  lib.Constraint.call(this, size, 1);
-  this.setAxis(start, end);
+  lib.Constraint.call(this, size, 1, 2);
+  this.setAxis(axisA, axisB);
   this.setIndices(a);
 }
 
 AxisConstraint.create = lib.ctor(AxisConstraint);
 AxisConstraint.prototype = Object.create(lib.Constraint.prototype);
+AxisConstraint.prototype.constructor = AxisConstraint;
 
-AxisConstraint.prototype.setAxis = function (start, end) {
-  this.start = start;
-  this.end = end;
+AxisConstraint.prototype.setAxis = function (a, b) {
+  var ii = this.indices;
+
+  ii[0] = a;
+  ii[1] = b;
 };
 
 AxisConstraint.prototype.applyConstraint = function (index, p0, p1) {
-  var ai = this.start;
-  var bi = this.indices[index];
-  var ci = this.end;
+  var ii = this.indices;
+  var ai = ii[0], bi = ii[index + 2], ci = ii[1];
 
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
   var bix = bi * 3, biy = bix + 1, biz = bix + 2;
@@ -457,6 +466,59 @@ AxisConstraint.prototype.applyConstraint = function (index, p0, p1) {
 };
 
 
+lib.BoundingPlaneConstraint = BoundingPlaneConstraint;
+function BoundingPlaneConstraint(origin, normal, distance) {
+  this._isGlobal = true;
+  this.bufferVec3 = lib.Vec3.create(2);
+  this.distance = distance || 0;
+  this.friction = 0.05;
+
+  this.setOrigin(origin);
+  this.setNormal(normal);
+}
+
+BoundingPlaneConstraint.create = lib.ctor(BoundingPlaneConstraint);
+BoundingPlaneConstraint.prototype = Object.create(lib.Constraint.prototype);
+BoundingPlaneConstraint.prototype.constructor = BoundingPlaneConstraint;
+
+BoundingPlaneConstraint.prototype.setOrigin = function (x, y, z) {
+  lib.Vec3.set(this.bufferVec3, 0, x, y, z);
+};
+
+BoundingPlaneConstraint.prototype.setNormal = function (x, y, z) {
+  lib.Vec3.set(this.bufferVec3, 1, x, y, z);
+  lib.Vec3.normalize(this.bufferVec3, 1);
+};
+
+BoundingPlaneConstraint.prototype.applyConstraint = function (index, p0, p1) {
+  var friction = this.friction;
+  var b0 = this.bufferVec3;
+  var ix = index, iy = ix + 1, iz = ix + 2;
+
+  // OP (O -> P)
+  var opX = p0[ix] - b0[0];
+  var opY = p0[iy] - b0[1];
+  var opZ = p0[iz] - b0[2];
+
+  // N
+  var nX = b0[3];
+  var nY = b0[4];
+  var nZ = b0[5];
+
+  // Project OP onto normal vector N
+  var pt = opX * nX + opY * nY + opZ * nZ;
+  if (pt > this.distance) { return; }
+
+  p0[ix] -= nX * pt;
+  p0[iy] -= nY * pt;
+  p0[iz] -= nZ * pt;
+
+  p1[ix] -= (p1[ix] - p0[ix]) * friction;
+  p1[iy] -= (p1[iy] - p0[iy]) * friction;
+  p1[iz] -= (p1[iz] - p0[iz]) * friction;
+};
+
+
 lib.BoxConstraint = BoxConstraint;
 function BoxConstraint(min, max) {
   this._isGlobal = true;
@@ -468,6 +530,7 @@ function BoxConstraint(min, max) {
 
 BoxConstraint.create = lib.ctor(BoxConstraint);
 BoxConstraint.prototype = Object.create(lib.Constraint.prototype);
+BoxConstraint.prototype.constructor = BoxConstraint;
 
 BoxConstraint.prototype.setBounds = function (min, max) {
   this.setMin(min);
@@ -520,12 +583,11 @@ function DistanceConstraint(distance, a, b) {
 
 DistanceConstraint.create = lib.ctor(DistanceConstraint);
 DistanceConstraint.prototype = Object.create(lib.Constraint.prototype);
+DistanceConstraint.prototype.constructor = DistanceConstraint;
 
 DistanceConstraint.prototype.setDistance = function (min, max) {
-  var min2 = min * min;
-  var max2 = max != null ? max * max : min2;
-  this._min2 = min2;
-  this._max2 = max2;
+  this.setMin(min);
+  this.setMax(max != null ? max : min);
 };
 
 DistanceConstraint.prototype.setMin = function (min) {
@@ -573,54 +635,101 @@ DistanceConstraint.prototype.applyConstraint = function (index, p0, p1) {
 
 
 lib.PlaneConstraint = PlaneConstraint;
-function PlaneConstraint(origin, normal, distance) {
-  this._isGlobal = true;
-  this.bufferVec3 = lib.Vec3.create(2);
-  this.distance = distance || 0;
-  this.friction = 0.05;
+function PlaneConstraint(planeA, planeB, planeC, a) {
+  var size = a.length || 1;
 
-  this.setOrigin(origin);
-  this.setNormal(normal);
+  lib.Constraint.call(this, size, 1, 3);
+  this.bufferVec3 = lib.Vec3.create(1);
+  this.setPlane(planeA, planeB, planeC);
+  this.setIndices(a);
 }
 
 PlaneConstraint.create = lib.ctor(PlaneConstraint);
 PlaneConstraint.prototype = Object.create(lib.Constraint.prototype);
+PlaneConstraint.prototype.constructor = PlaneConstraint;
 
-PlaneConstraint.prototype.setOrigin = function (x, y, z) {
-  lib.Vec3.set(this.bufferVec3, 0, x, y, z);
+PlaneConstraint.prototype.setPlane = function (a, b, c) {
+  var ii = this.indices;
+
+  ii[0] = a;
+  ii[1] = b;
+  ii[2] = c;
 };
 
-PlaneConstraint.prototype.setNormal = function (x, y, z) {
-  lib.Vec3.set(this.bufferVec3, 1, x, y, z);
-  lib.Vec3.normalize(this.bufferVec3, 1);
+// Calculate and cache plane normal vector
+PlaneConstraint.prototype._calculateNormal = function (index, p0) {
+  var b0 = this.bufferVec3;
+  var ii = this.indices;
+  var ai = ii[0], bi = ii[1], ci = ii[2];
+
+  var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
+  var bix = bi * 3, biy = bix + 1, biz = bix + 2;
+  var cix = ci * 3, ciy = cix + 1, ciz = cix + 2;
+
+  // AB (B -> A)
+  var abX = p0[aix] - p0[bix];
+  var abY = p0[aiy] - p0[biy];
+  var abZ = p0[aiz] - p0[biz];
+
+  // BC (B -> C)
+  var bcX = p0[cix] - p0[bix];
+  var bcY = p0[ciy] - p0[biy];
+  var bcZ = p0[ciz] - p0[biz];
+
+  // N (plane normal vector)
+  var nX = abY * bcZ - abZ * bcY;
+  var nY = abZ * bcX - abX * bcZ;
+  var nZ = abX * bcY - abY * bcX;
+  var nLenSq = nX * nX + nY * nY + nZ * nZ;
+
+  // AB and BC are parallel
+  if (!nLenSq) {
+    p0[aix] += 0.1;
+    p0[biy] += 0.1;
+    p0[cix] -= 0.1;
+
+    this._hasNormal = false;
+    return;
+  }
+
+  var nLenInv = 1 / Math.sqrt(nLenSq);
+  b0[0] = nX * nLenInv;
+  b0[1] = nY * nLenInv;
+  b0[2] = nZ * nLenInv;
+
+  this._hasNormal = true;
 };
 
 PlaneConstraint.prototype.applyConstraint = function (index, p0, p1) {
-  var friction = this.friction;
   var b0 = this.bufferVec3;
-  var ix = index, iy = ix + 1, iz = ix + 2;
+  var ii = this.indices;
+  var bi = ii[1], pi = ii[index + 3];
 
-  // OP (O -> P)
-  var opX = p0[ix] - b0[0];
-  var opY = p0[iy] - b0[1];
-  var opZ = p0[iz] - b0[2];
+  var bix = bi * 3, biy = bix + 1, biz = bix + 2;
+  var pix = pi * 3, piy = pix + 1, piz = pix + 2;
 
-  // N
-  var nX = b0[3];
-  var nY = b0[4];
-  var nZ = b0[5];
+  if (index === 0) {
+    this._calculateNormal(index, p0);
+  }
 
-  // Project OP onto normal vector N
+  if (!this._hasNormal) { return; }
+
+  // N (plane normal vector)
+  var nX = b0[0];
+  var nY = b0[1];
+  var nZ = b0[2];
+
+  // BP (B -> P)
+  var opX = p0[pix] - p0[bix];
+  var opY = p0[piy] - p0[biy];
+  var opZ = p0[piz] - p0[biz];
+
+  // Project BP onto normal vector N
   var pt = opX * nX + opY * nY + opZ * nZ;
-  if (pt > this.distance) { return; }
 
-  p0[ix] -= nX * pt;
-  p0[iy] -= nY * pt;
-  p0[iz] -= nZ * pt;
-
-  p1[ix] -= (p1[ix] - p0[ix]) * friction;
-  p1[iy] -= (p1[iy] - p0[iy]) * friction;
-  p1[iz] -= (p1[iz] - p0[iz]) * friction;
+  p0[pix] -= nX * pt;
+  p0[piy] -= nY * pt;
+  p0[piz] -= nZ * pt;
 };
 
 
@@ -636,6 +745,7 @@ function PointConstraint(position, a) {
 
 PointConstraint.create = lib.ctor(PointConstraint);
 PointConstraint.prototype = Object.create(lib.Constraint.prototype);
+PointConstraint.prototype.constructor = PointConstraint;
 
 PointConstraint.prototype.setPosition = function (x, y, z) {
   lib.Vec3.set(this.bufferVec3, 0, x, y, z);
@@ -675,6 +785,7 @@ function ParticleSystem(particles, iterations) {
 }
 
 ParticleSystem.create = lib.ctor(ParticleSystem);
+ParticleSystem.prototype.constructor = ParticleSystem;
 
 ParticleSystem.prototype.setPosition = function (i, x, y, z) {
   lib.Vec3.set(this.positions, i, x, y, z);
@@ -682,7 +793,7 @@ ParticleSystem.prototype.setPosition = function (i, x, y, z) {
 };
 
 ParticleSystem.prototype.getPosition = function (i, out) {
-  return lib.Vec3.get(this.positions, i, out);
+  return lib.Vec3.copy(this.positions, i, out);
 };
 
 ParticleSystem.prototype.getDistance = function (a, b) {

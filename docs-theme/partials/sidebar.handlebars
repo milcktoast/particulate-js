@@ -1,0 +1,93 @@
+<div id="modules" class="sidebox">
+  <div class="hd">
+    <h3 class="no-toc">Modules</h3>
+  </div>
+  <div class="bd">
+    <ul>
+      {{#modules}}
+        <li><a href="{{../projectRoot}}modules/{{name}}.html">{{displayName}}</a></li>
+      {{/modules}}
+    </ul>
+  </div>
+</div>
+
+<div id="classes" class="sidebox">
+  <div class="hd">
+    <h3 class="no-toc">Classes</h3>
+  </div>
+  <div class="bd">
+    <ul>
+      {{#classes}}
+        <li><a href="{{../projectRoot}}classes/{{name}}.html">{{displayName}}</a></li>
+      {{/classes}}
+    </ul>
+  </div>
+</div>
+
+{{#if methods}}
+<div id="methods-on-page" class="sidebox on-page">
+  <div class="hd">
+    <h3 class="no-toc">{{name}} Methods</h3>
+  </div>
+  <div class="bd">
+    <ul>
+      {{#methods}}
+        <li><a href="#methods_{{name}}">{{name}}
+          {{#if access}}<span class="flag access">{{access}}</span>{{/if}}
+          {{#if static}}<span class="flag static">static</span>{{/if}}
+          {{#if deprecated}}<span class="flag deprecated">deprecated</span>{{/if}}
+        </a></li>
+      {{/methods}}
+    </ul>
+  </div>
+</div>
+{{/if}}
+
+{{#if events}}
+<div id="events-on-page" class="sidebox on-page">
+  <div class="hd">
+    <h3 class="no-toc">Events On Page</h3>
+  </div>
+  <div class="bd">
+    <ul>
+      {{#events}}
+        <li><a href="#events_{{name}}">{{name}}</a></li>
+      {{/events}}
+    </ul>
+  </div>
+</div>
+{{/if}}
+
+{{#if properties}}
+<div id="props-on-page" class="sidebox">
+  <div class="hd">
+    <h3 class="no-toc">{{name}} Properties</h3>
+  </div>
+  <div class="bd">
+    <ul>
+      {{#properties}}
+        <li><a href="#props_{{name}}">{{name}}
+          {{#if access}}<span class="flag access">{{access}}</span>{{/if}}
+          {{#if static}}<span class="flag static">static</span>{{/if}}
+          {{#if deprecated}}<span class="flag deprecated">deprecated</span>{{/if}}
+        </a></li>
+      {{/properties}}
+    </ul>
+  </div>
+</div>
+{{/if}}
+
+{{#if attributes}}
+<div id="attrs-on-page" class="sidebox on-page">
+  <div class="hd">
+    <h3 class="no-toc">Attributes On Page</h3>
+  </div>
+  <div class="bd">
+    <ul>
+      {{#events}}
+        <li><a href="#attrs_{{name}}">{{name}}</a></li>
+      {{/events}}
+    </ul>
+  </div>
+</div>
+{{/if}}

@@ -3,10 +3,13 @@ module.exports = function (grunt) {
   'use strict';
 
   var config = {
+    version: '0.3.1',
     src: 'src/',
     dest: 'dist/',
     test: 'test/',
     site: 'site/',
+    docs: 'docs/',
+    docsTheme: 'docs-theme/',
     lib: 'node_modules/'
   };
 
@@ -14,6 +17,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-yuidoc');
+  grunt.loadNpmTasks('grunt-qunit-istanbul');
+  grunt.loadNpmTasks('grunt-coveralls');
   grunt.loadNpmTasks('grunt-neuter');
 
   grunt.initConfig({
@@ -32,7 +38,9 @@ module.exports = function (grunt) {
       src: {
         options: {
           basePath: config.src,
-          template: '{%= src %}'
+          template: '{%= src %}',
+          sourceRoot: '../',
+          includeSourceMap: false
         },
         src: config.src + 'main.js',
         dest: config.dest + 'particulate.js'
@@ -50,6 +58,30 @@ module.exports = function (grunt) {
         },
         src: config.site + 'js/main.js',
         dest: config.site + 'main-bundle.js'
+      }
+    },
+
+    // TODO: Generate coverage report relative to source files
+    qunit: {
+      main: ['test/index.html'],
+      options: {
+        '--web-security': 'no',
+        coverage: {
+          disposeCollector: true,
+          src: ['dist/particulate.js'],
+          instrumentedFiles: 'test-temp/',
+          htmlReport: 'test-report/coverage',
+          lcovReport: 'test-report/lcov'
+        }
+      },
+    },
+
+    coveralls: {
+      options: {
+        force: true
+      },
+      main: {
+        src: 'test-report/lcov/lcov.info'
       }
     },
 
@@ -80,6 +112,10 @@ module.exports = function (grunt) {
       site: {
         files: [config.site + '**/*', '!' + config.site + '**/main-bundle.js'],
         tasks: ['neuter:site']
+      },
+      docs: {
+        files: [config.src + '**/*', config.docsTheme + '**/*'],
+        tasks: ['yuidoc:main']
       }
     },
 
@@ -92,27 +128,49 @@ module.exports = function (grunt) {
           open: true
         }
       }
+    },
+
+    yuidoc: {
+      main: {
+        name: 'Particulate.js',
+        url: 'particulatejs.org',
+        version: config.version,
+        options: {
+          paths: config.src,
+          themedir: config.docsTheme,
+          outdir: config.docs,
+          nocode: true
+        }
+      }
     }
   });
 
-  grunt.registerTask('build', [
+
+  grunt.registerTask('develop', [
     'jshint',
-    'neuter',
+    'neuter'
+  ]);
+
+  grunt.registerTask('build', [
+    'develop',
     'uglify'
   ]);
 
-  grunt.registerTask('develop', function (port) {
-    if (port) {
-      grunt.config('connect.server.options.port', port);
-    }
+  grunt.registerTask('test', [
+    'develop',
+    'qunit',
+    'coveralls'
+  ]);
 
+  grunt.registerTask('server', function (port) {
+    grunt.config('connect.server.options.port', port || 8000);
     grunt.task.run([
-      'jshint',
-      'neuter',
+      'develop',
       'connect',
-      'watch'
+      'watch:src',
+      'watch:test'
     ]);
   });
 
-  grunt.registerTask('default', 'develop');
+  grunt.registerTask('default', 'server');
 };

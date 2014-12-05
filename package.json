@@ -1,15 +1,39 @@
 {
   "name": "particulate",
-  "version": "0.3.0",
+  "description": "Particle physics micro library.",
+  "version": "0.3.1",
+  "main": "dist/particulate.js",
+  "license": "MIT",
+  "keywords": [
+    "particle",
+    "physics",
+    "3d"
+  ],
+  "homepage": "http://particulatejs.org/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jpweeks/particulate-js.git"
+  },
+  "author": {
+    "name": "Jay Weeks",
+    "email": "jay.patrick.weeks@gmail.com",
+    "url": "http://jayweeks.com"
+  },
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-contrib-connect": "^0.7.1",
     "grunt-contrib-jshint": "^0.8.0",
     "grunt-contrib-uglify": "^0.3.3",
     "grunt-contrib-watch": "^0.5.3",
+    "grunt-contrib-yuidoc": "^0.5.2",
+    "grunt-coveralls": "^1.0.0",
     "grunt-neuter": "~0.6.0",
+    "grunt-qunit-istanbul": "^0.4.5",
     "qunit-theme-ninja": "^1.1.0",
     "qunitjs": "^1.14.0",
     "three": "^0.67.0"
+  },
+  "scripts": {
+    "test": "grunt test"
   }
 }

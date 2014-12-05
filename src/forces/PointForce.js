@@ -1,9 +1,48 @@
 require('./Force');
+
+// ..................................................
+// PointForce
+// ..................................................
+
 lib.PointForce = PointForce;
+
+/**
+  @module forces
+*/
+
+/**
+  Defines a directional force that affects all particles in the system.
+
+  ```javascript
+  var repulsor = PointForce.create([0.0, 2.0, 3.0], {
+    type : Force.REPULSOR,
+    radius : 15.0,
+    intensity : 0.1
+  });
+  ```
+
+  @class PointForce
+  @extends Force
+  @constructor
+  @param {Array (Vec3)}  position         Force position
+  @param {Object}       [opts]            Options
+  @param {Int (Enum)}   [opts.type]
+  @param {Int (Enum)}   [opts.radius]
+  @param {Int (Enum)}   [opts.intensity]
+*/
 function PointForce(position, opts) {
   opts = opts || {};
   lib.Force.apply(this, arguments);
+
+  /**
+    Magnitude of force vector
+
+    @property intensity
+    @type Float
+    @default 0.05
+  */
   this.intensity = opts.intensity || 0.05;
+
   this.setRadius(opts.radius || 0);
 }
 
@@ -11,12 +50,34 @@ var pf_ATTRACTOR = lib.Force.ATTRACTOR;
 var pf_REPULSOR = lib.Force.REPULSOR;
 var pf_ATTRACTOR_REPULSOR = lib.Force.ATTRACTOR_REPULSOR;
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
 PointForce.create = lib.ctor(PointForce);
 PointForce.prototype = Object.create(lib.Force.prototype);
+PointForce.prototype.constructor = PointForce;
 
+/**
+  Set radius
+
+  @method setRadius
+  @param {Float} r  Radius
+*/
 PointForce.prototype.setRadius = function (r) {
   this._radius2 = r * r;
 };
+
+/**
+  Cached value of squared influence radius
+
+  @property _radius2
+  @type Float
+  @private
+*/
+PointForce.prototype._radius2 = null;
 
 PointForce.prototype.applyForce = function (ix, f0, p0, p1) {
   var v0 = this.vector;

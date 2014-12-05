@@ -69,3 +69,29 @@ test('Application of repulsor', function () {
     'Repulsor should not affect particles outside its radius.');
 });
 
+test('Application of attractor/repulsor', function () {
+  var point = [0, 1, 2];
+  var radius = 20;
+  var system = Particulate.ParticleSystem.create(4, 10);
+  var force = PointForce.create(point, {
+    type : Particulate.Force.ATTRACTOR_REPULSOR,
+    radius : radius
+  });
+
+  system.setPosition(0, point);
+  system.setPosition(1, 30, 30, 30);
+
+  var dist0A = system.getDistance(0, 1);
+  var dist1A = system.getDistance(0, 2);
+
+  system.addForce(force);
+  system.tick(1);
+
+  var dist0B = system.getDistance(0, 1);
+  var dist1B = system.getDistance(0, 2);
+
+  ok(dist1B > dist1A,
+    'Attractor/Repulsor should move particles within its radius away from defined point.');
+  ok(dist0B < dist0A,
+    'Attractor/Repulsor should move particles outside its radius toward defined point.');
+});

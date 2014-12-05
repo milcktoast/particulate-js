@@ -1,0 +1,17 @@
+<h2 class="module-name">{{moduleName}}</h2>
+
+<div class="intro">
+  {{{moduleDescription}}}
+</div>
+
+<div class="yui3-g">
+  <div class="yui3-u-1-2">
+    {{#if moduleClasses}}
+    <ul class="module-classes">
+    {{#moduleClasses}}
+      <li><a href="{{../projectRoot}}classes/{{name}}.html">{{displayName}}</a></li>
+    {{/moduleClasses}}
+    </ul>
+    {{/if}}
+  </div>
+</div>

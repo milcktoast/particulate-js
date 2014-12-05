@@ -1,25 +1,69 @@
 require('./Constraint');
+
+// ..................................................
+// AxisConstraint
+// ..................................................
+
 lib.AxisConstraint = AxisConstraint;
-function AxisConstraint(start, end, a) {
+
+/**
+  @module constraints
+*/
+
+/**
+  Defines one or many relationships between an infinite axis and single particles.
+
+  Orientaiton of the axis is defined by 2 points: `axisA` and `axisB`.
+
+  ```javascript
+  var axisA = 0, axisB = 1;
+  var a = 2, b = 3, c = 4;
+  var single = AxisConstraint.create(axisA, axisB, a);
+  var many = AxisConstraint.create(axisA, axisB, [a, b, c]);
+  ```
+
+  @class AxisConstraint
+  @extends Constraint
+  @constructor
+  @param {Int}       axisA  Particle index defining start of axis
+  @param {Int}       axisB  Particle index defining end of axis
+  @param {Int|Array} a      Particle index or list of many indices
+*/
+function AxisConstraint(axisA, axisB, a) {
   var size = a.length || 1;
 
-  lib.Constraint.call(this, size, 1);
-  this.setAxis(start, end);
+  lib.Constraint.call(this, size, 1, 2);
+  this.setAxis(axisA, axisB);
   this.setIndices(a);
 }
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
 AxisConstraint.create = lib.ctor(AxisConstraint);
 AxisConstraint.prototype = Object.create(lib.Constraint.prototype);
+AxisConstraint.prototype.constructor = AxisConstraint;
 
-AxisConstraint.prototype.setAxis = function (start, end) {
-  this.start = start;
-  this.end = end;
+/**
+  Set particles defining constraint axis
+
+  @method setAxis
+  @param {Int} a  Particle index defining start of axis
+  @param {Int} b  Particle index defining end of axis
+*/
+AxisConstraint.prototype.setAxis = function (a, b) {
+  var ii = this.indices;
+
+  ii[0] = a;
+  ii[1] = b;
 };
 
 AxisConstraint.prototype.applyConstraint = function (index, p0, p1) {
-  var ai = this.start;
-  var bi = this.indices[index];
-  var ci = this.end;
+  var ii = this.indices;
+  var ai = ii[0], bi = ii[index + 2], ci = ii[1];
 
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
   var bix = bi * 3, biy = bix + 1, biz = bix + 2;

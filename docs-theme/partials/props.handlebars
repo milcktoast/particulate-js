@@ -1,0 +1,19 @@
+<a name="props_{{name}}"></a>
+<div class="props item">
+  <div class="signature">
+    <code class="name">{{name}}</code> <em class="type">{{#crossLink type}}{{/crossLink}}</em>
+    {{#if access}}<span class="flag access">{{access}}</span>{{/if}}
+    {{#if static}}<span class="flag static">static</span>{{/if}}
+    {{#if final}}<span class="flag final">final</span>{{/if}}
+    {{#if deprecated}}<span class="flag deprecated">deprecated</span>{{/if}}
+  </div>
+  <span class="foundat"><a href="http://github.com/jpweeks/particulate-js/tree/master/{{file}}#L{{line}}">`{{file}}:{{line}}`</a></span>
+  {{{propertyDescription}}}
+  {{#if default}}
+      <p>Default: <code class="prop-default">{{default}}</code></p>
+  {{/if}}
+  {{#if example}}
+    <h5>Example</h5>
+    {{{example}}}
+  {{/if}}
+</div>
