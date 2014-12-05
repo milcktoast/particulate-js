@@ -1,14 +1,19 @@
+require('./Constraint');
+
 // ..................................................
 // AxisConstraint
 // ..................................................
 
-require('./Constraint');
 lib.AxisConstraint = AxisConstraint;
 
 /**
-  Defines one or many relationships between axis and single particles.
+  @module constraints
+*/
 
-  Particles are constrained to axis defined by segment `[axisA -> axisB]`.
+/**
+  Defines one or many relationships between an infinite axis and single particles.
+
+  Orientaiton of the axis is defined by 2 points: `axisA` and `axisB`.
 
   ```javascript
   var axisA = 0, axisB = 1;

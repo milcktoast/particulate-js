@@ -5,7 +5,15 @@
 lib.Constraint = Constraint;
 
 /**
-  Base class for defining constraining relationships between particles.
+  Constraints define relationships between multiple particles or
+  between particles and geometric primitives.
+
+  @module constraints
+  @main constraints
+*/
+
+/**
+  Base class for defining particle constraints.
 
   @class Constraint
   @constructor
@@ -83,10 +91,8 @@ Constraint.prototype.setIndices = function (indices) {
 
   @method applyConstraint
   @param {Int}                 index  Constraint set index
-  @param {Float32Array (Vec3)} p0     Reference to
-    {{#crossLink "ParticleSystem/positions:property"}}`ParticleSystem.positions`{{/crossLink}}
-  @param {Float32Array (Vec3)} p1     Reference to
-    {{#crossLink "ParticleSystem/positionsPrev:property"}}`ParticleSystem.positionsPrev`{{/crossLink}}
-  @private
+  @param {Float32Array (Vec3)} p0     Reference to `ParticleSystem.positions`
+  @param {Float32Array (Vec3)} p1     Reference to `ParticleSystem.positionsPrev`
+  @protected
 */
 Constraint.prototype.applyConstraint = function (index, p0, p1) {};

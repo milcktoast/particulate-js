@@ -1,23 +1,107 @@
 require('./Constraint');
+
+// ..................................................
+// BoundingPlaneConstraint
+// ..................................................
+
 lib.BoundingPlaneConstraint = BoundingPlaneConstraint;
+
+/**
+  @module constraints
+*/
+
+/**
+  Defines an infinite bounding plane which constrains all particles in the system.
+
+  ```javascript
+  var origin = [1.0, 2.0, 5.0];
+  var normal = [0.0, 1.0, 0.0];
+  var bounds = BoundingPlaneConstraint.create(origin, normal);
+  var plane = BoundingPlaneConstraint.create(origin, normal, Infinity);
+  ```
+
+  @class BoundingPlaneConstraint
+  @extends Constraint
+  @constructor
+  @param {Array (Vec3)}  origin     Plane origin
+  @param {Array (Vec3)}  normal     Plane normal / orientation
+  @param {Float}        [distance]  Maximum positive distance to affect particles
+*/
 function BoundingPlaneConstraint(origin, normal, distance) {
-  this._isGlobal = true;
-  this.bufferVec3 = lib.Vec3.create(2);
+  /**
+    Positive distance from plane within which particles will be constrained.
+
+    A value of `Infinity` will constrain all particles to be inline with the plane, while
+    the default of `0` constrains all particles to space in front of the plane
+    relative to its `origin` and orientation `normal`.
+
+    @property distance
+    @type Float
+    @default 0
+  */
   this.distance = distance || 0;
+
+  /**
+    Damping factor to apply to particles being constrained to bounds
+
+    @property friction
+    @type Float
+    @default 0.05
+  */
   this.friction = 0.05;
+
+  /**
+    Vec3 buffer which stores plane origin and normal
+
+    @property bufferVec3
+    @type Float32Array (Vec3)
+    @private
+  */
+  this.bufferVec3 = lib.Vec3.create(2);
 
   this.setOrigin(origin);
   this.setNormal(normal);
 }
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
 BoundingPlaneConstraint.create = lib.ctor(BoundingPlaneConstraint);
 BoundingPlaneConstraint.prototype = Object.create(lib.Constraint.prototype);
 BoundingPlaneConstraint.prototype.constructor = BoundingPlaneConstraint;
 
+/**
+  Global constraint flag
+
+  @property _isGlobal
+  @type Bool
+  @private
+*/
+BoundingPlaneConstraint.prototype._isGlobal = true;
+
+/**
+  Set origin
+
+  @method setOrigin
+  @param {Float} x
+  @param {Float} y
+  @param {Float} z
+*/
 BoundingPlaneConstraint.prototype.setOrigin = function (x, y, z) {
   lib.Vec3.set(this.bufferVec3, 0, x, y, z);
 };
 
+/**
+  Set normal (automatically normalizes vector)
+
+  @method setNormal
+  @param {Float} x
+  @param {Float} y
+  @param {Float} z
+*/
 BoundingPlaneConstraint.prototype.setNormal = function (x, y, z) {
   lib.Vec3.set(this.bufferVec3, 1, x, y, z);
   lib.Vec3.normalize(this.bufferVec3, 1);

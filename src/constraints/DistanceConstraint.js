@@ -1,9 +1,14 @@
+require('./Constraint');
+
 // ..................................................
 // DistanceConstraint
 // ..................................................
 
-require('./Constraint');
 lib.DistanceConstraint = DistanceConstraint;
+
+/**
+  @module constraints
+*/
 
 /**
   Defines one or many relationships between sets of two particles.

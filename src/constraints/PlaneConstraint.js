@@ -1,14 +1,19 @@
+require('./Constraint');
+
 // ..................................................
 // PlaneConstraint
 // ..................................................
 
-require('./Constraint');
 lib.PlaneConstraint = PlaneConstraint;
 
 /**
-  Defines one or many relationships between plane and single particles.
+  @module constraints
+*/
 
-  Particles are constrained to 3-point plane defined by `[planeA, planeB, planeC]`.
+/**
+  Defines one or many relationships between an infinite plane and single particles.
+
+  Orientaiton of the plane is defined by 3 points: `planeA`, `planeB`, and `planeC`.
 
   ```javascript
   var planeA = 0, planeB = 1, planeC = 2;
@@ -29,7 +34,16 @@ function PlaneConstraint(planeA, planeB, planeC, a) {
   var size = a.length || 1;
 
   lib.Constraint.call(this, size, 1, 3);
+
+  /**
+    Vec3 buffer which stores plane normal.
+
+    @property bufferVec3
+    @type Float32Array (Vec3)
+    @private
+  */
   this.bufferVec3 = lib.Vec3.create(1);
+
   this.setPlane(planeA, planeB, planeC);
   this.setIndices(a);
 }
@@ -66,8 +80,7 @@ PlaneConstraint.prototype.setPlane = function (a, b, c) {
 
   @method _calculateNormal
   @param {Int}                 index  Constraint set index
-  @param {Float32Array (Vec3)} p0     Reference to
-    {{#crossLink "ParticleSystem/positions:property"}}`ParticleSystem.positions`{{/crossLink}}
+  @param {Float32Array (Vec3)} p0     Reference to `ParticleSystem.positions`
   @private
 */
 PlaneConstraint.prototype._calculateNormal = function (index, p0) {

@@ -1,9 +1,14 @@
+require('./Constraint');
+
 // ..................................................
 // AngleConstraint
 // ..................................................
 
-require('./Constraint');
 lib.AngleConstraint = AngleConstraint;
+
+/**
+  @module constraints
+*/
 
 /**
   Defines one or many relationships between sets of three particles.
@@ -14,7 +19,8 @@ lib.AngleConstraint = AngleConstraint;
   var many = AngleConstraint.create(Math.PI, [a, b, c, b, c, a]);
   ```
 
-  Particles are constrained by a fixed angle or a angle range.
+  Particles are constrained by a fixed angle or an angle range.
+  The angle is defined by segments `ab` and `bc`.
 
   ```javascript
   var min = Math.PI * 0.25, max = Math.PI * 0.5;
@@ -113,9 +119,9 @@ AngleConstraint.prototype.clampAngle = function (angle) {
 
   @property ANGLE_OBTUSE
   @type Float
-  @default 3/4 PI
+  @default 3/4 Π
   @static
-  @private
+  @final
 */
 AngleConstraint.ANGLE_OBTUSE = Math.PI * 0.75;
 

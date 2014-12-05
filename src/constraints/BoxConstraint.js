@@ -1,26 +1,104 @@
 require('./Constraint');
+
+// ..................................................
+// BoxConstraint
+// ..................................................
+
 lib.BoxConstraint = BoxConstraint;
+
+/**
+  @module constraints
+*/
+
+/**
+  Defines an axis-aligned bounding box which constrains all particles
+  in the system to its bounds.
+
+  ```javascript
+  var min = [-10.0, -10.0, -10.0];
+  var max = [10.0, 10.0, 10.0];
+  var box = BoxConstraint.create(min, max);
+  ```
+
+  @class BoxConstraint
+  @extends Constraint
+  @constructor
+  @param {Array (Vec3)} min  Bounds minimum
+  @param {Array (Vec3)} max  Bounds maximum
+*/
 function BoxConstraint(min, max) {
-  this._isGlobal = true;
-  this.bufferVec3 = lib.Vec3.create(2);
+  /**
+    Damping factor to apply to particles being constrained to bounds
+
+    @property friction
+    @type Float
+    @default 0.05
+  */
   this.friction = 0.05;
+
+  /**
+    Vec3 buffer which stores bounds
+
+    @property bufferVec3
+    @type Float32Array (Vec3)
+    @private
+  */
+  this.bufferVec3 = lib.Vec3.create(2);
 
   this.setBounds(min, max);
 }
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
 BoxConstraint.create = lib.ctor(BoxConstraint);
 BoxConstraint.prototype = Object.create(lib.Constraint.prototype);
 BoxConstraint.prototype.constructor = BoxConstraint;
 
+/**
+  Global constraint flag
+
+  @property _isGlobal
+  @type Bool
+  @private
+*/
+BoxConstraint.prototype._isGlobal = true;
+
+/**
+  Set bounds
+
+  @method setBounds
+  @param {Array (Vec3)} min
+  @param {Array (Vec3)} max
+*/
 BoxConstraint.prototype.setBounds = function (min, max) {
   this.setMin(min);
   this.setMax(max);
 };
 
+/**
+  Set bounds minimum; alias for `Vec3.set`.
+
+  @method setMin
+  @param {Float} x
+  @param {Float} y
+  @param {Float} z
+*/
 BoxConstraint.prototype.setMin = function (x, y, z) {
   lib.Vec3.set(this.bufferVec3, 0, x, y, z);
 };
 
+/**
+  Set bounds maximum; alias for `Vec3.set`.
+
+  @method setMin
+  @param {Float} x
+  @param {Float} y
+  @param {Float} z
+*/
 BoxConstraint.prototype.setMax = function (x, y, z) {
   lib.Vec3.set(this.bufferVec3, 1, x, y, z);
 };
