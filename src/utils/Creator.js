@@ -1,4 +1,5 @@
 /**
+  @module utils
   @class Particulate
 */
 
