@@ -1,0 +1,2260 @@
+{
+    "project": {
+        "name": "Particulate.js",
+        "url": "particulatejs.org",
+        "version": "0.3.1"
+    },
+    "files": {
+        "src/constraints/AngleConstraint.js": {
+            "name": "src/constraints/AngleConstraint.js",
+            "modules": {},
+            "classes": {
+                "AngleConstraint": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/constraints/AxisConstraint.js": {
+            "name": "src/constraints/AxisConstraint.js",
+            "modules": {},
+            "classes": {
+                "AxisConstraint": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/constraints/BoundingPlaneConstraint.js": {
+            "name": "src/constraints/BoundingPlaneConstraint.js",
+            "modules": {},
+            "classes": {
+                "BoundingPlaneConstraint": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/constraints/BoxConstraint.js": {
+            "name": "src/constraints/BoxConstraint.js",
+            "modules": {},
+            "classes": {
+                "BoxConstraint": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/constraints/Constraint.js": {
+            "name": "src/constraints/Constraint.js",
+            "modules": {
+                "constraints": 1
+            },
+            "classes": {
+                "Constraint": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/constraints/DistanceConstraint.js": {
+            "name": "src/constraints/DistanceConstraint.js",
+            "modules": {},
+            "classes": {
+                "DistanceConstraint": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/constraints/PlaneConstraint.js": {
+            "name": "src/constraints/PlaneConstraint.js",
+            "modules": {},
+            "classes": {
+                "PlaneConstraint": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/constraints/PointConstraint.js": {
+            "name": "src/constraints/PointConstraint.js",
+            "modules": {},
+            "classes": {
+                "PointConstraint": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/forces/DirectionalForce.js": {
+            "name": "src/forces/DirectionalForce.js",
+            "modules": {},
+            "classes": {
+                "DirectionalForce": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/forces/Force.js": {
+            "name": "src/forces/Force.js",
+            "modules": {
+                "forces": 1
+            },
+            "classes": {
+                "Force": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/forces/PointForce.js": {
+            "name": "src/forces/PointForce.js",
+            "modules": {},
+            "classes": {
+                "PointForce": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/math/Math.js": {
+            "name": "src/math/Math.js",
+            "modules": {
+                "math": 1
+            },
+            "classes": {
+                "Math": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/math/Vec3.js": {
+            "name": "src/math/Vec3.js",
+            "modules": {},
+            "classes": {
+                "Vec3": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/systems/ParticleSystem.js": {
+            "name": "src/systems/ParticleSystem.js",
+            "modules": {
+                "systems": 1
+            },
+            "classes": {
+                "ParticleSystem": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/utils/Collection.js": {
+            "name": "src/utils/Collection.js",
+            "modules": {
+                "utils": 1
+            },
+            "classes": {
+                "Collection": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/utils/Creator.js": {
+            "name": "src/utils/Creator.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/main.js": {
+            "name": "src/main.js",
+            "modules": {},
+            "classes": {
+                "Particulate": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "constraints": {
+            "name": "constraints",
+            "submodules": {},
+            "classes": {
+                "AngleConstraint": 1,
+                "AxisConstraint": 1,
+                "BoundingPlaneConstraint": 1,
+                "BoxConstraint": 1,
+                "Constraint": 1,
+                "DistanceConstraint": 1,
+                "PlaneConstraint": 1,
+                "PointConstraint": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "src/constraints/PointConstraint.js",
+            "line": 13,
+            "description": "Constraints define relationships between multiple particles or\nbetween particles and geometric primitives.",
+            "itemtype": "main"
+        },
+        "forces": {
+            "name": "forces",
+            "submodules": {},
+            "classes": {
+                "DirectionalForce": 1,
+                "Force": 1,
+                "PointForce": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "src/forces/PointForce.js",
+            "line": 13,
+            "description": "Forces are accumulated and applied to particles, affecting their\nacceleration and velocity in the system's integration step.",
+            "itemtype": "main"
+        },
+        "math": {
+            "name": "math",
+            "submodules": {},
+            "classes": {
+                "Math": 1,
+                "Vec3": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "src/math/Vec3.js",
+            "line": 11,
+            "itemtype": "main"
+        },
+        "systems": {
+            "name": "systems",
+            "submodules": {},
+            "classes": {
+                "ParticleSystem": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "src/systems/ParticleSystem.js",
+            "line": 11
+        },
+        "utils": {
+            "name": "utils",
+            "submodules": {},
+            "classes": {
+                "Collection": 1,
+                "Particulate": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "src/main.js",
+            "line": 23
+        }
+    },
+    "classes": {
+        "AngleConstraint": {
+            "name": "AngleConstraint",
+            "shortname": "AngleConstraint",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "constraints",
+            "namespace": "",
+            "file": "src/constraints/AngleConstraint.js",
+            "line": 13,
+            "description": "Defines one or many relationships between sets of three particles.\n\n```javascript\nvar a = 0, b = 1, c = 2;\nvar single = AngleConstraint.create(Math.PI, a, b, c);\nvar many = AngleConstraint.create(Math.PI, [a, b, c, b, c, a]);\n```\n\nParticles are constrained by a fixed angle or an angle range.\nThe angle is defined by segments `ab` and `bc`.\n\n```javascript\nvar min = Math.PI * 0.25, max = Math.PI * 0.5;\nvar fixed = AngleConstraint.create(max, 0, 1, 2);\nvar range = AngleConstraint.create([min, max], 0, 1, 2);\n```",
+            "extends": "Constraint",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "angle",
+                    "description": "Angle or angle range `[min, max]` between particles",
+                    "type": "Float|Array"
+                },
+                {
+                    "name": "a",
+                    "description": "Particle index or list of many constraint sets",
+                    "type": "Int|Array"
+                },
+                {
+                    "name": "b",
+                    "description": "Particle index (only used if `a` is not an array)",
+                    "type": "Int",
+                    "optional": true
+                },
+                {
+                    "name": "c",
+                    "description": "Particle index (only used if `a` is not an array)",
+                    "type": "Int",
+                    "optional": true
+                }
+            ]
+        },
+        "AxisConstraint": {
+            "name": "AxisConstraint",
+            "shortname": "AxisConstraint",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "constraints",
+            "namespace": "",
+            "file": "src/constraints/AxisConstraint.js",
+            "line": 13,
+            "description": "Defines one or many relationships between an infinite axis and single particles.\n\nOrientaiton of the axis is defined by 2 points: `axisA` and `axisB`.\n\n```javascript\nvar axisA = 0, axisB = 1;\nvar a = 2, b = 3, c = 4;\nvar single = AxisConstraint.create(axisA, axisB, a);\nvar many = AxisConstraint.create(axisA, axisB, [a, b, c]);\n```",
+            "extends": "Constraint",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "axisA",
+                    "description": "Particle index defining start of axis",
+                    "type": "Int"
+                },
+                {
+                    "name": "axisB",
+                    "description": "Particle index defining end of axis",
+                    "type": "Int"
+                },
+                {
+                    "name": "a",
+                    "description": "Particle index or list of many indices",
+                    "type": "Int|Array"
+                }
+            ]
+        },
+        "BoundingPlaneConstraint": {
+            "name": "BoundingPlaneConstraint",
+            "shortname": "BoundingPlaneConstraint",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "constraints",
+            "namespace": "",
+            "file": "src/constraints/BoundingPlaneConstraint.js",
+            "line": 13,
+            "description": "Defines an infinite bounding plane which constrains all particles in the system.\n\n```javascript\nvar origin = [1.0, 2.0, 5.0];\nvar normal = [0.0, 1.0, 0.0];\nvar bounds = BoundingPlaneConstraint.create(origin, normal);\nvar plane = BoundingPlaneConstraint.create(origin, normal, Infinity);\n```",
+            "extends": "Constraint",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "origin",
+                    "description": "Plane origin",
+                    "type": "Array (Vec3)"
+                },
+                {
+                    "name": "normal",
+                    "description": "Plane normal / orientation",
+                    "type": "Array (Vec3)"
+                },
+                {
+                    "name": "distance",
+                    "description": "Maximum positive distance to affect particles",
+                    "type": "Float",
+                    "optional": true
+                }
+            ]
+        },
+        "BoxConstraint": {
+            "name": "BoxConstraint",
+            "shortname": "BoxConstraint",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "constraints",
+            "namespace": "",
+            "file": "src/constraints/BoxConstraint.js",
+            "line": 13,
+            "description": "Defines an axis-aligned bounding box which constrains all particles\nin the system to its bounds.\n\n```javascript\nvar min = [-10.0, -10.0, -10.0];\nvar max = [10.0, 10.0, 10.0];\nvar box = BoxConstraint.create(min, max);\n```",
+            "extends": "Constraint",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "min",
+                    "description": "Bounds minimum",
+                    "type": "Array (Vec3)"
+                },
+                {
+                    "name": "max",
+                    "description": "Bounds maximum",
+                    "type": "Array (Vec3)"
+                }
+            ]
+        },
+        "Constraint": {
+            "name": "Constraint",
+            "shortname": "Constraint",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "constraints",
+            "namespace": "",
+            "file": "src/constraints/Constraint.js",
+            "line": 15,
+            "description": "Base class for defining particle constraints.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "size",
+                    "description": "Number of indices to be stored",
+                    "type": "Int"
+                },
+                {
+                    "name": "itemSize",
+                    "description": "Number of particles per constraint relation",
+                    "type": "Int"
+                },
+                {
+                    "name": "indexOffset",
+                    "description": "Number of indices to save at beginning of index array",
+                    "type": "Int",
+                    "optional": true
+                }
+            ]
+        },
+        "DistanceConstraint": {
+            "name": "DistanceConstraint",
+            "shortname": "DistanceConstraint",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "constraints",
+            "namespace": "",
+            "file": "src/constraints/DistanceConstraint.js",
+            "line": 13,
+            "description": "Defines one or many relationships between sets of two particles.\n\n```javascript\nvar a = 0, b = 1, c = 2;\nvar single = DistanceConstraint.create(10, a, b);\nvar many = DistanceConstraint.create(10, [a, b, a, c]);\n```\n\nParticles are constrained by a fixed distance or a distance range.\n\n```javascript\nvar min = 0.5, max = 2.5;\nvar fixed = DistanceConstraint.create(max, 0, 1);\nvar range = DistanceConstraint.create([min, max], 0, 1);\n```",
+            "extends": "Constraint",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "distance",
+                    "description": "Distance or distance range `[min, max]` between particles",
+                    "type": "Float|Array"
+                },
+                {
+                    "name": "a",
+                    "description": "Particle index or list of many constraint sets",
+                    "type": "Int|Array"
+                },
+                {
+                    "name": "b",
+                    "description": "Particle index (only used if `a` is not an array)",
+                    "type": "Int",
+                    "optional": true
+                }
+            ]
+        },
+        "PlaneConstraint": {
+            "name": "PlaneConstraint",
+            "shortname": "PlaneConstraint",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "constraints",
+            "namespace": "",
+            "file": "src/constraints/PlaneConstraint.js",
+            "line": 13,
+            "description": "Defines one or many relationships between an infinite plane and single particles.\n\nOrientaiton of the plane is defined by 3 points: `planeA`, `planeB`, and `planeC`.\n\n```javascript\nvar planeA = 0, planeB = 1, planeC = 2;\nvar a = 3, b = 4, c = 5;\nvar single = PlaneConstraint.create(planeA, planeB, planeC, a);\nvar many = PlaneConstraint.create(planeA, planeB, planeC, [a, b, c]);\n```",
+            "extends": "Constraint",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "planeA",
+                    "description": "Particle index defining point on plane",
+                    "type": "Int"
+                },
+                {
+                    "name": "planeB",
+                    "description": "Particle index defining point on plane",
+                    "type": "Int"
+                },
+                {
+                    "name": "planeC",
+                    "description": "Particle index defining point on plane",
+                    "type": "Int"
+                },
+                {
+                    "name": "a",
+                    "description": "Particle index or list of many indices",
+                    "type": "Int|Array"
+                }
+            ]
+        },
+        "PointConstraint": {
+            "name": "PointConstraint",
+            "shortname": "PointConstraint",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "constraints",
+            "namespace": "",
+            "file": "src/constraints/PointConstraint.js",
+            "line": 13,
+            "description": "Defines one or many relationships between a fixed point and single particles.\n\n```javascript\nvar point = [0.5, 10.0, 3.0];\nvar a = 0, b = 1;\nvar single = PointConstraint.create(point, a);\nvar many = PointConstraint.create(point, [a, b]);\n```",
+            "extends": "Constraint",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "position",
+                    "description": "Point position",
+                    "type": "Array (Vec3)"
+                },
+                {
+                    "name": "a",
+                    "description": "Particle index or list of many indices",
+                    "type": "Int|Array"
+                }
+            ]
+        },
+        "DirectionalForce": {
+            "name": "DirectionalForce",
+            "shortname": "DirectionalForce",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "forces",
+            "namespace": "",
+            "file": "src/forces/DirectionalForce.js",
+            "line": 13,
+            "description": "Defines a directional force that affects all particles in the system.\n\n```javascript\nvar gravity = DirectionalForce.create([0.0, -0.1, 0.0]);\n```",
+            "extends": "Force",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "vector",
+                    "description": "Direction vector",
+                    "type": "Array (Vec3)"
+                }
+            ]
+        },
+        "Force": {
+            "name": "Force",
+            "shortname": "Force",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "forces",
+            "namespace": "",
+            "file": "src/forces/Force.js",
+            "line": 15,
+            "description": "Base class for defining forces.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "vector",
+                    "description": "",
+                    "type": "Array (Vec3)"
+                },
+                {
+                    "name": "opts",
+                    "description": "Options",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "type",
+                            "description": "",
+                            "type": "Int (Enum)",
+                            "optional": true
+                        }
+                    ]
+                }
+            ]
+        },
+        "PointForce": {
+            "name": "PointForce",
+            "shortname": "PointForce",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "forces",
+            "namespace": "",
+            "file": "src/forces/PointForce.js",
+            "line": 13,
+            "description": "Defines a directional force that affects all particles in the system.\n\n```javascript\nvar repulsor = PointForce.create([0.0, 2.0, 3.0], {\n  type : Force.REPULSOR,\n  radius : 15.0,\n  intensity : 0.1\n});\n```",
+            "extends": "Force",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "position",
+                    "description": "Force position",
+                    "type": "Array (Vec3)"
+                },
+                {
+                    "name": "opts",
+                    "description": "Options",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "type",
+                            "description": "",
+                            "type": "Int (Enum)",
+                            "optional": true
+                        },
+                        {
+                            "name": "radius",
+                            "description": "",
+                            "type": "Int (Enum)",
+                            "optional": true
+                        },
+                        {
+                            "name": "intensity",
+                            "description": "",
+                            "type": "Int (Enum)",
+                            "optional": true
+                        }
+                    ]
+                }
+            ]
+        },
+        "Math": {
+            "name": "Math",
+            "shortname": "Math",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "math",
+            "namespace": "",
+            "file": "src/math/Math.js",
+            "line": 6,
+            "description": "Math utilities.",
+            "static": 1
+        },
+        "Vec3": {
+            "name": "Vec3",
+            "shortname": "Vec3",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "math",
+            "namespace": "",
+            "file": "src/math/Vec3.js",
+            "line": 11,
+            "description": "Vector utilities.",
+            "static": 1
+        },
+        "ParticleSystem": {
+            "name": "ParticleSystem",
+            "shortname": "ParticleSystem",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "systems",
+            "namespace": "",
+            "file": "src/systems/ParticleSystem.js",
+            "line": 11,
+            "description": "Manages particle state as well as the forces and constraints that act on its particles.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "particles",
+                    "description": "Number of particles or array of initial particle positions",
+                    "type": "Int|Array"
+                },
+                {
+                    "name": "iterations",
+                    "description": "Number of constraint iterations per system tick",
+                    "type": "Int"
+                }
+            ]
+        },
+        "Collection": {
+            "name": "Collection",
+            "shortname": "Collection",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "utils",
+            "namespace": "",
+            "file": "src/utils/Collection.js",
+            "line": 5,
+            "description": "Collection utilities.",
+            "static": 1
+        },
+        "Particulate": {
+            "name": "Particulate",
+            "shortname": "Particulate",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "utils",
+            "namespace": "",
+            "file": "src/main.js",
+            "line": 23,
+            "static": 1
+        }
+    },
+    "classitems": [
+        {
+            "file": "src/constraints/AngleConstraint.js",
+            "line": 49,
+            "description": "Create instance, accepts constructor arguments.",
+            "itemtype": "method",
+            "name": "create",
+            "static": 1,
+            "class": "AngleConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/AngleConstraint.js",
+            "line": 59,
+            "description": "Set angle",
+            "itemtype": "method",
+            "name": "setAngle",
+            "params": [
+                {
+                    "name": "min",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "max",
+                    "description": "",
+                    "type": "Float",
+                    "optional": true
+                }
+            ],
+            "class": "AngleConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/AngleConstraint.js",
+            "line": 72,
+            "description": "Set minimum angle",
+            "itemtype": "method",
+            "name": "setMin",
+            "params": [
+                {
+                    "name": "min",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "AngleConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/AngleConstraint.js",
+            "line": 82,
+            "description": "Minimum angle",
+            "itemtype": "property",
+            "name": "_min",
+            "type": "Float",
+            "access": "private",
+            "tagname": "",
+            "class": "AngleConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/AngleConstraint.js",
+            "line": 91,
+            "description": "Set maximum angle",
+            "itemtype": "method",
+            "name": "setMax",
+            "params": [
+                {
+                    "name": "max",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "AngleConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/AngleConstraint.js",
+            "line": 101,
+            "description": "Maximum angle",
+            "itemtype": "property",
+            "name": "_max",
+            "type": "Float",
+            "access": "private",
+            "tagname": "",
+            "class": "AngleConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/AngleConstraint.js",
+            "line": 115,
+            "description": "Angle used to classify obtuse angles in constraint solver. For accute angles,\nonly particles `a` and `c` are repositioned to satisfy the particle set's\ntarget angle. For obtuse angles, particle `b` is also repositioned.",
+            "itemtype": "property",
+            "name": "ANGLE_OBTUSE",
+            "type": "Float",
+            "default": "3/4 Π",
+            "static": 1,
+            "final": 1,
+            "class": "AngleConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/AxisConstraint.js",
+            "line": 40,
+            "description": "Create instance, accepts constructor arguments.",
+            "itemtype": "method",
+            "name": "create",
+            "static": 1,
+            "class": "AxisConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/AxisConstraint.js",
+            "line": 50,
+            "description": "Set particles defining constraint axis",
+            "itemtype": "method",
+            "name": "setAxis",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "Particle index defining start of axis",
+                    "type": "Int"
+                },
+                {
+                    "name": "b",
+                    "description": "Particle index defining end of axis",
+                    "type": "Int"
+                }
+            ],
+            "class": "AxisConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/BoundingPlaneConstraint.js",
+            "line": 31,
+            "description": "Positive distance from plane within which particles will be constrained.\n\nA value of `Infinity` will constrain all particles to be inline with the plane, while\nthe default of `0` constrains all particles to space in front of the plane\nrelative to its `origin` and orientation `normal`.",
+            "itemtype": "property",
+            "name": "distance",
+            "type": "Float",
+            "default": "0",
+            "class": "BoundingPlaneConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/BoundingPlaneConstraint.js",
+            "line": 44,
+            "description": "Damping factor to apply to particles being constrained to bounds",
+            "itemtype": "property",
+            "name": "friction",
+            "type": "Float",
+            "default": "0.05",
+            "class": "BoundingPlaneConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/BoundingPlaneConstraint.js",
+            "line": 53,
+            "description": "Vec3 buffer which stores plane origin and normal",
+            "itemtype": "property",
+            "name": "bufferVec3",
+            "type": "Float32Array (Vec3)",
+            "access": "private",
+            "tagname": "",
+            "class": "BoundingPlaneConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/BoundingPlaneConstraint.js",
+            "line": 66,
+            "description": "Create instance, accepts constructor arguments.",
+            "itemtype": "method",
+            "name": "create",
+            "static": 1,
+            "class": "BoundingPlaneConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/BoundingPlaneConstraint.js",
+            "line": 76,
+            "description": "Global constraint flag",
+            "itemtype": "property",
+            "name": "_isGlobal",
+            "type": "Bool",
+            "access": "private",
+            "tagname": "",
+            "class": "BoundingPlaneConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/BoundingPlaneConstraint.js",
+            "line": 85,
+            "description": "Set origin",
+            "itemtype": "method",
+            "name": "setOrigin",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "z",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "BoundingPlaneConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/BoundingPlaneConstraint.js",
+            "line": 97,
+            "description": "Set normal (automatically normalizes vector)",
+            "itemtype": "method",
+            "name": "setNormal",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "z",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "BoundingPlaneConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/BoxConstraint.js",
+            "line": 30,
+            "description": "Damping factor to apply to particles being constrained to bounds",
+            "itemtype": "property",
+            "name": "friction",
+            "type": "Float",
+            "default": "0.05",
+            "class": "BoxConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/BoxConstraint.js",
+            "line": 39,
+            "description": "Vec3 buffer which stores bounds",
+            "itemtype": "property",
+            "name": "bufferVec3",
+            "type": "Float32Array (Vec3)",
+            "access": "private",
+            "tagname": "",
+            "class": "BoxConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/BoxConstraint.js",
+            "line": 51,
+            "description": "Create instance, accepts constructor arguments.",
+            "itemtype": "method",
+            "name": "create",
+            "static": 1,
+            "class": "BoxConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/BoxConstraint.js",
+            "line": 61,
+            "description": "Global constraint flag",
+            "itemtype": "property",
+            "name": "_isGlobal",
+            "type": "Bool",
+            "access": "private",
+            "tagname": "",
+            "class": "BoxConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/BoxConstraint.js",
+            "line": 70,
+            "description": "Set bounds",
+            "itemtype": "method",
+            "name": "setBounds",
+            "params": [
+                {
+                    "name": "min",
+                    "description": "",
+                    "type": "Array (Vec3)"
+                },
+                {
+                    "name": "max",
+                    "description": "",
+                    "type": "Array (Vec3)"
+                }
+            ],
+            "class": "BoxConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/BoxConstraint.js",
+            "line": 82,
+            "description": "Set bounds minimum; alias for `Vec3.set`.",
+            "itemtype": "method",
+            "name": "setMin",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "z",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "BoxConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/BoxConstraint.js",
+            "line": 94,
+            "description": "Set bounds maximum; alias for `Vec3.set`.",
+            "itemtype": "method",
+            "name": "setMin",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "z",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "BoxConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/Constraint.js",
+            "line": 27,
+            "description": "Particle indices defining constraint relations",
+            "itemtype": "property",
+            "name": "indices",
+            "type": "Uint16Array",
+            "class": "Constraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/Constraint.js",
+            "line": 35,
+            "description": "Number of constraint relations managed by this instance",
+            "itemtype": "property",
+            "name": "_count",
+            "type": "Int",
+            "access": "private",
+            "tagname": "",
+            "class": "Constraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/Constraint.js",
+            "line": 44,
+            "description": "Number of particles per constraint relation",
+            "itemtype": "property",
+            "name": "_itemSize",
+            "type": "Int",
+            "access": "private",
+            "tagname": "",
+            "class": "Constraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/Constraint.js",
+            "line": 53,
+            "description": "Number of indices to save at beginning of index array",
+            "itemtype": "property",
+            "name": "_offset",
+            "type": "Int",
+            "access": "private",
+            "tagname": "",
+            "class": "Constraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/Constraint.js",
+            "line": 63,
+            "description": "Create instance, accepts constructor arguments.",
+            "itemtype": "method",
+            "name": "create",
+            "static": 1,
+            "class": "Constraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/Constraint.js",
+            "line": 71,
+            "description": "Set particle indices with `Array` or list of `arguments`.",
+            "itemtype": "method",
+            "name": "setIndices",
+            "params": [
+                {
+                    "name": "indices",
+                    "description": "Single or many particle indices",
+                    "type": "Int|Array"
+                },
+                {
+                    "name": "...a",
+                    "description": "Particle index",
+                    "type": "Int",
+                    "optional": true
+                }
+            ],
+            "class": "Constraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/Constraint.js",
+            "line": 88,
+            "description": "Apply constraint to one set of particles defining a constrint relation.\nCalled `_count` times per relaxation loop.",
+            "itemtype": "method",
+            "name": "applyConstraint",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "Constraint set index",
+                    "type": "Int"
+                },
+                {
+                    "name": "p0",
+                    "description": "Reference to `ParticleSystem.positions`",
+                    "type": "Float32Array (Vec3)"
+                },
+                {
+                    "name": "p1",
+                    "description": "Reference to `ParticleSystem.positionsPrev`",
+                    "type": "Float32Array (Vec3)"
+                }
+            ],
+            "access": "protected",
+            "tagname": "",
+            "class": "Constraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/DistanceConstraint.js",
+            "line": 47,
+            "description": "Create instance, accepts constructor arguments.",
+            "itemtype": "method",
+            "name": "create",
+            "static": 1,
+            "class": "DistanceConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/DistanceConstraint.js",
+            "line": 57,
+            "description": "Set distance",
+            "itemtype": "method",
+            "name": "setDistance",
+            "params": [
+                {
+                    "name": "min",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "max",
+                    "description": "",
+                    "type": "Float",
+                    "optional": true
+                }
+            ],
+            "class": "DistanceConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/DistanceConstraint.js",
+            "line": 69,
+            "description": "Set minimum distance",
+            "itemtype": "method",
+            "name": "setMin",
+            "params": [
+                {
+                    "name": "min",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "DistanceConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/DistanceConstraint.js",
+            "line": 79,
+            "description": "Cached value of minimum distance squared",
+            "itemtype": "property",
+            "name": "_min2",
+            "type": "Float",
+            "access": "private",
+            "tagname": "",
+            "class": "DistanceConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/DistanceConstraint.js",
+            "line": 88,
+            "description": "Set maximum distance",
+            "itemtype": "method",
+            "name": "setMax",
+            "params": [
+                {
+                    "name": "max",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "DistanceConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/DistanceConstraint.js",
+            "line": 98,
+            "description": "Cached value of maximum distance squared",
+            "itemtype": "property",
+            "name": "_max2",
+            "type": "Float",
+            "access": "private",
+            "tagname": "",
+            "class": "DistanceConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/PlaneConstraint.js",
+            "line": 38,
+            "description": "Vec3 buffer which stores plane normal.",
+            "itemtype": "property",
+            "name": "bufferVec3",
+            "type": "Float32Array (Vec3)",
+            "access": "private",
+            "tagname": "",
+            "class": "PlaneConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/PlaneConstraint.js",
+            "line": 51,
+            "description": "Create instance, accepts constructor arguments.",
+            "itemtype": "method",
+            "name": "create",
+            "static": 1,
+            "class": "PlaneConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/PlaneConstraint.js",
+            "line": 61,
+            "description": "Set particles defining constraint plane",
+            "itemtype": "method",
+            "name": "setPlane",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "Particle index point on plane",
+                    "type": "Int"
+                },
+                {
+                    "name": "b",
+                    "description": "Particle index point on plane",
+                    "type": "Int"
+                },
+                {
+                    "name": "c",
+                    "description": "Particle index point on plane",
+                    "type": "Int"
+                }
+            ],
+            "class": "PlaneConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/PlaneConstraint.js",
+            "line": 77,
+            "description": "Calculate and cache plane normal vector.\nCalculated once per relaxation loop iteration.",
+            "itemtype": "method",
+            "name": "_calculateNormal",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "Constraint set index",
+                    "type": "Int"
+                },
+                {
+                    "name": "p0",
+                    "description": "Reference to `ParticleSystem.positions`",
+                    "type": "Float32Array (Vec3)"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "PlaneConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/PlaneConstraint.js",
+            "line": 129,
+            "description": "State of constraint's plane normal resolution",
+            "itemtype": "property",
+            "name": "_hasNormal",
+            "type": "Bool",
+            "access": "private",
+            "tagname": "",
+            "class": "PlaneConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/PointConstraint.js",
+            "line": 34,
+            "description": "Vec3 buffer which stores point position.",
+            "itemtype": "property",
+            "name": "bufferVec3",
+            "type": "Float32Array (Vec3)",
+            "access": "private",
+            "tagname": "",
+            "class": "PointConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/PointConstraint.js",
+            "line": 47,
+            "description": "Create instance, accepts constructor arguments.",
+            "itemtype": "method",
+            "name": "create",
+            "static": 1,
+            "class": "PointConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/constraints/PointConstraint.js",
+            "line": 57,
+            "description": "Set point position.",
+            "itemtype": "method",
+            "name": "setPosition",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "z",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "PointConstraint",
+            "module": "constraints"
+        },
+        {
+            "file": "src/forces/DirectionalForce.js",
+            "line": 29,
+            "description": "Create instance, accepts constructor arguments.",
+            "itemtype": "method",
+            "name": "create",
+            "static": 1,
+            "class": "DirectionalForce",
+            "module": "forces"
+        },
+        {
+            "file": "src/forces/Force.js",
+            "line": 32,
+            "description": "Create instance, accepts constructor arguments.",
+            "itemtype": "method",
+            "name": "create",
+            "static": 1,
+            "class": "Force",
+            "module": "forces"
+        },
+        {
+            "file": "src/forces/Force.js",
+            "line": 40,
+            "description": "Force type enum: `Force.ATTRACTOR`, `Force.REPULSOR`, `Force.ATTRACTOR_REPULSOR`.",
+            "itemtype": "property",
+            "name": "type",
+            "type": "{Int (Enum)}",
+            "default": "Force.ATTRACTOR",
+            "class": "Force",
+            "module": "forces"
+        },
+        {
+            "file": "src/forces/Force.js",
+            "line": 52,
+            "description": "Alias for `Vec3.set`.",
+            "itemtype": "method",
+            "name": "set",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "z",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "Force",
+            "module": "forces"
+        },
+        {
+            "file": "src/forces/Force.js",
+            "line": 64,
+            "description": "Apply force to one particle in system.",
+            "itemtype": "method",
+            "name": "applyForce",
+            "params": [
+                {
+                    "name": "ix",
+                    "description": "Particle vector `x` index",
+                    "type": "Int"
+                },
+                {
+                    "name": "f0",
+                    "description": "Reference to `ParticleSystem.accumulatedForces`",
+                    "type": "Float32Array (Vec3)"
+                },
+                {
+                    "name": "p0",
+                    "description": "Reference to `ParticleSystem.positions`",
+                    "type": "Float32Array (Vec3)"
+                },
+                {
+                    "name": "p1",
+                    "description": "Reference to `ParticleSystem.positionsPrev`",
+                    "type": "Float32Array (Vec3)"
+                }
+            ],
+            "access": "protected",
+            "tagname": "",
+            "class": "Force",
+            "module": "forces"
+        },
+        {
+            "file": "src/forces/PointForce.js",
+            "line": 37,
+            "description": "Magnitude of force vector",
+            "itemtype": "property",
+            "name": "intensity",
+            "type": "Float",
+            "default": "0.05",
+            "class": "PointForce",
+            "module": "forces"
+        },
+        {
+            "file": "src/forces/PointForce.js",
+            "line": 53,
+            "description": "Create instance, accepts constructor arguments.",
+            "itemtype": "method",
+            "name": "create",
+            "static": 1,
+            "class": "PointForce",
+            "module": "forces"
+        },
+        {
+            "file": "src/forces/PointForce.js",
+            "line": 63,
+            "description": "Set radius",
+            "itemtype": "method",
+            "name": "setRadius",
+            "params": [
+                {
+                    "name": "r",
+                    "description": "Radius",
+                    "type": "Float"
+                }
+            ],
+            "class": "PointForce",
+            "module": "forces"
+        },
+        {
+            "file": "src/forces/PointForce.js",
+            "line": 73,
+            "description": "Cached value of squared influence radius",
+            "itemtype": "property",
+            "name": "_radius2",
+            "type": "Float",
+            "access": "private",
+            "tagname": "",
+            "class": "PointForce",
+            "module": "forces"
+        },
+        {
+            "file": "src/math/Math.js",
+            "line": 14,
+            "description": "Clamp value to `[min, max]` range.",
+            "itemtype": "method",
+            "name": "clamp",
+            "static": 1,
+            "params": [
+                {
+                    "name": "min",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "max",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "v",
+                    "description": "Value to clamp",
+                    "type": "Float"
+                }
+            ],
+            "return": {
+                "description": "Clamped value",
+                "type": "Float"
+            },
+            "class": "Math",
+            "module": "math"
+        },
+        {
+            "file": "src/math/Vec3.js",
+            "line": 18,
+            "itemtype": "method",
+            "name": "create",
+            "static": 1,
+            "params": [
+                {
+                    "name": "positions",
+                    "description": "Number of vectors or array of initial values",
+                    "type": "Int|Array"
+                }
+            ],
+            "return": {
+                "description": "Vec3 buffer",
+                "type": "Float32Array"
+            },
+            "class": "Vec3",
+            "module": "math"
+        },
+        {
+            "file": "src/math/Vec3.js",
+            "line": 30,
+            "description": "Set single vector in buffer",
+            "itemtype": "method",
+            "name": "set",
+            "static": 1,
+            "params": [
+                {
+                    "name": "b0",
+                    "description": "Vec3 buffer",
+                    "type": "Array"
+                },
+                {
+                    "name": "i",
+                    "description": "Vector index",
+                    "type": "Int"
+                },
+                {
+                    "name": "x",
+                    "description": "Vector or x component value",
+                    "type": "Array|Float"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Float",
+                    "optional": true
+                },
+                {
+                    "name": "z",
+                    "description": "",
+                    "type": "Float",
+                    "optional": true
+                }
+            ],
+            "class": "Vec3",
+            "module": "math"
+        },
+        {
+            "file": "src/math/Vec3.js",
+            "line": 55,
+            "itemtype": "method",
+            "name": "copy",
+            "static": 1,
+            "params": [
+                {
+                    "name": "b0",
+                    "description": "Vec3 buffer",
+                    "type": "Array"
+                },
+                {
+                    "name": "ai",
+                    "description": "Vector index",
+                    "type": "Int"
+                },
+                {
+                    "name": "out",
+                    "description": "Destination vector",
+                    "type": "Array"
+                }
+            ],
+            "class": "Vec3",
+            "module": "math"
+        },
+        {
+            "file": "src/math/Vec3.js",
+            "line": 72,
+            "itemtype": "method",
+            "name": "lengthSq",
+            "static": 1,
+            "params": [
+                {
+                    "name": "b0",
+                    "description": "Vec3 buffer",
+                    "type": "Array"
+                },
+                {
+                    "name": "ai",
+                    "description": "Vector index",
+                    "type": "Int"
+                }
+            ],
+            "return": {
+                "description": "Squared length of vector",
+                "type": "Float"
+            },
+            "class": "Vec3",
+            "module": "math"
+        },
+        {
+            "file": "src/math/Vec3.js",
+            "line": 88,
+            "itemtype": "method",
+            "name": "length",
+            "static": 1,
+            "params": [
+                {
+                    "name": "b0",
+                    "description": "Vec3 buffer",
+                    "type": "Array"
+                },
+                {
+                    "name": "ai",
+                    "description": "Vector index",
+                    "type": "Int"
+                }
+            ],
+            "return": {
+                "description": "Length of vector",
+                "type": "Float"
+            },
+            "class": "Vec3",
+            "module": "math"
+        },
+        {
+            "file": "src/math/Vec3.js",
+            "line": 104,
+            "itemtype": "method",
+            "name": "distanceSq",
+            "static": 1,
+            "params": [
+                {
+                    "name": "b0",
+                    "description": "Vec3 buffer",
+                    "type": "Array"
+                },
+                {
+                    "name": "ai",
+                    "description": "Vector index a",
+                    "type": "Int"
+                },
+                {
+                    "name": "bi",
+                    "description": "Vector index b",
+                    "type": "Int"
+                }
+            ],
+            "return": {
+                "description": "Squared distance from a to b",
+                "type": "Float"
+            },
+            "class": "Vec3",
+            "module": "math"
+        },
+        {
+            "file": "src/math/Vec3.js",
+            "line": 123,
+            "itemtype": "method",
+            "name": "distance",
+            "static": 1,
+            "params": [
+                {
+                    "name": "b0",
+                    "description": "Vec3 buffer",
+                    "type": "Array"
+                },
+                {
+                    "name": "ai",
+                    "description": "Vector index a",
+                    "type": "Int"
+                },
+                {
+                    "name": "bi",
+                    "description": "Vector index b",
+                    "type": "Int"
+                }
+            ],
+            "return": {
+                "description": "Distance from a to b",
+                "type": "Float"
+            },
+            "class": "Vec3",
+            "module": "math"
+        },
+        {
+            "file": "src/math/Vec3.js",
+            "line": 142,
+            "description": "Normalize vector in place",
+            "itemtype": "method",
+            "name": "normalize",
+            "static": 1,
+            "params": [
+                {
+                    "name": "b0",
+                    "description": "Vec3 buffer",
+                    "type": "Array"
+                },
+                {
+                    "name": "ai",
+                    "description": "Vector index a",
+                    "type": "Int"
+                }
+            ],
+            "class": "Vec3",
+            "module": "math"
+        },
+        {
+            "file": "src/math/Vec3.js",
+            "line": 162,
+            "description": "Calculate angle between segments `ab` and `bc`",
+            "itemtype": "method",
+            "name": "angle",
+            "static": 1,
+            "params": [
+                {
+                    "name": "b0",
+                    "description": "Vec3 buffer",
+                    "type": "Array"
+                },
+                {
+                    "name": "ai",
+                    "description": "Vector index a",
+                    "type": "Int"
+                },
+                {
+                    "name": "bi",
+                    "description": "Vector index b",
+                    "type": "Int"
+                },
+                {
+                    "name": "ci",
+                    "description": "Vector index c",
+                    "type": "Int"
+                }
+            ],
+            "return": {
+                "description": "Angle in radians",
+                "type": "Float"
+            },
+            "class": "Vec3",
+            "module": "math"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 25,
+            "description": "Current particle positions",
+            "itemtype": "property",
+            "name": "positions",
+            "type": "Float32Array (Vec3)",
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 33,
+            "description": "Previous particle positions",
+            "itemtype": "property",
+            "name": "positionsPrev",
+            "type": "Float32Array (Vec3)",
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 41,
+            "description": "Accumulated forces currently acting on particles",
+            "itemtype": "property",
+            "name": "accumulatedForces",
+            "type": "Float32Array (Vec3)",
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 49,
+            "description": "Particle mass",
+            "itemtype": "property",
+            "name": "weights",
+            "type": "Float32Array (Float)",
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 58,
+            "description": "Number of constraint relaxation loop iterations",
+            "itemtype": "property",
+            "name": "_iterations",
+            "type": "Int",
+            "access": "private",
+            "tagname": "",
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 67,
+            "description": "Number of particles in system",
+            "itemtype": "property",
+            "name": "_count",
+            "type": "Int",
+            "access": "private",
+            "tagname": "",
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 82,
+            "description": "Create instance, accepts constructor arguments.",
+            "itemtype": "method",
+            "name": "create",
+            "static": 1,
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 91,
+            "description": "Alias for `Vec3.set`. Sets vector of `positions` and `positionsPrev`.",
+            "itemtype": "method",
+            "name": "setPosition",
+            "params": [
+                {
+                    "name": "i",
+                    "description": "Particle index",
+                    "type": "Int"
+                },
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Float"
+                },
+                {
+                    "name": "z",
+                    "description": "",
+                    "type": "Float"
+                }
+            ],
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 105,
+            "description": "Alias for `Vec3.copy`. Copys vector from `positions`.",
+            "itemtype": "method",
+            "name": "getPosition",
+            "params": [
+                {
+                    "name": "i",
+                    "description": "Particle index",
+                    "type": "Int"
+                },
+                {
+                    "name": "out",
+                    "description": "",
+                    "type": "Vec3"
+                }
+            ],
+            "return": {
+                "description": "out",
+                "type": "Vec3"
+            },
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 117,
+            "description": "Alias for `Vec3.getDistance`. Calculates distance from `positions`.",
+            "itemtype": "method",
+            "name": "getDistance",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "Particle index",
+                    "type": "Int"
+                },
+                {
+                    "name": "b",
+                    "description": "Particle index",
+                    "type": "Int"
+                }
+            ],
+            "return": {
+                "description": "Distance",
+                "type": "Float"
+            },
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 129,
+            "description": "Alias for `Vec3.angle`. Calculates angle from `positions`.",
+            "itemtype": "method",
+            "name": "getAngle",
+            "params": [
+                {
+                    "name": "a",
+                    "description": "Particle index",
+                    "type": "Int"
+                },
+                {
+                    "name": "b",
+                    "description": "Particle index",
+                    "type": "Int"
+                },
+                {
+                    "name": "c",
+                    "description": "Particle index",
+                    "type": "Int"
+                }
+            ],
+            "return": {
+                "description": "Angle in radians",
+                "type": "Float"
+            },
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 142,
+            "description": "Set a particle's mass",
+            "itemtype": "method",
+            "name": "setWeight",
+            "params": [
+                {
+                    "name": "i",
+                    "description": "Particle index",
+                    "type": "Int"
+                },
+                {
+                    "name": "w",
+                    "description": "Weight",
+                    "type": "Float"
+                }
+            ],
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 189,
+            "description": "Calculate particle's next position through Verlet integration.\nCalled as part of `tick`.",
+            "itemtype": "method",
+            "name": "integrate",
+            "params": [
+                {
+                    "name": "delta",
+                    "description": "Time step",
+                    "type": "Float"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 223,
+            "description": "Add a constraint",
+            "itemtype": "method",
+            "name": "addConstraint",
+            "params": [
+                {
+                    "name": "constraint",
+                    "description": "",
+                    "type": "Constraint"
+                }
+            ],
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 233,
+            "description": "Alias for `Collection.removeAll`. Remove all references to a constraint.",
+            "itemtype": "method",
+            "name": "removeConstraint",
+            "params": [
+                {
+                    "name": "constraint",
+                    "description": "",
+                    "type": "Constraint"
+                }
+            ],
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 243,
+            "description": "Add a pin constraint.\nAlthough intended for instances of `PointConstraint`, this can be any\ntype of constraint and will be resolved last in the relaxation loop.",
+            "itemtype": "method",
+            "name": "addPinConstraint",
+            "params": [
+                {
+                    "name": "constraint",
+                    "description": "",
+                    "type": "Constraint"
+                }
+            ],
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 255,
+            "description": "Alias for `Collection.removeAll`. Remove all references to a pin constraint.",
+            "itemtype": "method",
+            "name": "removePinConstraint",
+            "params": [
+                {
+                    "name": "constraint",
+                    "description": "",
+                    "type": "Constraint"
+                }
+            ],
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 265,
+            "description": "Run relaxation loop, resolving constraints per defined iterations.\nConstraints are resolved in order by type: global, local, pin.",
+            "itemtype": "method",
+            "name": "satisfyConstraints",
+            "access": "private",
+            "tagname": "",
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 289,
+            "description": "Resolve a group of constraints.",
+            "itemtype": "method",
+            "name": "satisfyConstraintGroup",
+            "params": [
+                {
+                    "name": "group",
+                    "description": "List of constraints",
+                    "type": "Array"
+                },
+                {
+                    "name": "count",
+                    "description": "Override for number of particles a constraint affects",
+                    "type": "Int",
+                    "optional": true
+                },
+                {
+                    "name": "itemSize",
+                    "description": "Override for particle index stride",
+                    "type": "Int",
+                    "optional": true
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 322,
+            "description": "Add a force",
+            "itemtype": "method",
+            "name": "addForce",
+            "params": [
+                {
+                    "name": "force",
+                    "description": "",
+                    "type": "Force"
+                }
+            ],
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 332,
+            "description": "Alias for `Collection.removeAll`. Remove all references to a force.",
+            "itemtype": "method",
+            "name": "removeForce",
+            "params": [
+                {
+                    "name": "force",
+                    "description": "",
+                    "type": "Force"
+                }
+            ],
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 342,
+            "description": "Accumulate forces acting on particles.",
+            "itemtype": "method",
+            "name": "accumulateForces",
+            "params": [
+                {
+                    "name": "delta",
+                    "description": "Time step",
+                    "type": "Float"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/systems/ParticleSystem.js",
+            "line": 366,
+            "description": "Step simulation forward one frame.\nApplies forces, calculates particle positions, and resolves constraints.",
+            "itemtype": "method",
+            "name": "tick",
+            "params": [
+                {
+                    "name": "delta",
+                    "description": "Time step",
+                    "type": "Float"
+                }
+            ],
+            "class": "ParticleSystem",
+            "module": "systems"
+        },
+        {
+            "file": "src/utils/Collection.js",
+            "line": 13,
+            "description": "Remove all instances of an object from an array.",
+            "itemtype": "method",
+            "name": "removeAll",
+            "params": [
+                {
+                    "name": "buffer",
+                    "description": "Collection of objects",
+                    "type": "Array"
+                },
+                {
+                    "name": "item",
+                    "description": "Item to remove from collection",
+                    "type": "Any"
+                }
+            ],
+            "class": "Collection",
+            "module": "utils"
+        },
+        {
+            "file": "src/utils/Creator.js",
+            "line": 6,
+            "description": "Functional constructor utility.",
+            "itemtype": "method",
+            "name": "ctor",
+            "params": [
+                {
+                    "name": "Ctor",
+                    "description": "Constructor function used to instantiate class",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "constructor",
+                "type": "Function"
+            },
+            "access": "private",
+            "tagname": "",
+            "static": 1,
+            "class": "Particulate",
+            "module": "utils"
+        }
+    ],
+    "warnings": []
+}
