@@ -71,4 +71,4 @@ Force.prototype.set = function (x, y, z) {
   @param {Float32Array (Vec3)} p1  Reference to `ParticleSystem.positionsPrev`
   @protected
 */
-DirectionalForce.prototype.applyForce = function (ix, f0, p0, p1) {};
+Force.prototype.applyForce = function (ix, f0, p0, p1) {};
