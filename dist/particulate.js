@@ -1,13 +1,39 @@
-// Particulate.js 0.3.1
-// ====================
+// ..................................................
+// Particulate.js
+//
+// version : 0.3.1
+// authors : Jay Weeks
+// license : MIT
+// particulatejs.org
+// ..................................................
 
 (function () {
   'use strict';
-  var lib = {VERSION : '0.3.1'};
+
+  var lib = {
+    VERSION : '0.3.1'
+  };
 
 
+/**
+  @module utils
+*/
+
+/**
+  Collection utilities.
+
+  @class Collection
+  @static
+*/
 var Collection = lib.Collection = {};
 
+/**
+  Remove all instances of an object from an array.
+
+  @method removeAll
+  @param {Array} buffer  Collection of objects
+  @param {any}   item    Item to remove from collection
+*/
 Collection.removeAll = function (buffer, item) {
   var index = buffer.indexOf(item);
   if (index < 0) { return; }
@@ -20,6 +46,20 @@ Collection.removeAll = function (buffer, item) {
 };
 
 
+/**
+  @module utils
+  @class Particulate
+*/
+
+/**
+  Functional constructor utility.
+
+  @method ctor
+  @param  {Function} Ctor         Constructor function used to instantiate class
+  @return {Function} constructor
+  @private
+  @static
+*/
 lib.ctor = function ctor(Ctor) {
   return function () {
     var instance = Object.create(Ctor.prototype);
@@ -29,21 +69,74 @@ lib.ctor = function ctor(Ctor) {
 };
 
 
+/**
+  @module math
+  @main math
+*/
+
+/**
+  Math utilities.
+
+  @class Math
+  @static
+*/
 lib.Math = {};
 
+/**
+  Clamp value to `[min, max]` range.
+
+  @method clamp
+  @static
+  @param  {Float} min
+  @param  {Float} max
+  @param  {Float} v    Value to clamp
+  @return {Float} Clamped value
+*/
 lib.Math.clamp = function (min, max, v) {
   return Math.min(Math.max(v, min), max);
 };
 
 
+// ..................................................
+// Vec3
+// ..................................................
+
 var Vec3 = lib.Vec3 = {};
 
+/**
+  @module math
+*/
+
+/**
+  Vector utilities.
+
+  @class Vec3
+  @static
+*/
+
+/**
+  @method create
+  @static
+  @param  {Int|Array}    positions  Number of vectors or array of initial values
+  @return {Float32Array} Vec3 buffer
+*/
 Vec3.create = function (positions) {
   positions = positions || 1;
   var isCount = typeof positions === 'number';
   return new Float32Array(isCount ? positions * 3 : positions);
 };
 
+/**
+  Set single vector in buffer
+
+  @method set
+  @static
+  @param {Array}        b0  Vec3 buffer
+  @param {Int}          i   Vector index
+  @param {Array|Float}  x   Vector or x component value
+  @param {Float}       [y]
+  @param {Float}       [z]
+*/
 Vec3.set = function (b0, i, x, y, z) {
   var ix = i * 3, iy = ix + 1, iz = ix + 2;
 
@@ -58,6 +151,13 @@ Vec3.set = function (b0, i, x, y, z) {
   b0[iz] = z;
 };
 
+/**
+  @method copy
+  @static
+  @param {Array} b0   Vec3 buffer
+  @param {Int}   ai   Vector index
+  @param {Array} out  Destination vector
+*/
 Vec3.copy = function (b0, ai, out) {
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
 
@@ -68,6 +168,13 @@ Vec3.copy = function (b0, ai, out) {
   return out;
 };
 
+/**
+  @method lengthSq
+  @static
+  @param  {Array} b0   Vec3 buffer
+  @param  {Int}   ai   Vector index
+  @return {Float} Squared length of vector
+*/
 Vec3.lengthSq = function (b0, ai) {
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
   var x = b0[aix];
@@ -77,6 +184,13 @@ Vec3.lengthSq = function (b0, ai) {
   return x * x + y * y + z * z;
 };
 
+/**
+  @method length
+  @static
+  @param  {Array} b0   Vec3 buffer
+  @param  {Int}   ai   Vector index
+  @return {Float} Length of vector
+*/
 Vec3.length = function (b0, ai) {
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
   var x = b0[aix];
@@ -86,6 +200,14 @@ Vec3.length = function (b0, ai) {
   return Math.sqrt(x * x + y * y + z * z);
 };
 
+/**
+  @method distanceSq
+  @static
+  @param  {Array} b0   Vec3 buffer
+  @param  {Int}   ai   Vector index a
+  @param  {Int}   bi   Vector index b
+  @return {Float} Squared distance from a to b
+*/
 Vec3.distanceSq = function (b0, ai, bi) {
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
   var bix = bi * 3, biy = bix + 1, biz = bix + 2;
@@ -97,6 +219,14 @@ Vec3.distanceSq = function (b0, ai, bi) {
   return dx * dx + dy * dy + dz * dz;
 };
 
+/**
+  @method distance
+  @static
+  @param  {Array} b0   Vec3 buffer
+  @param  {Int}   ai   Vector index a
+  @param  {Int}   bi   Vector index b
+  @return {Float} Distance from a to b
+*/
 Vec3.distance = function (b0, ai, bi) {
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
   var bix = bi * 3, biy = bix + 1, biz = bix + 2;
@@ -108,6 +238,14 @@ Vec3.distance = function (b0, ai, bi) {
   return Math.sqrt(dx * dx + dy * dy + dz * dz);
 };
 
+/**
+  Normalize vector in place
+
+  @method normalize
+  @static
+  @param {Array} b0  Vec3 buffer
+  @param {Int}   ai  Vector index a
+*/
 Vec3.normalize = function (b0, ai) {
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
   var x = b0[aix];
@@ -120,6 +258,17 @@ Vec3.normalize = function (b0, ai) {
   b0[aiz] *= lenInv;
 };
 
+/**
+  Calculate angle between segments `ab` and `bc`
+
+  @method angle
+  @static
+  @param  {Array} b0   Vec3 buffer
+  @param  {Int}   ai   Vector index a
+  @param  {Int}   bi   Vector index b
+  @param  {Int}   ci   Vector index c
+  @return {Float} Angle in radians
+*/
 Vec3.angle = function (b0, ai, bi, ci) {
   var aix = ai * 3, aiy = aix + 1, aiz = aix + 2;
   var bix = bi * 3, biy = bix + 1, biz = bix + 2;
@@ -142,31 +291,114 @@ Vec3.angle = function (b0, ai, bi, ci) {
 };
 
 
+// ..................................................
+// Force
+// ..................................................
+
 lib.Force = Force;
+
+/**
+  Forces are accumulated and applied to particles, affecting their
+  acceleration and velocity in the system's integration step.
+
+  @module forces
+  @main forces
+*/
+
+/**
+  Base class for defining forces.
+
+  @class Force
+  @constructor
+  @param {Array (Vec3)}  vector
+  @param {Object}       [opts]       Options
+  @param {Int (Enum)}   [opts.type]
+*/
 function Force(vector, opts) {
   opts = opts || {};
   this.vector = new Float32Array(3);
-  this.type = opts.type || Force.ATTRACTOR;
 
+  if (opts.type) { this.type = opts.type; }
   if (vector != null) { this.set(vector); }
 }
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
+Force.create = lib.ctor(Force);
+
+/**
+  Force type enum: `Force.ATTRACTOR`, `Force.REPULSOR`, `Force.ATTRACTOR_REPULSOR`.
+
+  @property type
+  @type {Int (Enum)}
+  @default Force.ATTRACTOR
+*/
 Force.ATTRACTOR = 0;
 Force.REPULSOR = 1;
 Force.ATTRACTOR_REPULSOR = 2;
+Force.prototype.type = Force.ATTRACTOR;
 
-Force.create = lib.ctor(Force);
+/**
+  Alias for `Vec3.set`.
 
+  @method set
+  @param {Float} x
+  @param {Float} y
+  @param {Float} z
+*/
 Force.prototype.set = function (x, y, z) {
   lib.Vec3.set(this.vector, 0, x, y, z);
 };
 
+/**
+  Apply force to one particle in system.
+
+  @method applyForce
+  @param {Int}                 ix  Particle vector `x` index
+  @param {Float32Array (Vec3)} f0  Reference to `ParticleSystem.accumulatedForces`
+  @param {Float32Array (Vec3)} p0  Reference to `ParticleSystem.positions`
+  @param {Float32Array (Vec3)} p1  Reference to `ParticleSystem.positionsPrev`
+  @protected
+*/
+Force.prototype.applyForce = function (ix, f0, p0, p1) {};
+
+
+// ..................................................
+// DirectionalForce
+// ..................................................
 
 lib.DirectionalForce = DirectionalForce;
+
+/**
+  @module forces
+*/
+
+/**
+  Defines a directional force that affects all particles in the system.
+
+  ```javascript
+  var gravity = DirectionalForce.create([0.0, -0.1, 0.0]);
+  ```
+
+  @class DirectionalForce
+  @extends Force
+  @constructor
+  @param {Array (Vec3)} vector  Direction vector
+*/
 function DirectionalForce(vector) {
   lib.Force.call(this, vector);
 }
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
 DirectionalForce.create = lib.ctor(DirectionalForce);
 DirectionalForce.prototype = Object.create(lib.Force.prototype);
 DirectionalForce.prototype.constructor = DirectionalForce;
@@ -179,11 +411,49 @@ DirectionalForce.prototype.applyForce = function (ix, f0, p0, p1) {
 };
 
 
+// ..................................................
+// PointForce
+// ..................................................
+
 lib.PointForce = PointForce;
+
+/**
+  @module forces
+*/
+
+/**
+  Defines a directional force that affects all particles in the system.
+
+  ```javascript
+  var repulsor = PointForce.create([0.0, 2.0, 3.0], {
+    type : Force.REPULSOR,
+    radius : 15.0,
+    intensity : 0.1
+  });
+  ```
+
+  @class PointForce
+  @extends Force
+  @constructor
+  @param {Array (Vec3)}  position         Force position
+  @param {Object}       [opts]            Options
+  @param {Int (Enum)}   [opts.type]
+  @param {Int (Enum)}   [opts.radius]
+  @param {Int (Enum)}   [opts.intensity]
+*/
 function PointForce(position, opts) {
   opts = opts || {};
   lib.Force.apply(this, arguments);
+
+  /**
+    Magnitude of force vector
+
+    @property intensity
+    @type Float
+    @default 0.05
+  */
   this.intensity = opts.intensity || 0.05;
+
   this.setRadius(opts.radius || 0);
 }
 
@@ -191,13 +461,34 @@ var pf_ATTRACTOR = lib.Force.ATTRACTOR;
 var pf_REPULSOR = lib.Force.REPULSOR;
 var pf_ATTRACTOR_REPULSOR = lib.Force.ATTRACTOR_REPULSOR;
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
 PointForce.create = lib.ctor(PointForce);
 PointForce.prototype = Object.create(lib.Force.prototype);
 PointForce.prototype.constructor = PointForce;
 
+/**
+  Set radius
+
+  @method setRadius
+  @param {Float} r  Radius
+*/
 PointForce.prototype.setRadius = function (r) {
   this._radius2 = r * r;
 };
+
+/**
+  Cached value of squared influence radius
+
+  @property _radius2
+  @type Float
+  @private
+*/
+PointForce.prototype._radius2 = null;
 
 PointForce.prototype.applyForce = function (ix, f0, p0, p1) {
   var v0 = this.vector;
@@ -234,17 +525,83 @@ PointForce.prototype.applyForce = function (ix, f0, p0, p1) {
 };
 
 
+// ..................................................
+// Constraint
+// ..................................................
+
 lib.Constraint = Constraint;
+
+/**
+  Constraints define relationships between multiple particles or
+  between particles and geometric primitives.
+
+  @module constraints
+  @main constraints
+*/
+
+/**
+  Base class for defining particle constraints.
+
+  @class Constraint
+  @constructor
+  @param {Int} size           Number of indices to be stored
+  @param {Int} itemSize       Number of particles per constraint relation
+  @param {Int} [indexOffset]  Number of indices to save at beginning of index array
+*/
 function Constraint(size, itemSize, indexOffset) {
   indexOffset = indexOffset || 0;
+
+  /**
+    Particle indices defining constraint relations
+
+    @property indices
+    @type Uint16Array
+  */
   this.indices = new Uint16Array(size + indexOffset);
+
+  /**
+    Number of constraint relations managed by this instance
+
+    @property _count
+    @type Int
+    @private
+  */
   this._count = size / itemSize;
+
+  /**
+    Number of particles per constraint relation
+
+    @property _itemSize
+    @type Int
+    @private
+  */
   this._itemSize = itemSize;
+
+  /**
+    Number of indices to save at beginning of index array
+
+    @property _offset
+    @type Int
+    @private
+  */
   this._offset = indexOffset;
 }
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
 Constraint.create = lib.ctor(Constraint);
 
+/**
+  Set particle indices with `Array` or list of `arguments`.
+
+  @method setIndices
+  @param {Int|Array} indices  Single or many particle indices
+  @param {Int}       [...a]   Particle index
+*/
 Constraint.prototype.setIndices = function (indices) {
   var offset = this._offset;
   var inx = indices.length ? indices : arguments;
@@ -255,8 +612,55 @@ Constraint.prototype.setIndices = function (indices) {
   }
 };
 
+/**
+  Apply constraint to one set of particles defining a constrint relation.
+  Called `_count` times per relaxation loop.
+
+  @method applyConstraint
+  @param {Int}                 index  Constraint set index
+  @param {Float32Array (Vec3)} p0     Reference to `ParticleSystem.positions`
+  @param {Float32Array (Vec3)} p1     Reference to `ParticleSystem.positionsPrev`
+  @protected
+*/
+Constraint.prototype.applyConstraint = function (index, p0, p1) {};
+
+
+// ..................................................
+// AngleConstraint
+// ..................................................
 
 lib.AngleConstraint = AngleConstraint;
+
+/**
+  @module constraints
+*/
+
+/**
+  Defines one or many relationships between sets of three particles.
+
+  ```javascript
+  var a = 0, b = 1, c = 2;
+  var single = AngleConstraint.create(Math.PI, a, b, c);
+  var many = AngleConstraint.create(Math.PI, [a, b, c, b, c, a]);
+  ```
+
+  Particles are constrained by a fixed angle or an angle range.
+  The angle is defined by segments `ab` and `bc`.
+
+  ```javascript
+  var min = Math.PI * 0.25, max = Math.PI * 0.5;
+  var fixed = AngleConstraint.create(max, 0, 1, 2);
+  var range = AngleConstraint.create([min, max], 0, 1, 2);
+  ```
+
+  @class AngleConstraint
+  @extends Constraint
+  @constructor
+  @param {Float|Array}  angle  Angle or angle range `[min, max]` between particles
+  @param {Int|Array}    a      Particle index or list of many constraint sets
+  @param {Int}         [b]     Particle index (only used if `a` is not an array)
+  @param {Int}         [c]     Particle index (only used if `a` is not an array)
+*/
 function AngleConstraint(angle, a, b, c) {
   var size = a.length || arguments.length - 1;
   var min = angle.length ? angle[0] : angle;
@@ -267,29 +671,83 @@ function AngleConstraint(angle, a, b, c) {
   this.setIndices(a, b, c);
 }
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
 AngleConstraint.create = lib.ctor(AngleConstraint);
 AngleConstraint.prototype = Object.create(lib.Constraint.prototype);
 AngleConstraint.prototype.constructor = AngleConstraint;
 
+/**
+  Set angle
+
+  @method setAngle
+  @param {Float}  min
+  @param {Float} [max]
+*/
 AngleConstraint.prototype.setAngle = function (min, max) {
   max = max != null ? max : min;
   this.setMin(min);
   this.setMax(max);
 };
 
+/**
+  Set minimum angle
+
+  @method setMin
+  @param {Float} min
+*/
 AngleConstraint.prototype.setMin = function (min) {
   this._min = this.clampAngle(min);
 };
 
+/**
+  Minimum angle
+
+  @property _min
+  @type Float
+  @private
+*/
+AngleConstraint.prototype._min = null;
+
+/**
+  Set maximum angle
+
+  @method setMax
+  @param {Float} max
+*/
 AngleConstraint.prototype.setMax = function (max) {
   this._max = this.clampAngle(max);
 };
+
+/**
+  Maximum angle
+
+  @property _max
+  @type Float
+  @private
+*/
+AngleConstraint.prototype._max = null;
 
 AngleConstraint.prototype.clampAngle = function (angle) {
   var p = 0.0000001;
   return lib.Math.clamp(p, Math.PI - p, angle);
 };
 
+/**
+  Angle used to classify obtuse angles in constraint solver. For accute angles,
+  only particles `a` and `c` are repositioned to satisfy the particle set's
+  target angle. For obtuse angles, particle `b` is also repositioned.
+
+  @property ANGLE_OBTUSE
+  @type Float
+  @default 3/4 Π
+  @static
+  @final
+*/
 AngleConstraint.ANGLE_OBTUSE = Math.PI * 0.75;
 
 // TODO: Optimize, reduce usage of Math.sqrt
@@ -407,7 +865,35 @@ AngleConstraint.prototype.applyConstraint = function (index, p0, p1) {
 };
 
 
+// ..................................................
+// AxisConstraint
+// ..................................................
+
 lib.AxisConstraint = AxisConstraint;
+
+/**
+  @module constraints
+*/
+
+/**
+  Defines one or many relationships between an infinite axis and single particles.
+
+  Orientaiton of the axis is defined by 2 points: `axisA` and `axisB`.
+
+  ```javascript
+  var axisA = 0, axisB = 1;
+  var a = 2, b = 3, c = 4;
+  var single = AxisConstraint.create(axisA, axisB, a);
+  var many = AxisConstraint.create(axisA, axisB, [a, b, c]);
+  ```
+
+  @class AxisConstraint
+  @extends Constraint
+  @constructor
+  @param {Int}       axisA  Particle index defining start of axis
+  @param {Int}       axisB  Particle index defining end of axis
+  @param {Int|Array} a      Particle index or list of many indices
+*/
 function AxisConstraint(axisA, axisB, a) {
   var size = a.length || 1;
 
@@ -416,10 +902,23 @@ function AxisConstraint(axisA, axisB, a) {
   this.setIndices(a);
 }
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
 AxisConstraint.create = lib.ctor(AxisConstraint);
 AxisConstraint.prototype = Object.create(lib.Constraint.prototype);
 AxisConstraint.prototype.constructor = AxisConstraint;
 
+/**
+  Set particles defining constraint axis
+
+  @method setAxis
+  @param {Int} a  Particle index defining start of axis
+  @param {Int} b  Particle index defining end of axis
+*/
 AxisConstraint.prototype.setAxis = function (a, b) {
   var ii = this.indices;
 
@@ -466,25 +965,108 @@ AxisConstraint.prototype.applyConstraint = function (index, p0, p1) {
 };
 
 
+// ..................................................
+// BoundingPlaneConstraint
+// ..................................................
+
 lib.BoundingPlaneConstraint = BoundingPlaneConstraint;
+
+/**
+  @module constraints
+*/
+
+/**
+  Defines an infinite bounding plane which constrains all particles in the system.
+
+  ```javascript
+  var origin = [1.0, 2.0, 5.0];
+  var normal = [0.0, 1.0, 0.0];
+  var bounds = BoundingPlaneConstraint.create(origin, normal);
+  var plane = BoundingPlaneConstraint.create(origin, normal, Infinity);
+  ```
+
+  @class BoundingPlaneConstraint
+  @extends Constraint
+  @constructor
+  @param {Array (Vec3)}  origin     Plane origin
+  @param {Array (Vec3)}  normal     Plane normal / orientation
+  @param {Float}        [distance]  Maximum positive distance to affect particles
+*/
 function BoundingPlaneConstraint(origin, normal, distance) {
-  this._isGlobal = true;
-  this.bufferVec3 = lib.Vec3.create(2);
+  /**
+    Positive distance from plane within which particles will be constrained.
+
+    A value of `Infinity` will constrain all particles to be inline with the plane, while
+    the default of `0` constrains all particles to space in front of the plane
+    relative to its `origin` and orientation `normal`.
+
+    @property distance
+    @type Float
+    @default 0
+  */
   this.distance = distance || 0;
+
+  /**
+    Damping factor to apply to particles being constrained to bounds
+
+    @property friction
+    @type Float
+    @default 0.05
+  */
   this.friction = 0.05;
+
+  /**
+    Vec3 buffer which stores plane origin and normal
+
+    @property bufferVec3
+    @type Float32Array (Vec3)
+    @private
+  */
+  this.bufferVec3 = lib.Vec3.create(2);
 
   this.setOrigin(origin);
   this.setNormal(normal);
 }
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
 BoundingPlaneConstraint.create = lib.ctor(BoundingPlaneConstraint);
 BoundingPlaneConstraint.prototype = Object.create(lib.Constraint.prototype);
 BoundingPlaneConstraint.prototype.constructor = BoundingPlaneConstraint;
 
+/**
+  Global constraint flag
+
+  @property _isGlobal
+  @type Bool
+  @private
+*/
+BoundingPlaneConstraint.prototype._isGlobal = true;
+
+/**
+  Set origin
+
+  @method setOrigin
+  @param {Float} x
+  @param {Float} y
+  @param {Float} z
+*/
 BoundingPlaneConstraint.prototype.setOrigin = function (x, y, z) {
   lib.Vec3.set(this.bufferVec3, 0, x, y, z);
 };
 
+/**
+  Set normal (automatically normalizes vector)
+
+  @method setNormal
+  @param {Float} x
+  @param {Float} y
+  @param {Float} z
+*/
 BoundingPlaneConstraint.prototype.setNormal = function (x, y, z) {
   lib.Vec3.set(this.bufferVec3, 1, x, y, z);
   lib.Vec3.normalize(this.bufferVec3, 1);
@@ -519,28 +1101,105 @@ BoundingPlaneConstraint.prototype.applyConstraint = function (index, p0, p1) {
 };
 
 
+// ..................................................
+// BoxConstraint
+// ..................................................
+
 lib.BoxConstraint = BoxConstraint;
+
+/**
+  @module constraints
+*/
+
+/**
+  Defines an axis-aligned bounding box which constrains all particles
+  in the system to its bounds.
+
+  ```javascript
+  var min = [-10.0, -10.0, -10.0];
+  var max = [10.0, 10.0, 10.0];
+  var box = BoxConstraint.create(min, max);
+  ```
+
+  @class BoxConstraint
+  @extends Constraint
+  @constructor
+  @param {Array (Vec3)} min  Bounds minimum
+  @param {Array (Vec3)} max  Bounds maximum
+*/
 function BoxConstraint(min, max) {
-  this._isGlobal = true;
-  this.bufferVec3 = lib.Vec3.create(2);
+  /**
+    Damping factor to apply to particles being constrained to bounds
+
+    @property friction
+    @type Float
+    @default 0.05
+  */
   this.friction = 0.05;
+
+  /**
+    Vec3 buffer which stores bounds
+
+    @property bufferVec3
+    @type Float32Array (Vec3)
+    @private
+  */
+  this.bufferVec3 = lib.Vec3.create(2);
 
   this.setBounds(min, max);
 }
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
 BoxConstraint.create = lib.ctor(BoxConstraint);
 BoxConstraint.prototype = Object.create(lib.Constraint.prototype);
 BoxConstraint.prototype.constructor = BoxConstraint;
 
+/**
+  Global constraint flag
+
+  @property _isGlobal
+  @type Bool
+  @private
+*/
+BoxConstraint.prototype._isGlobal = true;
+
+/**
+  Set bounds
+
+  @method setBounds
+  @param {Array (Vec3)} min
+  @param {Array (Vec3)} max
+*/
 BoxConstraint.prototype.setBounds = function (min, max) {
   this.setMin(min);
   this.setMax(max);
 };
 
+/**
+  Set bounds minimum; alias for `Vec3.set`.
+
+  @method setMin
+  @param {Float} x
+  @param {Float} y
+  @param {Float} z
+*/
 BoxConstraint.prototype.setMin = function (x, y, z) {
   lib.Vec3.set(this.bufferVec3, 0, x, y, z);
 };
 
+/**
+  Set bounds maximum; alias for `Vec3.set`.
+
+  @method setMin
+  @param {Float} x
+  @param {Float} y
+  @param {Float} z
+*/
 BoxConstraint.prototype.setMax = function (x, y, z) {
   lib.Vec3.set(this.bufferVec3, 1, x, y, z);
 };
@@ -570,7 +1229,40 @@ BoxConstraint.prototype.applyConstraint = function (index, p0, p1) {
 };
 
 
+// ..................................................
+// DistanceConstraint
+// ..................................................
+
 lib.DistanceConstraint = DistanceConstraint;
+
+/**
+  @module constraints
+*/
+
+/**
+  Defines one or many relationships between sets of two particles.
+
+  ```javascript
+  var a = 0, b = 1, c = 2;
+  var single = DistanceConstraint.create(10, a, b);
+  var many = DistanceConstraint.create(10, [a, b, a, c]);
+  ```
+
+  Particles are constrained by a fixed distance or a distance range.
+
+  ```javascript
+  var min = 0.5, max = 2.5;
+  var fixed = DistanceConstraint.create(max, 0, 1);
+  var range = DistanceConstraint.create([min, max], 0, 1);
+  ```
+
+  @class DistanceConstraint
+  @extends Constraint
+  @constructor
+  @param {Float|Array}  distance  Distance or distance range `[min, max]` between particles
+  @param {Int|Array}    a         Particle index or list of many constraint sets
+  @param {Int}         [b]        Particle index (only used if `a` is not an array)
+*/
 function DistanceConstraint(distance, a, b) {
   var size = a.length || arguments.length - 1;
   var min = distance.length ? distance[0] : distance;
@@ -581,22 +1273,65 @@ function DistanceConstraint(distance, a, b) {
   this.setIndices(a, b);
 }
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
 DistanceConstraint.create = lib.ctor(DistanceConstraint);
 DistanceConstraint.prototype = Object.create(lib.Constraint.prototype);
 DistanceConstraint.prototype.constructor = DistanceConstraint;
 
+/**
+  Set distance
+
+  @method setDistance
+  @param {Float}  min
+  @param {Float} [max]
+*/
 DistanceConstraint.prototype.setDistance = function (min, max) {
   this.setMin(min);
   this.setMax(max != null ? max : min);
 };
 
+/**
+  Set minimum distance
+
+  @method setMin
+  @param {Float} min
+*/
 DistanceConstraint.prototype.setMin = function (min) {
   this._min2 = min * min;
 };
 
+/**
+  Cached value of minimum distance squared
+
+  @property _min2
+  @type Float
+  @private
+*/
+DistanceConstraint.prototype._min2 = null;
+
+/**
+  Set maximum distance
+
+  @method setMax
+  @param {Float} max
+*/
 DistanceConstraint.prototype.setMax = function (max) {
   this._max2 = max * max;
 };
+
+/**
+  Cached value of maximum distance squared
+
+  @property _max2
+  @type Float
+  @private
+*/
+DistanceConstraint.prototype._max2 = null;
 
 DistanceConstraint.prototype.applyConstraint = function (index, p0, p1) {
   var ii = this.indices;
@@ -634,20 +1369,72 @@ DistanceConstraint.prototype.applyConstraint = function (index, p0, p1) {
 };
 
 
+// ..................................................
+// PlaneConstraint
+// ..................................................
+
 lib.PlaneConstraint = PlaneConstraint;
+
+/**
+  @module constraints
+*/
+
+/**
+  Defines one or many relationships between an infinite plane and single particles.
+
+  Orientaiton of the plane is defined by 3 points: `planeA`, `planeB`, and `planeC`.
+
+  ```javascript
+  var planeA = 0, planeB = 1, planeC = 2;
+  var a = 3, b = 4, c = 5;
+  var single = PlaneConstraint.create(planeA, planeB, planeC, a);
+  var many = PlaneConstraint.create(planeA, planeB, planeC, [a, b, c]);
+  ```
+
+  @class PlaneConstraint
+  @extends Constraint
+  @constructor
+  @param {Int}       planeA  Particle index defining point on plane
+  @param {Int}       planeB  Particle index defining point on plane
+  @param {Int}       planeC  Particle index defining point on plane
+  @param {Int|Array} a       Particle index or list of many indices
+*/
 function PlaneConstraint(planeA, planeB, planeC, a) {
   var size = a.length || 1;
 
   lib.Constraint.call(this, size, 1, 3);
+
+  /**
+    Vec3 buffer which stores plane normal.
+
+    @property bufferVec3
+    @type Float32Array (Vec3)
+    @private
+  */
   this.bufferVec3 = lib.Vec3.create(1);
+
   this.setPlane(planeA, planeB, planeC);
   this.setIndices(a);
 }
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
 PlaneConstraint.create = lib.ctor(PlaneConstraint);
 PlaneConstraint.prototype = Object.create(lib.Constraint.prototype);
 PlaneConstraint.prototype.constructor = PlaneConstraint;
 
+/**
+  Set particles defining constraint plane
+
+  @method setPlane
+  @param {Int} a  Particle index point on plane
+  @param {Int} b  Particle index point on plane
+  @param {Int} c  Particle index point on plane
+*/
 PlaneConstraint.prototype.setPlane = function (a, b, c) {
   var ii = this.indices;
 
@@ -656,7 +1443,15 @@ PlaneConstraint.prototype.setPlane = function (a, b, c) {
   ii[2] = c;
 };
 
-// Calculate and cache plane normal vector
+/**
+  Calculate and cache plane normal vector.
+  Calculated once per relaxation loop iteration.
+
+  @method _calculateNormal
+  @param {Int}                 index  Constraint set index
+  @param {Float32Array (Vec3)} p0     Reference to `ParticleSystem.positions`
+  @private
+*/
 PlaneConstraint.prototype._calculateNormal = function (index, p0) {
   var b0 = this.bufferVec3;
   var ii = this.indices;
@@ -700,6 +1495,15 @@ PlaneConstraint.prototype._calculateNormal = function (index, p0) {
   this._hasNormal = true;
 };
 
+/**
+  State of constraint's plane normal resolution
+
+  @property _hasNormal
+  @type Bool
+  @private
+*/
+PlaneConstraint.prototype._hasNormal = false;
+
 PlaneConstraint.prototype.applyConstraint = function (index, p0, p1) {
   var b0 = this.bufferVec3;
   var ii = this.indices;
@@ -733,20 +1537,68 @@ PlaneConstraint.prototype.applyConstraint = function (index, p0, p1) {
 };
 
 
+// ..................................................
+// PointConstraint
+// ..................................................
+
 lib.PointConstraint = PointConstraint;
+
+/**
+  @module constraints
+*/
+
+/**
+  Defines one or many relationships between a fixed point and single particles.
+
+  ```javascript
+  var point = [0.5, 10.0, 3.0];
+  var a = 0, b = 1;
+  var single = PointConstraint.create(point, a);
+  var many = PointConstraint.create(point, [a, b]);
+  ```
+
+  @class PointConstraint
+  @extends Constraint
+  @constructor
+  @param {Array (Vec3)} position  Point position
+  @param {Int|Array}    a         Particle index or list of many indices
+*/
 function PointConstraint(position, a) {
   var size = a.length || 1;
 
   lib.Constraint.call(this, size, 1);
+
+  /**
+    Vec3 buffer which stores point position.
+
+    @property bufferVec3
+    @type Float32Array (Vec3)
+    @private
+  */
   this.bufferVec3 = lib.Vec3.create(1);
+
   this.setPosition(position);
   this.setIndices(a);
 }
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
 PointConstraint.create = lib.ctor(PointConstraint);
 PointConstraint.prototype = Object.create(lib.Constraint.prototype);
 PointConstraint.prototype.constructor = PointConstraint;
 
+/**
+  Set point position.
+
+  @method setPosition
+  @param {Float} x
+  @param {Float} y
+  @param {Float} z
+*/
 PointConstraint.prototype.setPosition = function (x, y, z) {
   lib.Vec3.set(this.bufferVec3, 0, x, y, z);
 };
@@ -762,48 +1614,154 @@ PointConstraint.prototype.applyConstraint = function (index, p0, p1) {
 };
 
 
+// ..................................................
+// ParticleSystem
+// ..................................................
+
 lib.ParticleSystem = ParticleSystem;
+
+/**
+  @module systems
+*/
+
+/**
+  Manages particle state as well as the forces and constraints that act on its particles.
+
+  @class ParticleSystem
+  @constructor
+  @param {Int|Array} particles   Number of particles or array of initial particle positions
+  @param {Int}       iterations  Number of constraint iterations per system tick
+*/
 function ParticleSystem(particles, iterations) {
   var isCount = typeof particles === 'number';
   var length = isCount ? particles * 3 : particles.length;
   var count = length / 3;
   var positions = isCount ? length : particles;
 
+  /**
+    Current particle positions
+
+    @property positions
+    @type Float32Array (Vec3)
+  */
   this.positions = new Float32Array(positions);
+
+  /**
+    Previous particle positions
+
+    @property positionsPrev
+    @type Float32Array (Vec3)
+  */
   this.positionsPrev = new Float32Array(positions);
+
+  /**
+    Accumulated forces currently acting on particles
+
+    @property accumulatedForces
+    @type Float32Array (Vec3)
+  */
   this.accumulatedForces = new Float32Array(length);
 
+  /**
+    Particle mass
+
+    @property weights
+    @type Float32Array (Float)
+  */
   this.weights = new Float32Array(count);
   this.setWeights(1);
 
+  /**
+    Number of constraint relaxation loop iterations
+
+    @property _iterations
+    @type Int
+    @private
+  */
   this._iterations = iterations || 1;
+
+  /**
+    Number of particles in system
+
+    @property _count
+    @type Int
+    @private
+  */
   this._count = count;
+
   this._globalConstraints = [];
   this._localConstraints = [];
   this._pinConstraints = [];
   this._forces = [];
 }
 
+/**
+  Create instance, accepts constructor arguments.
+
+  @method create
+  @static
+*/
 ParticleSystem.create = lib.ctor(ParticleSystem);
 ParticleSystem.prototype.constructor = ParticleSystem;
 
+/**
+  Alias for `Vec3.set`. Sets vector of `positions` and `positionsPrev`.
+
+  @method setPosition
+  @param {Int}   i  Particle index
+  @param {Float} x
+  @param {Float} y
+  @param {Float} z
+*/
 ParticleSystem.prototype.setPosition = function (i, x, y, z) {
   lib.Vec3.set(this.positions, i, x, y, z);
   lib.Vec3.set(this.positionsPrev, i, x, y, z);
 };
 
+/**
+  Alias for `Vec3.copy`. Copys vector from `positions`.
+
+  @method getPosition
+  @param  {Int}  i    Particle index
+  @param  {Vec3} out
+  @return {Vec3} out
+*/
 ParticleSystem.prototype.getPosition = function (i, out) {
   return lib.Vec3.copy(this.positions, i, out);
 };
 
+/**
+  Alias for `Vec3.getDistance`. Calculates distance from `positions`.
+
+  @method getDistance
+  @param  {Int}   a  Particle index
+  @param  {Int}   b  Particle index
+  @return {Float}    Distance
+*/
 ParticleSystem.prototype.getDistance = function (a, b) {
   return lib.Vec3.distance(this.positions, a, b);
 };
 
+/**
+  Alias for `Vec3.angle`. Calculates angle from `positions`.
+
+  @method getAngle
+  @param  {Int}   a  Particle index
+  @param  {Int}   b  Particle index
+  @param  {Int}   c  Particle index
+  @return {Float}    Angle in radians
+*/
 ParticleSystem.prototype.getAngle = function (a, b, c) {
   return lib.Vec3.angle(this.positions, a, b, c);
 };
 
+/**
+  Set a particle's mass
+
+  @method setWeight
+  @param {Int}   i  Particle index
+  @param {Float} w  Weight
+*/
 ParticleSystem.prototype.setWeight = function (i, w) {
   this.weights[i] = w;
 };
@@ -834,8 +1792,9 @@ ParticleSystem.prototype.perturb = function (scale) {
   }
 };
 
-// Verlet integration
-// ------------------
+// ..................................................
+// Verlet Integration
+//
 
 function ps_integrateParticle(i, p0, p1, f0, weight, d2) {
   var pt = p0[i];
@@ -843,6 +1802,14 @@ function ps_integrateParticle(i, p0, p1, f0, weight, d2) {
   p1[i] = pt;
 }
 
+/**
+  Calculate particle's next position through Verlet integration.
+  Called as part of `tick`.
+
+  @method integrate
+  @param {Float} delta  Time step
+  @private
+*/
 ParticleSystem.prototype.integrate = function (delta) {
   var d2 = delta * delta;
   var p0 = this.positions;
@@ -861,29 +1828,63 @@ ParticleSystem.prototype.integrate = function (delta) {
   }
 };
 
+// ..................................................
 // Constraints
-// -----------
+//
 
 ParticleSystem.prototype._getConstraintBuffer = function (constraint) {
   return constraint._isGlobal ? this._globalConstraints : this._localConstraints;
 };
 
+/**
+  Add a constraint
+
+  @method addConstraint
+  @param {Constraint} constraint
+*/
 ParticleSystem.prototype.addConstraint = function (constraint) {
   this._getConstraintBuffer(constraint).push(constraint);
 };
 
+/**
+  Alias for `Collection.removeAll`. Remove all references to a constraint.
+
+  @method removeConstraint
+  @param {Constraint} constraint
+*/
 ParticleSystem.prototype.removeConstraint = function (constraint) {
   lib.Collection.removeAll(this._getConstraintBuffer(constraint), constraint);
 };
 
+/**
+  Add a pin constraint.
+  Although intended for instances of `PointConstraint`, this can be any
+  type of constraint and will be resolved last in the relaxation loop.
+
+  @method addPinConstraint
+  @param {Constraint} constraint
+*/
 ParticleSystem.prototype.addPinConstraint = function (constraint) {
   this._pinConstraints.push(constraint);
 };
 
+/**
+  Alias for `Collection.removeAll`. Remove all references to a pin constraint.
+
+  @method removePinConstraint
+  @param {Constraint} constraint
+*/
 ParticleSystem.prototype.removePinConstraint = function (constraint) {
   lib.Collection.removeAll(this._pinConstraints, constraint);
 };
 
+/**
+  Run relaxation loop, resolving constraints per defined iterations.
+  Constraints are resolved in order by type: global, local, pin.
+
+  @method satisfyConstraints
+  @private
+*/
 ParticleSystem.prototype.satisfyConstraints = function () {
   var iterations = this._iterations;
   var global = this._globalConstraints;
@@ -901,6 +1902,15 @@ ParticleSystem.prototype.satisfyConstraints = function () {
   }
 };
 
+/**
+  Resolve a group of constraints.
+
+  @method satisfyConstraintGroup
+  @param {Array} group       List of constraints
+  @param {Int}   [count]     Override for number of particles a constraint affects
+  @param {Int}   [itemSize]  Override for particle index stride
+  @private
+*/
 ParticleSystem.prototype.satisfyConstraintGroup = function (group, count, itemSize) {
   var p0 = this.positions;
   var p1 = this.positionsPrev;
@@ -921,17 +1931,37 @@ ParticleSystem.prototype.satisfyConstraintGroup = function (group, count, itemSi
   }
 };
 
+// ..................................................
 // Forces
-// ------
+//
 
+/**
+  Add a force
+
+  @method addForce
+  @param {Force} force
+*/
 ParticleSystem.prototype.addForce = function (force) {
   this._forces.push(force);
 };
 
+/**
+  Alias for `Collection.removeAll`. Remove all references to a force.
+
+  @method removeForce
+  @param {Force} force
+*/
 ParticleSystem.prototype.removeForce = function (force) {
   lib.Collection.removeAll(this._forces, force);
 };
 
+/**
+  Accumulate forces acting on particles.
+
+  @method accumulateForces
+  @param {Float} delta  Time step
+  @private
+*/
 ParticleSystem.prototype.accumulateForces = function (delta) {
   var forces = this._forces;
   var f0 = this.accumulatedForces;
@@ -949,6 +1979,13 @@ ParticleSystem.prototype.accumulateForces = function (delta) {
   }
 };
 
+/**
+  Step simulation forward one frame.
+  Applies forces, calculates particle positions, and resolves constraints.
+
+  @method tick
+  @param {Float} delta  Time step
+*/
 ParticleSystem.prototype.tick = function (delta) {
   this.accumulateForces(delta);
   this.integrate(delta);
@@ -956,5 +1993,9 @@ ParticleSystem.prototype.tick = function (delta) {
 };
 
 
+  /**
+    @class Particulate
+    @static
+  */
   this.Particulate = lib;
 }).call(this);
