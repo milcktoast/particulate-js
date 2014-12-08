@@ -609,13 +609,13 @@
                         {
                             "name": "radius",
                             "description": "",
-                            "type": "Int (Enum)",
+                            "type": "Float",
                             "optional": true
                         },
                         {
                             "name": "intensity",
                             "description": "",
-                            "type": "Int (Enum)",
+                            "type": "Float",
                             "optional": true
                         }
                     ]
