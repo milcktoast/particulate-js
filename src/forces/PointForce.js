@@ -27,8 +27,8 @@ lib.PointForce = PointForce;
   @param {Array (Vec3)}  position         Force position
   @param {Object}       [opts]            Options
   @param {Int (Enum)}   [opts.type]
-  @param {Int (Enum)}   [opts.radius]
-  @param {Int (Enum)}   [opts.intensity]
+  @param {Float}        [opts.radius]
+  @param {Float}        [opts.intensity]
 */
 function PointForce(position, opts) {
   opts = opts || {};
