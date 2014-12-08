@@ -1,0 +1,72 @@
+<a name="methods_{{name}}"></a>
+<div class="method item{{#if access}} {{access}}{{/if}}">
+  <div class="signature">
+    {{#if final}}<code>final</code> {{/if}}
+    <code class="name">{{name}}</code>( <code class="method-args">{{paramsList}}</code> )
+    {{#if access}}<span class="flag access">{{access}}</span>{{/if}}
+    {{#if static}}<span class="flag static">static</span>{{/if}}
+    {{#if deprecated}}<span class="flag deprecated">deprecated</span>{{/if}}
+    {{#if returnType}}<em class="type">{{#crossLink returnType}}{{/crossLink}}</em>{{/if}}
+  </div>
+  <span class="foundat">
+  {{#if overwritten_from}}
+    Defined in <a href="{{overwritten_from/class}}.html#method_{{overwritten_from/name}}">{{overwritten_from/class}}</a> but overwritten locally:
+  {{else}}
+    {{#if extended_from}} Defined in <a href="{{extended_from}}.html#method_{{name}}">{{extended_from}}</a>: {{/if}}
+  {{/if}}
+    <a href="http://github.com/jpweeks/particulate-js/tree/master/{{file}}#L{{line}}">`{{file}}:{{line}}`</a>
+  </span>
+  {{{methodDescription}}}
+  {{#if params}}
+  <ul class="params">
+  {{#params}}
+    <li>
+    {{#if optional}}
+      `[{{name}}{{#if optdefault}}={{optdefault}}{{/if}}]` <em class="type">{{#crossLink type}}{{/crossLink}}</em>
+    {{else}}
+      `{{name}}` <em class="type">{{#crossLink type}}{{/crossLink}}</em>
+    {{/if}}
+    {{#if multiple}}
+      <abbr title="Denotes that this argument can contain (n) number">(*..n)</abbr>
+    {{/if}}
+    <div class="description">
+      {{{description}}}
+    </div>
+    {{#if props}}
+      <ul>
+      {{#props}}
+        <li>`{{name}}` <em class="type">{{#crossLink type}}{{/crossLink}}</em>
+          <div class="description">
+            {{{description}}}
+          </div>
+        {{#if props}}
+          <ul>
+            {{#props}}
+              <li>`{{name}}` <em class="type">{{#crossLink type}}{{/crossLink}}</em>
+              <div class="description">
+                {{{description}}}
+              </div>
+            {{/props}}
+          </ul>
+        {{/if}}
+        </li>
+      {{/props}}
+      </ul>
+    {{/if}}
+    </li>
+  {{/params}}
+  </ul>
+  {{/if}}
+  {{#if return}}
+  {{#return}}
+  <div class="returns">
+    Returns: {{#if type}}<em class="type">{{#crossLink type}}{{/crossLink}}</em>{{/if}}
+    <div class="description">{{{description}}}</div>
+  </div>
+  {{/return}}
+  {{/if}}
+  {{#if example}}
+    <h5>Example</h5>
+    {{{example}}}
+  {{/if}}
+</div>
