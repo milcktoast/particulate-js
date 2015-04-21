@@ -1,0 +1,31 @@
+// ..................................................
+// Particulate.js
+//
+// version : 0.3.1
+// authors : Jay Weeks
+// license : MIT
+// particulatejs.org
+// ..................................................
+
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define({{#if amdModuleId}}'{{amdModuleId}}', {{/if}}[{{{amdDependencies.wrapped}}}], function ({{{amdDependencies.params}}}) {
+      return ({{#if objectToExport}}root['{{{objectToExport}}}'] = {{/if}}factory({{{amdDependencies.params}}}));
+    });
+  } else if (typeof exports === 'object') {
+    module.exports = factory({{{cjsDependencies.wrapped}}});
+  } else {
+    {{#if globalAlias}}root['{{{globalAlias}}}'] = {{else}}{{#if objectToExport}}root['{{{objectToExport}}}'] = {{/if}}{{/if}}factory({{{globalDependencies.normal}}});
+  }
+}(this, function ({{dependencies}}) {
+'use strict';
+{{#if objectToExport}}
+var {{{objectToExport}}};
+{{/if}}
+
+{{{code}}}
+
+{{#if objectToExport}}
+return {{{objectToExport}}};
+{{/if}}
+}));

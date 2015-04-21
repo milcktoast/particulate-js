@@ -48,6 +48,18 @@ module.exports = function (grunt) {
       }
     },
 
+    umd: {
+      src: {
+        options: {
+          objectToExport: 'lib',
+          amdModuleId: 'particulate',
+          globalAlias: 'Particulate',
+          template: config.src + 'wrap.hbs'
+        },
+        src: config.dest + 'particulate.js'
+      }
+    },
+
     // TODO: Generate coverage report relative to source files
     qunit: {
       main: ['test/index.html'],
@@ -127,7 +139,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('develop', [
     'jshint',
-    'neuter'
+    'neuter',
+    'umd'
   ]);
 
   grunt.registerTask('build', [
