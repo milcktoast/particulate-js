@@ -1,7 +1,7 @@
 // ..................................................
 // Particulate.js
 //
-// version : 0.3.1
+// version : 0.3.2
 // authors : Jay Weeks
 // license : MIT
 // particulatejs.org
@@ -25,7 +25,7 @@
   @class Particulate
   @static
 */
-lib = { VERSION : '0.3.1' };
+lib = { VERSION : '0.3.2' };
 
 
 /**
