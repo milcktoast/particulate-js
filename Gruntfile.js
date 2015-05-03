@@ -3,7 +3,7 @@ module.exports = function (grunt) {
   'use strict';
 
   var config = {
-    version: '0.3.1',
+    version: '0.3.2',
     src: 'src/',
     dest: 'dist/',
     test: 'test/',
