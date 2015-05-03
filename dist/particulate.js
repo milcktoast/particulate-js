@@ -1,18 +1,31 @@
 // ..................................................
 // Particulate.js
 //
-// version : 0.3.1
+// version : 0.3.2
 // authors : Jay Weeks
 // license : MIT
 // particulatejs.org
 // ..................................................
 
-(function () {
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define('particulate', [], function () {
+      return (root['Particulate'] = factory());
+    });
+  } else if (typeof exports === 'object') {
+    module.exports = factory();
+  } else {
+    root['Particulate'] = factory();
+  }
+}(this, function () {
   'use strict';
+  var lib;
 
-  var lib = {
-    VERSION : '0.3.1'
-  };
+/**
+  @class Particulate
+  @static
+*/
+lib = { VERSION : '0.3.2' };
 
 
 /**
@@ -438,8 +451,8 @@ lib.PointForce = PointForce;
   @param {Array (Vec3)}  position         Force position
   @param {Object}       [opts]            Options
   @param {Int (Enum)}   [opts.type]
-  @param {Int (Enum)}   [opts.radius]
-  @param {Int (Enum)}   [opts.intensity]
+  @param {Float}        [opts.radius]
+  @param {Float}        [opts.intensity]
 */
 function PointForce(position, opts) {
   opts = opts || {};
@@ -1993,9 +2006,5 @@ ParticleSystem.prototype.tick = function (delta) {
 };
 
 
-  /**
-    @class Particulate
-    @static
-  */
-  this.Particulate = lib;
-}).call(this);
+  return lib;
+}));

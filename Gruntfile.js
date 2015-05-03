@@ -3,7 +3,7 @@ module.exports = function (grunt) {
   'use strict';
 
   var config = {
-    version: '0.3.1',
+    version: '0.3.2',
     src: 'src/',
     dest: 'dist/',
     test: 'test/',
@@ -13,14 +13,9 @@ module.exports = function (grunt) {
     lib: 'node_modules/'
   };
 
-  grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-yuidoc');
-  grunt.loadNpmTasks('grunt-qunit-istanbul');
-  grunt.loadNpmTasks('grunt-coveralls');
-  grunt.loadNpmTasks('grunt-neuter');
+  require('jit-grunt')(grunt, {
+    qunit: 'grunt-qunit-istanbul'
+  });
 
   grunt.initConfig({
     jshint: {
@@ -58,6 +53,18 @@ module.exports = function (grunt) {
         },
         src: config.site + 'js/main.js',
         dest: config.site + 'main-bundle.js'
+      }
+    },
+
+    umd: {
+      src: {
+        options: {
+          objectToExport: 'lib',
+          amdModuleId: 'particulate',
+          globalAlias: 'Particulate',
+          template: config.src + 'wrap.hbs'
+        },
+        src: config.dest + 'particulate.js'
       }
     },
 
@@ -148,7 +155,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('develop', [
     'jshint',
-    'neuter'
+    'neuter',
+    'umd'
   ]);
 
   grunt.registerTask('build', [
