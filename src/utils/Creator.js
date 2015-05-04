@@ -19,3 +19,18 @@ lib.ctor = function ctor(Ctor) {
     return instance;
   };
 };
+
+/**
+  Functional inheritance utility
+
+  @method inherit
+  @param {Function} Ctor        Class constructor
+  @param {Function} ParentCtor  Parent class constructor
+  @private
+  @static
+*/
+lib.inherit = function inherit(Ctor, ParentCtor) {
+  Ctor.create = lib.ctor(Ctor);
+  Ctor.prototype = Object.create(ParentCtor.prototype);
+  Ctor.prototype.constructor = Ctor;
+};

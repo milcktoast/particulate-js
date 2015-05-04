@@ -85,8 +85,7 @@ function ParticleSystem(particles, iterations) {
   @method create
   @static
 */
-ParticleSystem.create = lib.ctor(ParticleSystem);
-ParticleSystem.prototype.constructor = ParticleSystem;
+lib.inherit(ParticleSystem, Object);
 
 /**
   Alias for `Vec3.set`. Sets vector of `positions` and `positionsPrev`.

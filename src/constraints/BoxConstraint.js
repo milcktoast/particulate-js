@@ -54,9 +54,7 @@ function BoxConstraint(min, max) {
   @method create
   @static
 */
-BoxConstraint.create = lib.ctor(BoxConstraint);
-BoxConstraint.prototype = Object.create(lib.Constraint.prototype);
-BoxConstraint.prototype.constructor = BoxConstraint;
+lib.inherit(BoxConstraint, lib.Constraint);
 
 /**
   Global constraint flag

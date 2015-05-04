@@ -56,9 +56,7 @@ var pf_ATTRACTOR_REPULSOR = lib.Force.ATTRACTOR_REPULSOR;
   @method create
   @static
 */
-PointForce.create = lib.ctor(PointForce);
-PointForce.prototype = Object.create(lib.Force.prototype);
-PointForce.prototype.constructor = PointForce;
+lib.inherit(PointForce, lib.Force);
 
 /**
   Set radius

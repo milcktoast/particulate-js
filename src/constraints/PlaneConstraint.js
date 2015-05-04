@@ -54,9 +54,7 @@ function PlaneConstraint(planeA, planeB, planeC, a) {
   @method create
   @static
 */
-PlaneConstraint.create = lib.ctor(PlaneConstraint);
-PlaneConstraint.prototype = Object.create(lib.Constraint.prototype);
-PlaneConstraint.prototype.constructor = PlaneConstraint;
+lib.inherit(PlaneConstraint, lib.Constraint);
 
 /**
   Set particles defining constraint plane

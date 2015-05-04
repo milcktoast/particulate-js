@@ -52,9 +52,7 @@ function AngleConstraint(angle, a, b, c) {
   @method create
   @static
 */
-AngleConstraint.create = lib.ctor(AngleConstraint);
-AngleConstraint.prototype = Object.create(lib.Constraint.prototype);
-AngleConstraint.prototype.constructor = AngleConstraint;
+lib.inherit(AngleConstraint, lib.Constraint);
 
 /**
   Set angle

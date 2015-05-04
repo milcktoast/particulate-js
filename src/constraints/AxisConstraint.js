@@ -43,9 +43,7 @@ function AxisConstraint(axisA, axisB, a) {
   @method create
   @static
 */
-AxisConstraint.create = lib.ctor(AxisConstraint);
-AxisConstraint.prototype = Object.create(lib.Constraint.prototype);
-AxisConstraint.prototype.constructor = AxisConstraint;
+lib.inherit(AxisConstraint, lib.Constraint);
 
 /**
   Set particles defining constraint axis

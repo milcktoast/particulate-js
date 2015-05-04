@@ -69,9 +69,7 @@ function BoundingPlaneConstraint(origin, normal, distance) {
   @method create
   @static
 */
-BoundingPlaneConstraint.create = lib.ctor(BoundingPlaneConstraint);
-BoundingPlaneConstraint.prototype = Object.create(lib.Constraint.prototype);
-BoundingPlaneConstraint.prototype.constructor = BoundingPlaneConstraint;
+lib.inherit(BoundingPlaneConstraint, lib.Constraint);
 
 /**
   Global constraint flag

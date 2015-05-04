@@ -35,7 +35,7 @@ function Force(vector, opts) {
   @method create
   @static
 */
-Force.create = lib.ctor(Force);
+lib.inherit(Force, Object);
 
 /**
   Force type enum: `Force.ATTRACTOR`, `Force.REPULSOR`, `Force.ATTRACTOR_REPULSOR`.
