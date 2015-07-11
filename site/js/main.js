@@ -2,16 +2,18 @@ var App = window.App = {};
 
 require('../dist/particulate.js');
 
-require('../node_modules/three/examples/js/shaders/ConvolutionShader.js');
-require('../node_modules/three/examples/js/shaders/CopyShader.js');
+// Three.js
+require('lib/three/controls/TrackballControls');
+require('lib/three/geometries/PlaneBufferGeometry');
 
-require('../node_modules/three/examples/js/postprocessing/EffectComposer.js');
-require('../node_modules/three/examples/js/postprocessing/MaskPass.js');
-require('../node_modules/three/examples/js/postprocessing/RenderPass.js');
-require('../node_modules/three/examples/js/postprocessing/ShaderPass.js');
-require('../node_modules/three/examples/js/postprocessing/BloomPass.js');
+require('lib/three/shaders/CopyShader');
+require('lib/three/shaders/ConvolutionShader');
 
-require('../node_modules/three/examples/js/controls/TrackballControls.js');
+require('lib/three/postprocessing/EffectComposer');
+require('lib/three/postprocessing/MaskPass');
+require('lib/three/postprocessing/RenderPass');
+require('lib/three/postprocessing/ShaderPass');
+require('lib/three/postprocessing/BloomPass');
 
 require('js/utils/*');
 require('js/scenes/*');
