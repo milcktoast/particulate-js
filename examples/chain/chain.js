@@ -69,8 +69,8 @@
   var dots = new THREE.BufferGeometry();
   dots.addAttribute('position', vertices);
 
-  var visParticles = new THREE.ParticleSystem(dots,
-    new THREE.ParticleSystemMaterial({size: 2}));
+  var visParticles = new THREE.PointCloud(dots,
+    new THREE.PointCloudMaterial({size: 2}));
   demo.scene.add(visParticles);
 
   // Connections

@@ -98,7 +98,7 @@ module.exports = function (grunt) {
     watch: {
       src: {
         files: [config.src + '**/*'],
-        tasks: ['neuter:src']
+        tasks: ['neuter:src', 'umd:src']
       },
       test: {
         files: [config.test + '**/*', '!' + config.test + 'test-bundle.js'],
@@ -160,8 +160,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'develop',
       'connect',
-      'watch:src',
-      'watch:test'
+      'watch'
     ]);
   });
 
