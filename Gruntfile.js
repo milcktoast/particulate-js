@@ -117,13 +117,17 @@ module.exports = function (grunt) {
         tasks: ['neuter:test']
       },
       site: {
-        files: [config.site + '**/*', '!' + config.site + '**/main-bundle.js'],
+        files: [
+          config.site + '**/*',
+          '!' + config.site + '**/main-bundle.js',
+          config.dest + 'particulate.js'
+        ],
         tasks: ['neuter:site']
       },
-      docs: {
-        files: [config.src + '**/*', config.docsTheme + '**/*'],
-        tasks: ['yuidoc:main']
-      }
+      // docs: {
+      //   files: [config.src + '**/*', config.docsTheme + '**/*'],
+      //   tasks: ['yuidoc:main']
+      // }
     },
 
     connect: {
