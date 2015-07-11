@@ -72,13 +72,10 @@ system.addForce(gravity);
 var scene = new THREE.Scene();
 
 // Use system positions buffer
-var vertices = new THREE.BufferAttribute();
-vertices.array = system.positions;
-vertices.itemSize = 3;
+var vertices = new THREE.BufferAttribute(system.positions, 3);
 
 // Use distance constraint indices
-var indices = new THREE.BufferAttribute();
-indices.array = new Uint16Array(dist.indices);
+var indices = new THREE.BufferAttribute(new Uint16Array(dist.indices));
 
 // Particles
 var dotsGeom = new THREE.BufferGeometry();
