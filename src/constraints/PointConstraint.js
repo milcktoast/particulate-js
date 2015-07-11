@@ -50,9 +50,7 @@ function PointConstraint(position, a) {
   @method create
   @static
 */
-PointConstraint.create = lib.ctor(PointConstraint);
-PointConstraint.prototype = Object.create(lib.Constraint.prototype);
-PointConstraint.prototype.constructor = PointConstraint;
+lib.inherit(PointConstraint, lib.Constraint);
 
 /**
   Set point position.

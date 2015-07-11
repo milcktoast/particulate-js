@@ -32,9 +32,7 @@ function DirectionalForce(vector) {
   @method create
   @static
 */
-DirectionalForce.create = lib.ctor(DirectionalForce);
-DirectionalForce.prototype = Object.create(lib.Force.prototype);
-DirectionalForce.prototype.constructor = DirectionalForce;
+lib.inherit(DirectionalForce, lib.Force);
 
 DirectionalForce.prototype.applyForce = function (ix, f0, p0, p1) {
   var v0 = this.vector;

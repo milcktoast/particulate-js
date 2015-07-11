@@ -155,8 +155,9 @@ module.exports = function (grunt) {
 
   grunt.registerTask('develop', [
     'jshint',
-    'neuter',
-    'umd'
+    'neuter:src',
+    'umd',
+    'neuter:test'
   ]);
 
   grunt.registerTask('build', [

@@ -66,7 +66,7 @@ function Constraint(size, itemSize, indexOffset) {
   @method create
   @static
 */
-Constraint.create = lib.ctor(Constraint);
+lib.inherit(Constraint, Object);
 
 /**
   Set particle indices with `Array` or list of `arguments`.

@@ -50,9 +50,7 @@ function DistanceConstraint(distance, a, b) {
   @method create
   @static
 */
-DistanceConstraint.create = lib.ctor(DistanceConstraint);
-DistanceConstraint.prototype = Object.create(lib.Constraint.prototype);
-DistanceConstraint.prototype.constructor = DistanceConstraint;
+lib.inherit(DistanceConstraint, lib.Constraint);
 
 /**
   Set distance
