@@ -2,7 +2,7 @@
     "project": {
         "name": "Particulate.js",
         "url": "particulatejs.org",
-        "version": "0.3.1"
+        "version": "0.3.2"
     },
     "files": {
         "src/constraints/AngleConstraint.js": {
@@ -242,7 +242,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "src/main.js",
-            "line": 23
+            "line": 1
         }
     },
     "classes": {
@@ -705,7 +705,7 @@
             "module": "utils",
             "namespace": "",
             "file": "src/main.js",
-            "line": 23,
+            "line": 1,
             "static": 1
         }
     },
@@ -722,7 +722,7 @@
         },
         {
             "file": "src/constraints/AngleConstraint.js",
-            "line": 59,
+            "line": 57,
             "description": "Set angle",
             "itemtype": "method",
             "name": "setAngle",
@@ -744,7 +744,7 @@
         },
         {
             "file": "src/constraints/AngleConstraint.js",
-            "line": 72,
+            "line": 70,
             "description": "Set minimum angle",
             "itemtype": "method",
             "name": "setMin",
@@ -760,7 +760,7 @@
         },
         {
             "file": "src/constraints/AngleConstraint.js",
-            "line": 82,
+            "line": 80,
             "description": "Minimum angle",
             "itemtype": "property",
             "name": "_min",
@@ -772,7 +772,7 @@
         },
         {
             "file": "src/constraints/AngleConstraint.js",
-            "line": 91,
+            "line": 89,
             "description": "Set maximum angle",
             "itemtype": "method",
             "name": "setMax",
@@ -788,7 +788,7 @@
         },
         {
             "file": "src/constraints/AngleConstraint.js",
-            "line": 101,
+            "line": 99,
             "description": "Maximum angle",
             "itemtype": "property",
             "name": "_max",
@@ -800,7 +800,7 @@
         },
         {
             "file": "src/constraints/AngleConstraint.js",
-            "line": 115,
+            "line": 113,
             "description": "Angle used to classify obtuse angles in constraint solver. For accute angles,\nonly particles `a` and `c` are repositioned to satisfy the particle set's\ntarget angle. For obtuse angles, particle `b` is also repositioned.",
             "itemtype": "property",
             "name": "ANGLE_OBTUSE",
@@ -823,7 +823,7 @@
         },
         {
             "file": "src/constraints/AxisConstraint.js",
-            "line": 50,
+            "line": 48,
             "description": "Set particles defining constraint axis",
             "itemtype": "method",
             "name": "setAxis",
@@ -888,7 +888,7 @@
         },
         {
             "file": "src/constraints/BoundingPlaneConstraint.js",
-            "line": 76,
+            "line": 74,
             "description": "Global constraint flag",
             "itemtype": "property",
             "name": "_isGlobal",
@@ -900,7 +900,7 @@
         },
         {
             "file": "src/constraints/BoundingPlaneConstraint.js",
-            "line": 85,
+            "line": 83,
             "description": "Set origin",
             "itemtype": "method",
             "name": "setOrigin",
@@ -926,7 +926,7 @@
         },
         {
             "file": "src/constraints/BoundingPlaneConstraint.js",
-            "line": 97,
+            "line": 95,
             "description": "Set normal (automatically normalizes vector)",
             "itemtype": "method",
             "name": "setNormal",
@@ -985,7 +985,7 @@
         },
         {
             "file": "src/constraints/BoxConstraint.js",
-            "line": 61,
+            "line": 59,
             "description": "Global constraint flag",
             "itemtype": "property",
             "name": "_isGlobal",
@@ -997,7 +997,7 @@
         },
         {
             "file": "src/constraints/BoxConstraint.js",
-            "line": 70,
+            "line": 68,
             "description": "Set bounds",
             "itemtype": "method",
             "name": "setBounds",
@@ -1018,7 +1018,7 @@
         },
         {
             "file": "src/constraints/BoxConstraint.js",
-            "line": 82,
+            "line": 80,
             "description": "Set bounds minimum; alias for `Vec3.set`.",
             "itemtype": "method",
             "name": "setMin",
@@ -1044,7 +1044,7 @@
         },
         {
             "file": "src/constraints/BoxConstraint.js",
-            "line": 94,
+            "line": 92,
             "description": "Set bounds maximum; alias for `Vec3.set`.",
             "itemtype": "method",
             "name": "setMin",
@@ -1186,7 +1186,7 @@
         },
         {
             "file": "src/constraints/DistanceConstraint.js",
-            "line": 57,
+            "line": 55,
             "description": "Set distance",
             "itemtype": "method",
             "name": "setDistance",
@@ -1208,7 +1208,7 @@
         },
         {
             "file": "src/constraints/DistanceConstraint.js",
-            "line": 69,
+            "line": 67,
             "description": "Set minimum distance",
             "itemtype": "method",
             "name": "setMin",
@@ -1224,7 +1224,7 @@
         },
         {
             "file": "src/constraints/DistanceConstraint.js",
-            "line": 79,
+            "line": 77,
             "description": "Cached value of minimum distance squared",
             "itemtype": "property",
             "name": "_min2",
@@ -1236,7 +1236,7 @@
         },
         {
             "file": "src/constraints/DistanceConstraint.js",
-            "line": 88,
+            "line": 86,
             "description": "Set maximum distance",
             "itemtype": "method",
             "name": "setMax",
@@ -1252,7 +1252,7 @@
         },
         {
             "file": "src/constraints/DistanceConstraint.js",
-            "line": 98,
+            "line": 96,
             "description": "Cached value of maximum distance squared",
             "itemtype": "property",
             "name": "_max2",
@@ -1286,7 +1286,7 @@
         },
         {
             "file": "src/constraints/PlaneConstraint.js",
-            "line": 61,
+            "line": 59,
             "description": "Set particles defining constraint plane",
             "itemtype": "method",
             "name": "setPlane",
@@ -1312,7 +1312,7 @@
         },
         {
             "file": "src/constraints/PlaneConstraint.js",
-            "line": 77,
+            "line": 75,
             "description": "Calculate and cache plane normal vector.\nCalculated once per relaxation loop iteration.",
             "itemtype": "method",
             "name": "_calculateNormal",
@@ -1335,7 +1335,7 @@
         },
         {
             "file": "src/constraints/PlaneConstraint.js",
-            "line": 129,
+            "line": 127,
             "description": "State of constraint's plane normal resolution",
             "itemtype": "property",
             "name": "_hasNormal",
@@ -1369,7 +1369,7 @@
         },
         {
             "file": "src/constraints/PointConstraint.js",
-            "line": 57,
+            "line": 55,
             "description": "Set point position.",
             "itemtype": "method",
             "name": "setPosition",
@@ -1506,7 +1506,7 @@
         },
         {
             "file": "src/forces/PointForce.js",
-            "line": 63,
+            "line": 61,
             "description": "Set radius",
             "itemtype": "method",
             "name": "setRadius",
@@ -1522,7 +1522,7 @@
         },
         {
             "file": "src/forces/PointForce.js",
-            "line": 73,
+            "line": 71,
             "description": "Cached value of squared influence radius",
             "itemtype": "property",
             "name": "_radius2",
@@ -1892,7 +1892,7 @@
         },
         {
             "file": "src/systems/ParticleSystem.js",
-            "line": 91,
+            "line": 90,
             "description": "Alias for `Vec3.set`. Sets vector of `positions` and `positionsPrev`.",
             "itemtype": "method",
             "name": "setPosition",
@@ -1923,7 +1923,7 @@
         },
         {
             "file": "src/systems/ParticleSystem.js",
-            "line": 105,
+            "line": 104,
             "description": "Alias for `Vec3.copy`. Copys vector from `positions`.",
             "itemtype": "method",
             "name": "getPosition",
@@ -1948,7 +1948,7 @@
         },
         {
             "file": "src/systems/ParticleSystem.js",
-            "line": 117,
+            "line": 116,
             "description": "Alias for `Vec3.getDistance`. Calculates distance from `positions`.",
             "itemtype": "method",
             "name": "getDistance",
@@ -1973,7 +1973,7 @@
         },
         {
             "file": "src/systems/ParticleSystem.js",
-            "line": 129,
+            "line": 128,
             "description": "Alias for `Vec3.angle`. Calculates angle from `positions`.",
             "itemtype": "method",
             "name": "getAngle",
@@ -2003,7 +2003,7 @@
         },
         {
             "file": "src/systems/ParticleSystem.js",
-            "line": 142,
+            "line": 141,
             "description": "Set a particle's mass",
             "itemtype": "method",
             "name": "setWeight",
@@ -2024,7 +2024,7 @@
         },
         {
             "file": "src/systems/ParticleSystem.js",
-            "line": 189,
+            "line": 188,
             "description": "Calculate particle's next position through Verlet integration.\nCalled as part of `tick`.",
             "itemtype": "method",
             "name": "integrate",
@@ -2042,7 +2042,7 @@
         },
         {
             "file": "src/systems/ParticleSystem.js",
-            "line": 223,
+            "line": 222,
             "description": "Add a constraint",
             "itemtype": "method",
             "name": "addConstraint",
@@ -2058,7 +2058,7 @@
         },
         {
             "file": "src/systems/ParticleSystem.js",
-            "line": 233,
+            "line": 232,
             "description": "Alias for `Collection.removeAll`. Remove all references to a constraint.",
             "itemtype": "method",
             "name": "removeConstraint",
@@ -2074,7 +2074,7 @@
         },
         {
             "file": "src/systems/ParticleSystem.js",
-            "line": 243,
+            "line": 242,
             "description": "Add a pin constraint.\nAlthough intended for instances of `PointConstraint`, this can be any\ntype of constraint and will be resolved last in the relaxation loop.",
             "itemtype": "method",
             "name": "addPinConstraint",
@@ -2090,7 +2090,7 @@
         },
         {
             "file": "src/systems/ParticleSystem.js",
-            "line": 255,
+            "line": 254,
             "description": "Alias for `Collection.removeAll`. Remove all references to a pin constraint.",
             "itemtype": "method",
             "name": "removePinConstraint",
@@ -2106,7 +2106,7 @@
         },
         {
             "file": "src/systems/ParticleSystem.js",
-            "line": 265,
+            "line": 264,
             "description": "Run relaxation loop, resolving constraints per defined iterations.\nConstraints are resolved in order by type: global, local, pin.",
             "itemtype": "method",
             "name": "satisfyConstraints",
@@ -2117,7 +2117,7 @@
         },
         {
             "file": "src/systems/ParticleSystem.js",
-            "line": 289,
+            "line": 288,
             "description": "Resolve a group of constraints.",
             "itemtype": "method",
             "name": "satisfyConstraintGroup",
@@ -2147,7 +2147,7 @@
         },
         {
             "file": "src/systems/ParticleSystem.js",
-            "line": 322,
+            "line": 321,
             "description": "Add a force",
             "itemtype": "method",
             "name": "addForce",
@@ -2163,7 +2163,7 @@
         },
         {
             "file": "src/systems/ParticleSystem.js",
-            "line": 332,
+            "line": 331,
             "description": "Alias for `Collection.removeAll`. Remove all references to a force.",
             "itemtype": "method",
             "name": "removeForce",
@@ -2179,7 +2179,7 @@
         },
         {
             "file": "src/systems/ParticleSystem.js",
-            "line": 342,
+            "line": 341,
             "description": "Accumulate forces acting on particles.",
             "itemtype": "method",
             "name": "accumulateForces",
@@ -2197,7 +2197,7 @@
         },
         {
             "file": "src/systems/ParticleSystem.js",
-            "line": 366,
+            "line": 365,
             "description": "Step simulation forward one frame.\nApplies forces, calculates particle positions, and resolves constraints.",
             "itemtype": "method",
             "name": "tick",
@@ -2249,6 +2249,30 @@
                 "description": "constructor",
                 "type": "Function"
             },
+            "access": "private",
+            "tagname": "",
+            "static": 1,
+            "class": "Particulate",
+            "module": "utils"
+        },
+        {
+            "file": "src/utils/Creator.js",
+            "line": 23,
+            "description": "Functional inheritance utility",
+            "itemtype": "method",
+            "name": "inherit",
+            "params": [
+                {
+                    "name": "Ctor",
+                    "description": "Class constructor",
+                    "type": "Function"
+                },
+                {
+                    "name": "ParentCtor",
+                    "description": "Parent class constructor",
+                    "type": "Function"
+                }
+            ],
             "access": "private",
             "tagname": "",
             "static": 1,
