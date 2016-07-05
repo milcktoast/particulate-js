@@ -1,10 +1,11 @@
-require('./Constraint');
+import { inherit } from '../utils/Creator';
+import { Constraint } from './Constraint';
 
 // ..................................................
 // DistanceConstraint
 // ..................................................
 
-lib.DistanceConstraint = DistanceConstraint;
+export { DistanceConstraint };
 
 /**
   @module constraints
@@ -39,7 +40,7 @@ function DistanceConstraint(distance, a, b) {
   var min = distance.length ? distance[0] : distance;
   var max = distance.length ? distance[1] : distance;
 
-  lib.Constraint.call(this, size, 2);
+  Constraint.call(this, size, 2);
   this.setDistance(min, max);
   this.setIndices(a, b);
 }
@@ -50,7 +51,7 @@ function DistanceConstraint(distance, a, b) {
   @method create
   @static
 */
-lib.inherit(DistanceConstraint, lib.Constraint);
+inherit(DistanceConstraint, Constraint);
 
 /**
   Set distance

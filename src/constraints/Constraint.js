@@ -1,8 +1,10 @@
+import { inherit } from '../utils/Creator';
+
 // ..................................................
 // Constraint
 // ..................................................
 
-lib.Constraint = Constraint;
+export { Constraint };
 
 /**
   Constraints define relationships between multiple particles or
@@ -66,7 +68,7 @@ function Constraint(size, itemSize, indexOffset) {
   @method create
   @static
 */
-lib.inherit(Constraint, Object);
+inherit(Constraint, Object);
 
 /**
   Set particle indices with `Array` or list of `arguments`.

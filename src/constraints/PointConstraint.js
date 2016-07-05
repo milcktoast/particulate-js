@@ -1,10 +1,12 @@
-require('./Constraint');
+import { inherit } from '../utils/Creator';
+import { Vec3 } from '../math/Vec3';
+import { Constraint } from './Constraint';
 
 // ..................................................
 // PointConstraint
 // ..................................................
 
-lib.PointConstraint = PointConstraint;
+export { PointConstraint };
 
 /**
   @module constraints
@@ -29,7 +31,7 @@ lib.PointConstraint = PointConstraint;
 function PointConstraint(position, a) {
   var size = a.length || 1;
 
-  lib.Constraint.call(this, size, 1);
+  Constraint.call(this, size, 1);
 
   /**
     Vec3 buffer which stores point position.
@@ -38,7 +40,7 @@ function PointConstraint(position, a) {
     @type Float32Array (Vec3)
     @private
   */
-  this.bufferVec3 = lib.Vec3.create(1);
+  this.bufferVec3 = Vec3.create(1);
 
   this.setPosition(position);
   this.setIndices(a);
@@ -50,7 +52,7 @@ function PointConstraint(position, a) {
   @method create
   @static
 */
-lib.inherit(PointConstraint, lib.Constraint);
+inherit(PointConstraint, Constraint);
 
 /**
   Set point position.
@@ -61,7 +63,7 @@ lib.inherit(PointConstraint, lib.Constraint);
   @param {Float} z
 */
 PointConstraint.prototype.setPosition = function (x, y, z) {
-  lib.Vec3.set(this.bufferVec3, 0, x, y, z);
+  Vec3.set(this.bufferVec3, 0, x, y, z);
 };
 
 PointConstraint.prototype.applyConstraint = function (index, p0, p1) {

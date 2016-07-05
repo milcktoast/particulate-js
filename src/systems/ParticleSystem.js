@@ -1,8 +1,12 @@
+import { removeAll } from '../utils/Collection';
+import { inherit } from '../utils/Creator';
+import { Vec3 } from '../math/Vec3';
+
 // ..................................................
 // ParticleSystem
 // ..................................................
 
-lib.ParticleSystem = ParticleSystem;
+export { ParticleSystem };
 
 /**
   @module systems
@@ -85,7 +89,7 @@ function ParticleSystem(particles, iterations) {
   @method create
   @static
 */
-lib.inherit(ParticleSystem, Object);
+inherit(ParticleSystem, Object);
 
 /**
   Alias for `Vec3.set`. Sets vector of `positions` and `positionsPrev`.
@@ -97,8 +101,8 @@ lib.inherit(ParticleSystem, Object);
   @param {Float} z
 */
 ParticleSystem.prototype.setPosition = function (i, x, y, z) {
-  lib.Vec3.set(this.positions, i, x, y, z);
-  lib.Vec3.set(this.positionsPrev, i, x, y, z);
+  Vec3.set(this.positions, i, x, y, z);
+  Vec3.set(this.positionsPrev, i, x, y, z);
 };
 
 /**
@@ -110,7 +114,7 @@ ParticleSystem.prototype.setPosition = function (i, x, y, z) {
   @return {Vec3} out
 */
 ParticleSystem.prototype.getPosition = function (i, out) {
-  return lib.Vec3.copy(this.positions, i, out);
+  return Vec3.copy(this.positions, i, out);
 };
 
 /**
@@ -122,7 +126,7 @@ ParticleSystem.prototype.getPosition = function (i, out) {
   @return {Float}    Distance
 */
 ParticleSystem.prototype.getDistance = function (a, b) {
-  return lib.Vec3.distance(this.positions, a, b);
+  return Vec3.distance(this.positions, a, b);
 };
 
 /**
@@ -135,7 +139,7 @@ ParticleSystem.prototype.getDistance = function (a, b) {
   @return {Float}    Angle in radians
 */
 ParticleSystem.prototype.getAngle = function (a, b, c) {
-  return lib.Vec3.angle(this.positions, a, b, c);
+  return Vec3.angle(this.positions, a, b, c);
 };
 
 /**
@@ -236,7 +240,7 @@ ParticleSystem.prototype.addConstraint = function (constraint) {
   @param {Constraint} constraint
 */
 ParticleSystem.prototype.removeConstraint = function (constraint) {
-  lib.Collection.removeAll(this._getConstraintBuffer(constraint), constraint);
+  removeAll(this._getConstraintBuffer(constraint), constraint);
 };
 
 /**
@@ -258,7 +262,7 @@ ParticleSystem.prototype.addPinConstraint = function (constraint) {
   @param {Constraint} constraint
 */
 ParticleSystem.prototype.removePinConstraint = function (constraint) {
-  lib.Collection.removeAll(this._pinConstraints, constraint);
+  removeAll(this._pinConstraints, constraint);
 };
 
 /**
@@ -335,7 +339,7 @@ ParticleSystem.prototype.addForce = function (force) {
   @param {Force} force
 */
 ParticleSystem.prototype.removeForce = function (force) {
-  lib.Collection.removeAll(this._forces, force);
+  removeAll(this._forces, force);
 };
 
 /**

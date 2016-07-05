@@ -1,10 +1,11 @@
-require('./Constraint');
+import { inherit } from '../utils/Creator';
+import { Constraint } from './Constraint';
 
 // ..................................................
 // AxisConstraint
 // ..................................................
 
-lib.AxisConstraint = AxisConstraint;
+export { AxisConstraint };
 
 /**
   @module constraints
@@ -32,7 +33,7 @@ lib.AxisConstraint = AxisConstraint;
 function AxisConstraint(axisA, axisB, a) {
   var size = a.length || 1;
 
-  lib.Constraint.call(this, size, 1, 2);
+  Constraint.call(this, size, 1, 2);
   this.setAxis(axisA, axisB);
   this.setIndices(a);
 }
@@ -43,7 +44,7 @@ function AxisConstraint(axisA, axisB, a) {
   @method create
   @static
 */
-lib.inherit(AxisConstraint, lib.Constraint);
+inherit(AxisConstraint, Constraint);
 
 /**
   Set particles defining constraint axis

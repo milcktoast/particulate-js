@@ -1,8 +1,11 @@
+import { Vec3 } from '../math/Vec3';
+import { inherit } from '../utils/Creator';
+
 // ..................................................
 // Force
 // ..................................................
 
-lib.Force = Force;
+export { Force };
 
 /**
   Forces are accumulated and applied to particles, affecting their
@@ -35,7 +38,7 @@ function Force(vector, opts) {
   @method create
   @static
 */
-lib.inherit(Force, Object);
+inherit(Force, Object);
 
 /**
   Force type enum: `Force.ATTRACTOR`, `Force.REPULSOR`, `Force.ATTRACTOR_REPULSOR`.
@@ -58,7 +61,7 @@ Force.prototype.type = Force.ATTRACTOR;
   @param {Float} z
 */
 Force.prototype.set = function (x, y, z) {
-  lib.Vec3.set(this.vector, 0, x, y, z);
+  Vec3.set(this.vector, 0, x, y, z);
 };
 
 /**

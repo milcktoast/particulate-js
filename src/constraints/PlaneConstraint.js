@@ -1,10 +1,12 @@
-require('./Constraint');
+import { inherit } from '../utils/Creator';
+import { Vec3 } from '../math/Vec3';
+import { Constraint } from './Constraint';
 
 // ..................................................
 // PlaneConstraint
 // ..................................................
 
-lib.PlaneConstraint = PlaneConstraint;
+export { PlaneConstraint };
 
 /**
   @module constraints
@@ -33,7 +35,7 @@ lib.PlaneConstraint = PlaneConstraint;
 function PlaneConstraint(planeA, planeB, planeC, a) {
   var size = a.length || 1;
 
-  lib.Constraint.call(this, size, 1, 3);
+  Constraint.call(this, size, 1, 3);
 
   /**
     Vec3 buffer which stores plane normal.
@@ -42,7 +44,7 @@ function PlaneConstraint(planeA, planeB, planeC, a) {
     @type Float32Array (Vec3)
     @private
   */
-  this.bufferVec3 = lib.Vec3.create(1);
+  this.bufferVec3 = Vec3.create(1);
 
   this.setPlane(planeA, planeB, planeC);
   this.setIndices(a);
@@ -54,7 +56,7 @@ function PlaneConstraint(planeA, planeB, planeC, a) {
   @method create
   @static
 */
-lib.inherit(PlaneConstraint, lib.Constraint);
+inherit(PlaneConstraint, Constraint);
 
 /**
   Set particles defining constraint plane

@@ -1,10 +1,11 @@
-require('./Force');
+import { inherit } from '../utils/Creator';
+import { Force } from './Force';
 
 // ..................................................
 // PointForce
 // ..................................................
 
-lib.PointForce = PointForce;
+export { PointForce };
 
 /**
   @module forces
@@ -32,7 +33,7 @@ lib.PointForce = PointForce;
 */
 function PointForce(position, opts) {
   opts = opts || {};
-  lib.Force.apply(this, arguments);
+  Force.apply(this, arguments);
 
   /**
     Magnitude of force vector
@@ -46,9 +47,9 @@ function PointForce(position, opts) {
   this.setRadius(opts.radius || 0);
 }
 
-var pf_ATTRACTOR = lib.Force.ATTRACTOR;
-var pf_REPULSOR = lib.Force.REPULSOR;
-var pf_ATTRACTOR_REPULSOR = lib.Force.ATTRACTOR_REPULSOR;
+var pf_ATTRACTOR = Force.ATTRACTOR;
+var pf_REPULSOR = Force.REPULSOR;
+var pf_ATTRACTOR_REPULSOR = Force.ATTRACTOR_REPULSOR;
 
 /**
   Create instance, accepts constructor arguments.
@@ -56,7 +57,7 @@ var pf_ATTRACTOR_REPULSOR = lib.Force.ATTRACTOR_REPULSOR;
   @method create
   @static
 */
-lib.inherit(PointForce, lib.Force);
+inherit(PointForce, Force);
 
 /**
   Set radius

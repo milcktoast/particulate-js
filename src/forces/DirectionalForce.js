@@ -1,10 +1,11 @@
-require('./Force');
+import { inherit } from '../utils/Creator';
+import { Force } from './Force';
 
 // ..................................................
 // DirectionalForce
 // ..................................................
 
-lib.DirectionalForce = DirectionalForce;
+export { DirectionalForce };
 
 /**
   @module forces
@@ -23,7 +24,7 @@ lib.DirectionalForce = DirectionalForce;
   @param {Array (Vec3)} vector  Direction vector
 */
 function DirectionalForce(vector) {
-  lib.Force.call(this, vector);
+  Force.call(this, vector);
 }
 
 /**
@@ -32,7 +33,7 @@ function DirectionalForce(vector) {
   @method create
   @static
 */
-lib.inherit(DirectionalForce, lib.Force);
+inherit(DirectionalForce, Force);
 
 DirectionalForce.prototype.applyForce = function (ix, f0, p0, p1) {
   var v0 = this.vector;

@@ -1,10 +1,13 @@
-require('./Constraint');
+import { inherit } from '../utils/Creator';
+import { clamp } from '../math/Math';
+import { Vec3 } from '../math/Vec3';
+import { Constraint } from './Constraint';
 
 // ..................................................
 // BoxConstraint
 // ..................................................
 
-lib.BoxConstraint = BoxConstraint;
+export { BoxConstraint };
 
 /**
   @module constraints
@@ -43,7 +46,7 @@ function BoxConstraint(min, max) {
     @type Float32Array (Vec3)
     @private
   */
-  this.bufferVec3 = lib.Vec3.create(2);
+  this.bufferVec3 = Vec3.create(2);
 
   this.setBounds(min, max);
 }
@@ -54,7 +57,7 @@ function BoxConstraint(min, max) {
   @method create
   @static
 */
-lib.inherit(BoxConstraint, lib.Constraint);
+inherit(BoxConstraint, Constraint);
 
 /**
   Global constraint flag
@@ -86,7 +89,7 @@ BoxConstraint.prototype.setBounds = function (min, max) {
   @param {Float} z
 */
 BoxConstraint.prototype.setMin = function (x, y, z) {
-  lib.Vec3.set(this.bufferVec3, 0, x, y, z);
+  Vec3.set(this.bufferVec3, 0, x, y, z);
 };
 
 /**
@@ -98,7 +101,7 @@ BoxConstraint.prototype.setMin = function (x, y, z) {
   @param {Float} z
 */
 BoxConstraint.prototype.setMax = function (x, y, z) {
-  lib.Vec3.set(this.bufferVec3, 1, x, y, z);
+  Vec3.set(this.bufferVec3, 1, x, y, z);
 };
 
 BoxConstraint.prototype.applyConstraint = function (index, p0, p1) {
@@ -106,9 +109,9 @@ BoxConstraint.prototype.applyConstraint = function (index, p0, p1) {
   var b0 = this.bufferVec3;
   var ix = index, iy = ix + 1, iz = ix + 2;
 
-  var px = lib.Math.clamp(b0[0], b0[3], p0[ix]);
-  var py = lib.Math.clamp(b0[1], b0[4], p0[iy]);
-  var pz = lib.Math.clamp(b0[2], b0[5], p0[iz]);
+  var px = clamp(b0[0], b0[3], p0[ix]);
+  var py = clamp(b0[1], b0[4], p0[iy]);
+  var pz = clamp(b0[2], b0[5], p0[iz]);
 
   var dx = p0[ix] - px;
   var dy = p0[iy] - py;

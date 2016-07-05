@@ -8,6 +8,7 @@
 
   "browser"        : true,
   "curly"          : true,
+  "esnext"         : true,
   "eqeqeq"         : true,
   "eqnull"         : true,
   "forin"          : true,

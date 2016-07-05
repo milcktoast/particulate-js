@@ -13,7 +13,8 @@ module.exports = function (grunt) {
   };
 
   require('jit-grunt')(grunt, {
-    qunit: 'grunt-qunit-istanbul'
+    qunit: 'grunt-qunit-istanbul',
+    usebanner: 'grunt-banner'
   });
 
   grunt.initConfig({
@@ -28,35 +29,46 @@ module.exports = function (grunt) {
       }
     },
 
-    neuter: {
+    rollup: {
       src: {
         options: {
-          basePath: config.src,
-          template: '{%= src %}',
-          sourceRoot: '../',
-          includeSourceMap: false
+          moduleName: 'Particulate',
+          format: 'umd'
         },
-        src: config.src + 'main.js',
+        src: config.src + 'index.js',
         dest: config.dest + 'particulate.js'
-      },
+      }
+    },
+
+    usebanner: {
+      src: {
+        options: {
+          position: 'top',
+          banner: [
+            '// ..................................................',
+            '// Particulate.js',
+            '//',
+            '// version : 0.3.2',
+            '// authors : Jay Weeks',
+            '// license : MIT',
+            '// particulatejs.org',
+            '// ..................................................',
+            ''
+          ].join('\n')
+        },
+        files: {
+          src: [config.dest + 'particulate.js']
+        }
+      }
+    },
+
+    neuter: {
       test: {
         options: {
           basePath: config.test
         },
         src: config.test + 'test.js',
         dest: config.test + 'test-bundle.js'
-      }
-    },
-
-    umd: {
-      src: {
-        options: {
-          objectToExport: 'lib',
-          amdModuleId: 'particulate',
-          globalAlias: 'Particulate',
-          template: config.src + 'wrap.hbs'
-        },
-        src: config.dest + 'particulate.js'
       }
     },
 
@@ -139,14 +151,14 @@ module.exports = function (grunt) {
 
   grunt.registerTask('develop', [
     'jshint',
-    'neuter:src',
-    'umd',
-    'neuter:test'
+    'rollup',
+    'neuter'
   ]);
 
   grunt.registerTask('build', [
     'develop',
-    'uglify'
+    'uglify',
+    'usebanner'
   ]);
 
   grunt.registerTask('test', [

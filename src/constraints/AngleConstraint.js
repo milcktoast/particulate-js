@@ -1,10 +1,12 @@
-require('./Constraint');
+import { inherit } from '../utils/Creator';
+import { clamp } from '../math/Math';
+import { Constraint } from './Constraint';
 
 // ..................................................
 // AngleConstraint
 // ..................................................
 
-lib.AngleConstraint = AngleConstraint;
+export { AngleConstraint };
 
 /**
   @module constraints
@@ -41,7 +43,7 @@ function AngleConstraint(angle, a, b, c) {
   var min = angle.length ? angle[0] : angle;
   var max = angle.length ? angle[1] : angle;
 
-  lib.Constraint.call(this, size, 3);
+  Constraint.call(this, size, 3);
   this.setAngle(min, max);
   this.setIndices(a, b, c);
 }
@@ -52,7 +54,7 @@ function AngleConstraint(angle, a, b, c) {
   @method create
   @static
 */
-lib.inherit(AngleConstraint, lib.Constraint);
+inherit(AngleConstraint, Constraint);
 
 /**
   Set angle
@@ -107,7 +109,7 @@ AngleConstraint.prototype._max = null;
 
 AngleConstraint.prototype.clampAngle = function (angle) {
   var p = 0.0000001;
-  return lib.Math.clamp(p, Math.PI - p, angle);
+  return clamp(p, Math.PI - p, angle);
 };
 
 /**

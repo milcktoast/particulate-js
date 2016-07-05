@@ -2,7 +2,8 @@
 // Vec3
 // ..................................................
 
-var Vec3 = lib.Vec3 = {};
+var Vec3 = {};
+export { Vec3 };
 
 /**
   @module math
