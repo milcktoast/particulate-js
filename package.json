@@ -3,6 +3,7 @@
   "description": "Particle physics micro library.",
   "version": "0.3.2",
   "main": "dist/particulate.js",
+  "jsnext:main": "src/index.js",
   "license": "MIT",
   "keywords": [
     "particle",
