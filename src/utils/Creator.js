@@ -14,10 +14,10 @@
 */
 export function ctor(Ctor) {
   return function () {
-    var instance = Object.create(Ctor.prototype);
-    Ctor.apply(instance, arguments);
-    return instance;
-  };
+    var instance = Object.create(Ctor.prototype)
+    Ctor.apply(instance, arguments)
+    return instance
+  }
 }
 
 /**
@@ -30,7 +30,7 @@ export function ctor(Ctor) {
   @static
 */
 export function inherit(Ctor, ParentCtor) {
-  Ctor.create = ctor(Ctor);
-  Ctor.prototype = Object.create(ParentCtor.prototype);
-  Ctor.prototype.constructor = Ctor;
+  Ctor.create = ctor(Ctor)
+  Ctor.prototype = Object.create(ParentCtor.prototype)
+  Ctor.prototype.constructor = Ctor
 }

@@ -1,12 +1,12 @@
-import { removeAll } from '../utils/Collection';
-import { inherit } from '../utils/Creator';
-import { Vec3 } from '../math/Vec3';
+import { removeAll } from '../utils/Collection'
+import { inherit } from '../utils/Creator'
+import { Vec3 } from '../math/Vec3'
 
 // ..................................................
 // ParticleSystem
 // ..................................................
 
-export { ParticleSystem };
+export { ParticleSystem }
 
 /**
   @module systems
@@ -21,10 +21,10 @@ export { ParticleSystem };
   @param {Int}       iterations  Number of constraint iterations per system tick
 */
 function ParticleSystem(particles, iterations) {
-  var isCount = typeof particles === 'number';
-  var length = isCount ? particles * 3 : particles.length;
-  var count = length / 3;
-  var positions = isCount ? length : particles;
+  var isCount = typeof particles === 'number'
+  var length = isCount ? particles * 3 : particles.length
+  var count = length / 3
+  var positions = isCount ? length : particles
 
   /**
     Current particle positions
@@ -32,7 +32,7 @@ function ParticleSystem(particles, iterations) {
     @property positions
     @type Float32Array (Vec3)
   */
-  this.positions = new Float32Array(positions);
+  this.positions = new Float32Array(positions)
 
   /**
     Previous particle positions
@@ -40,7 +40,7 @@ function ParticleSystem(particles, iterations) {
     @property positionsPrev
     @type Float32Array (Vec3)
   */
-  this.positionsPrev = new Float32Array(positions);
+  this.positionsPrev = new Float32Array(positions)
 
   /**
     Accumulated forces currently acting on particles
@@ -48,7 +48,7 @@ function ParticleSystem(particles, iterations) {
     @property accumulatedForces
     @type Float32Array (Vec3)
   */
-  this.accumulatedForces = new Float32Array(length);
+  this.accumulatedForces = new Float32Array(length)
 
   /**
     Particle mass
@@ -56,8 +56,8 @@ function ParticleSystem(particles, iterations) {
     @property weights
     @type Float32Array (Float)
   */
-  this.weights = new Float32Array(count);
-  this.setWeights(1);
+  this.weights = new Float32Array(count)
+  this.setWeights(1)
 
   /**
     Number of constraint relaxation loop iterations
@@ -66,7 +66,7 @@ function ParticleSystem(particles, iterations) {
     @type Int
     @private
   */
-  this._iterations = iterations || 1;
+  this._iterations = iterations || 1
 
   /**
     Number of particles in system
@@ -75,12 +75,12 @@ function ParticleSystem(particles, iterations) {
     @type Int
     @private
   */
-  this._count = count;
+  this._count = count
 
-  this._globalConstraints = [];
-  this._localConstraints = [];
-  this._pinConstraints = [];
-  this._forces = [];
+  this._globalConstraints = []
+  this._localConstraints = []
+  this._pinConstraints = []
+  this._forces = []
 }
 
 /**
@@ -89,7 +89,7 @@ function ParticleSystem(particles, iterations) {
   @method create
   @static
 */
-inherit(ParticleSystem, Object);
+inherit(ParticleSystem, Object)
 
 /**
   Alias for `Vec3.set`. Sets vector of `positions` and `positionsPrev`.
@@ -101,9 +101,9 @@ inherit(ParticleSystem, Object);
   @param {Float} z
 */
 ParticleSystem.prototype.setPosition = function (i, x, y, z) {
-  Vec3.set(this.positions, i, x, y, z);
-  Vec3.set(this.positionsPrev, i, x, y, z);
-};
+  Vec3.set(this.positions, i, x, y, z)
+  Vec3.set(this.positionsPrev, i, x, y, z)
+}
 
 /**
   Alias for `Vec3.copy`. Copys vector from `positions`.
@@ -114,8 +114,8 @@ ParticleSystem.prototype.setPosition = function (i, x, y, z) {
   @return {Vec3} out
 */
 ParticleSystem.prototype.getPosition = function (i, out) {
-  return Vec3.copy(this.positions, i, out);
-};
+  return Vec3.copy(this.positions, i, out)
+}
 
 /**
   Alias for `Vec3.getDistance`. Calculates distance from `positions`.
@@ -126,8 +126,8 @@ ParticleSystem.prototype.getPosition = function (i, out) {
   @return {Float}    Distance
 */
 ParticleSystem.prototype.getDistance = function (a, b) {
-  return Vec3.distance(this.positions, a, b);
-};
+  return Vec3.distance(this.positions, a, b)
+}
 
 /**
   Alias for `Vec3.angle`. Calculates angle from `positions`.
@@ -139,8 +139,8 @@ ParticleSystem.prototype.getDistance = function (a, b) {
   @return {Float}    Angle in radians
 */
 ParticleSystem.prototype.getAngle = function (a, b, c) {
-  return Vec3.angle(this.positions, a, b, c);
-};
+  return Vec3.angle(this.positions, a, b, c)
+}
 
 /**
   Set a particle's mass
@@ -150,43 +150,43 @@ ParticleSystem.prototype.getAngle = function (a, b, c) {
   @param {Float} w  Weight
 */
 ParticleSystem.prototype.setWeight = function (i, w) {
-  this.weights[i] = w;
-};
+  this.weights[i] = w
+}
 
 ParticleSystem.prototype.setWeights = function (w) {
-  var weights = this.weights;
+  var weights = this.weights
   for (var i = 0, il = weights.length; i < il; i ++) {
-    weights[i] = w;
+    weights[i] = w
   }
-};
+}
 
 ParticleSystem.prototype.each = function (iterator, context) {
-  context = context || this;
+  context = context || this
   for (var i = 0, il = this._count; i < il; i ++) {
-    iterator.call(context, i, this);
+    iterator.call(context, i, this)
   }
-};
+}
 
 ParticleSystem.prototype.perturb = function (scale) {
-  var positions = this.positions;
-  var positionsPrev = this.positionsPrev;
-  var dist;
+  var positions = this.positions
+  var positionsPrev = this.positionsPrev
+  var dist
 
   for (var i = 0, il = positions.length; i < il; i ++) {
-    dist = Math.random() * scale;
-    positions[i] += dist;
-    positionsPrev[i] += dist;
+    dist = Math.random() * scale
+    positions[i] += dist
+    positionsPrev[i] += dist
   }
-};
+}
 
 // ..................................................
 // Verlet Integration
 //
 
 function ps_integrateParticle(i, p0, p1, f0, weight, d2) {
-  var pt = p0[i];
-  p0[i] += pt - p1[i] + f0[i] * weight * d2;
-  p1[i] = pt;
+  var pt = p0[i]
+  p0[i] += pt - p1[i] + f0[i] * weight * d2
+  p1[i] = pt
 }
 
 /**
@@ -198,30 +198,30 @@ function ps_integrateParticle(i, p0, p1, f0, weight, d2) {
   @private
 */
 ParticleSystem.prototype.integrate = function (delta) {
-  var d2 = delta * delta;
-  var p0 = this.positions;
-  var p1 = this.positionsPrev;
-  var f0 = this.accumulatedForces;
-  var w0 = this.weights;
-  var ix, weight;
+  var d2 = delta * delta
+  var p0 = this.positions
+  var p1 = this.positionsPrev
+  var f0 = this.accumulatedForces
+  var w0 = this.weights
+  var ix, weight
 
   for (var i = 0, il = this._count; i < il; i ++) {
-    weight = w0[i];
-    ix = i * 3;
+    weight = w0[i]
+    ix = i * 3
 
-    ps_integrateParticle(ix,     p0, p1, f0, weight, d2);
-    ps_integrateParticle(ix + 1, p0, p1, f0, weight, d2);
-    ps_integrateParticle(ix + 2, p0, p1, f0, weight, d2);
+    ps_integrateParticle(ix,     p0, p1, f0, weight, d2)
+    ps_integrateParticle(ix + 1, p0, p1, f0, weight, d2)
+    ps_integrateParticle(ix + 2, p0, p1, f0, weight, d2)
   }
-};
+}
 
 // ..................................................
 // Constraints
 //
 
 ParticleSystem.prototype._getConstraintBuffer = function (constraint) {
-  return constraint._isGlobal ? this._globalConstraints : this._localConstraints;
-};
+  return constraint._isGlobal ? this._globalConstraints : this._localConstraints
+}
 
 /**
   Add a constraint
@@ -230,8 +230,8 @@ ParticleSystem.prototype._getConstraintBuffer = function (constraint) {
   @param {Constraint} constraint
 */
 ParticleSystem.prototype.addConstraint = function (constraint) {
-  this._getConstraintBuffer(constraint).push(constraint);
-};
+  this._getConstraintBuffer(constraint).push(constraint)
+}
 
 /**
   Alias for `Collection.removeAll`. Remove all references to a constraint.
@@ -240,8 +240,8 @@ ParticleSystem.prototype.addConstraint = function (constraint) {
   @param {Constraint} constraint
 */
 ParticleSystem.prototype.removeConstraint = function (constraint) {
-  removeAll(this._getConstraintBuffer(constraint), constraint);
-};
+  removeAll(this._getConstraintBuffer(constraint), constraint)
+}
 
 /**
   Add a pin constraint.
@@ -252,8 +252,8 @@ ParticleSystem.prototype.removeConstraint = function (constraint) {
   @param {Constraint} constraint
 */
 ParticleSystem.prototype.addPinConstraint = function (constraint) {
-  this._pinConstraints.push(constraint);
-};
+  this._pinConstraints.push(constraint)
+}
 
 /**
   Alias for `Collection.removeAll`. Remove all references to a pin constraint.
@@ -262,8 +262,8 @@ ParticleSystem.prototype.addPinConstraint = function (constraint) {
   @param {Constraint} constraint
 */
 ParticleSystem.prototype.removePinConstraint = function (constraint) {
-  removeAll(this._pinConstraints, constraint);
-};
+  removeAll(this._pinConstraints, constraint)
+}
 
 /**
   Run relaxation loop, resolving constraints per defined iterations.
@@ -273,21 +273,21 @@ ParticleSystem.prototype.removePinConstraint = function (constraint) {
   @private
 */
 ParticleSystem.prototype.satisfyConstraints = function () {
-  var iterations = this._iterations;
-  var global = this._globalConstraints;
-  var local = this._localConstraints;
-  var pins = this._pinConstraints;
-  var globalCount = this._count;
-  var globalItemSize = 3;
+  var iterations = this._iterations
+  var global = this._globalConstraints
+  var local = this._localConstraints
+  var pins = this._pinConstraints
+  var globalCount = this._count
+  var globalItemSize = 3
 
   for (var i = 0; i < iterations; i ++) {
-    this.satisfyConstraintGroup(global, globalCount, globalItemSize);
-    this.satisfyConstraintGroup(local);
+    this.satisfyConstraintGroup(global, globalCount, globalItemSize)
+    this.satisfyConstraintGroup(local)
 
     if (!pins.length) { continue; }
-    this.satisfyConstraintGroup(pins);
+    this.satisfyConstraintGroup(pins)
   }
-};
+}
 
 /**
   Resolve a group of constraints.
@@ -299,24 +299,24 @@ ParticleSystem.prototype.satisfyConstraints = function () {
   @private
 */
 ParticleSystem.prototype.satisfyConstraintGroup = function (group, count, itemSize) {
-  var p0 = this.positions;
-  var p1 = this.positionsPrev;
-  var hasUniqueCount = !count;
-  var constraint;
+  var p0 = this.positions
+  var p1 = this.positionsPrev
+  var hasUniqueCount = !count
+  var constraint
 
   for (var i = 0, il = group.length; i < il; i ++) {
-    constraint = group[i];
+    constraint = group[i]
 
     if (hasUniqueCount) {
-      count = constraint._count;
-      itemSize = constraint._itemSize;
+      count = constraint._count
+      itemSize = constraint._itemSize
     }
 
     for (var j = 0; j < count; j ++) {
-      constraint.applyConstraint(j * itemSize, p0, p1);
+      constraint.applyConstraint(j * itemSize, p0, p1)
     }
   }
-};
+}
 
 // ..................................................
 // Forces
@@ -329,8 +329,8 @@ ParticleSystem.prototype.satisfyConstraintGroup = function (group, count, itemSi
   @param {Force} force
 */
 ParticleSystem.prototype.addForce = function (force) {
-  this._forces.push(force);
-};
+  this._forces.push(force)
+}
 
 /**
   Alias for `Collection.removeAll`. Remove all references to a force.
@@ -339,8 +339,8 @@ ParticleSystem.prototype.addForce = function (force) {
   @param {Force} force
 */
 ParticleSystem.prototype.removeForce = function (force) {
-  removeAll(this._forces, force);
-};
+  removeAll(this._forces, force)
+}
 
 /**
   Accumulate forces acting on particles.
@@ -350,21 +350,21 @@ ParticleSystem.prototype.removeForce = function (force) {
   @private
 */
 ParticleSystem.prototype.accumulateForces = function (delta) {
-  var forces = this._forces;
-  var f0 = this.accumulatedForces;
-  var p0 = this.positions;
-  var p1 = this.positionsPrev;
-  var ix;
+  var forces = this._forces
+  var f0 = this.accumulatedForces
+  var p0 = this.positions
+  var p1 = this.positionsPrev
+  var ix
 
   for (var i = 0, il = this._count; i < il; i ++) {
-    ix = i * 3;
-    f0[ix] = f0[ix + 1] = f0[ix + 2] = 0;
+    ix = i * 3
+    f0[ix] = f0[ix + 1] = f0[ix + 2] = 0
 
     for (var j = 0, jl = forces.length; j < jl; j ++) {
-      forces[j].applyForce(ix, f0, p0, p1);
+      forces[j].applyForce(ix, f0, p0, p1)
     }
   }
-};
+}
 
 /**
   Step simulation forward one frame.
@@ -374,7 +374,7 @@ ParticleSystem.prototype.accumulateForces = function (delta) {
   @param {Float} delta  Time step
 */
 ParticleSystem.prototype.tick = function (delta) {
-  this.accumulateForces(delta);
-  this.integrate(delta);
-  this.satisfyConstraints();
-};
+  this.accumulateForces(delta)
+  this.integrate(delta)
+  this.satisfyConstraints()
+}

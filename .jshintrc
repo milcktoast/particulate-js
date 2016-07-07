@@ -6,6 +6,7 @@
     "QUnit"        : true
   },
 
+  "asi"            : true,
   "browser"        : true,
   "curly"          : true,
   "esnext"         : true,

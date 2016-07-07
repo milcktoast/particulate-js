@@ -1,11 +1,11 @@
-import { inherit } from '../utils/Creator';
-import { Force } from './Force';
+import { inherit } from '../utils/Creator'
+import { Force } from './Force'
 
 // ..................................................
 // DirectionalForce
 // ..................................................
 
-export { DirectionalForce };
+export { DirectionalForce }
 
 /**
   @module forces
@@ -15,7 +15,7 @@ export { DirectionalForce };
   Defines a directional force that affects all particles in the system.
 
   ```javascript
-  var gravity = DirectionalForce.create([0.0, -0.1, 0.0]);
+  var gravity = DirectionalForce.create([0.0, -0.1, 0.0])
   ```
 
   @class DirectionalForce
@@ -24,7 +24,7 @@ export { DirectionalForce };
   @param {Array (Vec3)} vector  Direction vector
 */
 function DirectionalForce(vector) {
-  Force.call(this, vector);
+  Force.call(this, vector)
 }
 
 /**
@@ -33,11 +33,11 @@ function DirectionalForce(vector) {
   @method create
   @static
 */
-inherit(DirectionalForce, Force);
+inherit(DirectionalForce, Force)
 
 DirectionalForce.prototype.applyForce = function (ix, f0, p0, p1) {
-  var v0 = this.vector;
-  f0[ix]     += v0[0];
-  f0[ix + 1] += v0[1];
-  f0[ix + 2] += v0[2];
-};
+  var v0 = this.vector
+  f0[ix]     += v0[0]
+  f0[ix + 1] += v0[1]
+  f0[ix + 2] += v0[2]
+}

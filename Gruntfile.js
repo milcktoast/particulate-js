@@ -1,6 +1,6 @@
 /*jshint node:true*/
 module.exports = function (grunt) {
-  'use strict';
+  'use strict'
 
   var config = {
     version: '0.3.2',
@@ -10,12 +10,12 @@ module.exports = function (grunt) {
     docs: 'docs/',
     docsTheme: 'docs-theme/',
     lib: 'node_modules/'
-  };
+  }
 
   require('jit-grunt')(grunt, {
     qunit: 'grunt-qunit-istanbul',
     usebanner: 'grunt-banner'
-  });
+  })
 
   grunt.initConfig({
     jshint: {
@@ -146,35 +146,35 @@ module.exports = function (grunt) {
         }
       }
     }
-  });
+  })
 
 
   grunt.registerTask('develop', [
     'jshint',
     'rollup',
     'neuter'
-  ]);
+  ])
 
   grunt.registerTask('build', [
     'develop',
     'uglify',
     'usebanner'
-  ]);
+  ])
 
   grunt.registerTask('test', [
     'develop',
     'qunit',
     'coveralls'
-  ]);
+  ])
 
   grunt.registerTask('server', function (port) {
-    grunt.config('connect.server.options.port', port || 8000);
+    grunt.config('connect.server.options.port', port || 8000)
     grunt.task.run([
       'develop',
       'connect',
       'watch'
-    ]);
-  });
+    ])
+  })
 
-  grunt.registerTask('default', 'server');
-};
+  grunt.registerTask('default', 'server')
+}
