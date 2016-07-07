@@ -56,8 +56,7 @@
 
   // Reference to links for visualization
   var linkIndices = edges.concat(struts)
-
-  (function createLinks() {
+  function createLinks() {
     var a, b, dist
     for (var i = 0, il = linkIndices.length / 2; i < il; i ++) {
       a = linkIndices[i * 2]
@@ -65,8 +64,9 @@
       dist = system.getDistance(a, b)
       system.addConstraint(PTCL.DistanceConstraint.create(dist, a, b))
     }
-  }())
+  }
 
+  createLinks()
   system.addConstraint(bounds)
   system.addForce(gravityForce)
 
