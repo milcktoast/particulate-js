@@ -1,7 +1,7 @@
 // ..................................................
 // Particulate.js
 //
-// version : 0.3.2
+// version : 0.3.3
 // authors : Jay Weeks
 // license : MIT
 // particulatejs.org
@@ -1900,7 +1900,7 @@
     @class Particulate
     @static
   */
-  var VERSION = '0.3.2'
+  var VERSION = '0.3.3'
 
   exports.VERSION = VERSION;
   exports.AngleConstraint = AngleConstraint;
