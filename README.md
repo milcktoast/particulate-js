@@ -1,14 +1,18 @@
 # Particulate.js
 
-[![Build Status][travis-image]][travis-url] [![Test Coverage][coveralls-image]][coveralls-url] [![Code Climate][climate-image]][climate-url] [![Inline Docs][docs-image]][docs-url]
+[![Stability][stability-image]][stability-url]
+[![Build Status][travis-image]][travis-url]
+[![Test Coverage][coveralls-image]][coveralls-url]
+[![Code Climate][climate-image]][climate-url]
+[![Inline Docs][docs-image]][docs-url]
 
 Particulate.js is a JavaScript particle physics micro library (~3.7kb gz) designed to be simple, extensible, fast, and stable;
 it is capable of running a simulation with tens of thousands of particles and tens of thousands of constraints in real time.
 The core system is derived from that described in [Advanced Character Physics by Thomas Jakobsen][adv-phys-url].
 
-[Website](http://particulatejs.org) --
-[Examples](http://particulatejs.org/examples/) --
-[Docs](http://particulatejs.org/docs/) --
+[Website](http://particulatejs.org) –
+[Examples](http://particulatejs.org/examples/) –
+[Docs](http://particulatejs.org/docs/) –
 [Tests](http://particulatejs.org/test/)
 
 ## Usage
@@ -72,13 +76,10 @@ system.addForce(gravity);
 var scene = new THREE.Scene();
 
 // Use system positions buffer
-var vertices = new THREE.BufferAttribute();
-vertices.array = system.positions;
-vertices.itemSize = 3;
+var vertices = new THREE.BufferAttribute(system.positions, 3);
 
 // Use distance constraint indices
-var indices = new THREE.BufferAttribute();
-indices.array = new Uint16Array(dist.indices);
+var indices = new THREE.BufferAttribute(new Uint16Array(dist.indices));
 
 // Particles
 var dotsGeom = new THREE.BufferGeometry();
@@ -150,11 +151,13 @@ Any new or changed functionality should be documented and covered by unit tests.
 [grunt-url]: http://gruntjs.com/
 [yuidoc-url]: http://yui.github.io/yuidoc/syntax/index.html
 
-[travis-url]: http://travis-ci.org/jpweeks/particulate-js
-[travis-image]: http://img.shields.io/travis/jpweeks/particulate-js/develop.svg?style=flat
+[stability-url]: https://nodejs.org/api/documentation.html#documentation_stability_index
+[stability-image]: https://img.shields.io/badge/stability-experimental-orange.svg?style=flat-square
+[travis-url]: https://travis-ci.org/jpweeks/particulate-js
+[travis-image]: https://img.shields.io/travis/jpweeks/particulate-js/develop.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/jpweeks/particulate-js
-[coveralls-image]: http://img.shields.io/coveralls/jpweeks/particulate-js/develop.svg?style=flat
+[coveralls-image]: https://img.shields.io/coveralls/jpweeks/particulate-js/develop.svg?style=flat-square
 [climate-url]: https://codeclimate.com/github/jpweeks/particulate-js/code
-[climate-image]: https://img.shields.io/codeclimate/github/jpweeks/particulate-js.svg
-[docs-image]: http://inch-ci.org/github/jpweeks/particulate-js.svg?branch=master&style=shields
-[docs-url]: http://inch-ci.org/github/jpweeks/particulate-js
+[climate-image]: https://img.shields.io/codeclimate/github/jpweeks/particulate-js.svg?style=flat-square
+[docs-url]: https://inch-ci.org/github/jpweeks/particulate-js
+[docs-image]: https://inch-ci.org/github/jpweeks/particulate-js.svg?branch=master&style=flat-square

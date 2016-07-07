@@ -9,7 +9,6 @@
   @class Math
   @static
 */
-lib.Math = {};
 
 /**
   Clamp value to `[min, max]` range.
@@ -21,6 +20,6 @@ lib.Math = {};
   @param  {Float} v    Value to clamp
   @return {Float} Clamped value
 */
-lib.Math.clamp = function (min, max, v) {
-  return Math.min(Math.max(v, min), max);
-};
+export function clamp (min, max, v) {
+  return Math.min(Math.max(v, min), max)
+}

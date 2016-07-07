@@ -23,6 +23,7 @@
     "throws"         : false
   },
 
+  "asi"              : true,
   "browser"          : true,
   "curly"            : true,
   "eqeqeq"           : true,

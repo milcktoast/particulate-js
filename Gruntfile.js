@@ -1,9 +1,9 @@
 /*jshint node:true*/
 module.exports = function (grunt) {
-  'use strict';
+  'use strict'
 
   var config = {
-    version: '0.3.2',
+    version: '0.3.3',
     src: 'src/',
     dest: 'dist/',
     test: 'test/',
@@ -11,11 +11,12 @@ module.exports = function (grunt) {
     docs: 'docs/',
     docsTheme: 'docs-theme/',
     lib: 'node_modules/'
-  };
+  }
 
   require('jit-grunt')(grunt, {
-    qunit: 'grunt-qunit-istanbul'
-  });
+    qunit: 'grunt-qunit-istanbul',
+    usebanner: 'grunt-banner'
+  })
 
   grunt.initConfig({
     jshint: {
@@ -29,17 +30,40 @@ module.exports = function (grunt) {
       }
     },
 
-    neuter: {
+    rollup: {
       src: {
         options: {
-          basePath: config.src,
-          template: '{%= src %}',
-          sourceRoot: '../',
-          includeSourceMap: false
+          moduleName: 'Particulate',
+          format: 'umd'
         },
-        src: config.src + 'main.js',
+        src: config.src + 'index.js',
         dest: config.dest + 'particulate.js'
-      },
+      }
+    },
+
+    usebanner: {
+      src: {
+        options: {
+          position: 'top',
+          banner: [
+            '// ..................................................',
+            '// Particulate.js',
+            '//',
+            '// version : 0.3.3',
+            '// authors : Jay Weeks',
+            '// license : MIT',
+            '// particulatejs.org',
+            '// ..................................................',
+            ''
+          ].join('\n')
+        },
+        files: {
+          src: [config.dest + 'particulate.js']
+        }
+      }
+    },
+
+    neuter: {
       test: {
         options: {
           basePath: config.test
@@ -49,22 +73,10 @@ module.exports = function (grunt) {
       },
       site: {
         options: {
-          basePath: config.site,
+          basePath: config.site
         },
         src: config.site + 'js/main.js',
         dest: config.site + 'main-bundle.js'
-      }
-    },
-
-    umd: {
-      src: {
-        options: {
-          objectToExport: 'lib',
-          amdModuleId: 'particulate',
-          globalAlias: 'Particulate',
-          template: config.src + 'wrap.hbs'
-        },
-        src: config.dest + 'particulate.js'
       }
     },
 
@@ -80,7 +92,7 @@ module.exports = function (grunt) {
           htmlReport: 'test-report/coverage',
           lcovReport: 'test-report/lcov'
         }
-      },
+      }
     },
 
     coveralls: {
@@ -123,7 +135,7 @@ module.exports = function (grunt) {
           config.dest + 'particulate.js'
         ],
         tasks: ['neuter:site']
-      },
+      }
       // docs: {
       //   files: [config.src + '**/*', config.docsTheme + '**/*'],
       //   tasks: ['yuidoc:main']
@@ -154,36 +166,35 @@ module.exports = function (grunt) {
         }
       }
     }
-  });
+  })
 
 
   grunt.registerTask('develop', [
     'jshint',
-    'neuter:src',
-    'umd',
-    'neuter:test',
-    'neuter:site'
-  ]);
+    'rollup',
+    'neuter'
+  ])
 
   grunt.registerTask('build', [
     'develop',
-    'uglify'
-  ]);
+    'uglify',
+    'usebanner'
+  ])
 
   grunt.registerTask('test', [
     'develop',
     'qunit',
     'coveralls'
-  ]);
+  ])
 
   grunt.registerTask('server', function (port) {
-    grunt.config('connect.server.options.port', port || 8000);
+    grunt.config('connect.server.options.port', port || 8000)
     grunt.task.run([
       'develop',
       'connect',
       'watch'
-    ]);
-  });
+    ])
+  })
 
-  grunt.registerTask('default', 'server');
-};
+  grunt.registerTask('default', 'server')
+}

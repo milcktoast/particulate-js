@@ -1,10 +1,12 @@
-require('./Constraint');
+import { inherit } from '../utils/Creator'
+import { Vec3 } from '../math/Vec3'
+import { Constraint } from './Constraint'
 
 // ..................................................
 // BoundingPlaneConstraint
 // ..................................................
 
-lib.BoundingPlaneConstraint = BoundingPlaneConstraint;
+export { BoundingPlaneConstraint }
 
 /**
   @module constraints
@@ -14,10 +16,10 @@ lib.BoundingPlaneConstraint = BoundingPlaneConstraint;
   Defines an infinite bounding plane which constrains all particles in the system.
 
   ```javascript
-  var origin = [1.0, 2.0, 5.0];
-  var normal = [0.0, 1.0, 0.0];
-  var bounds = BoundingPlaneConstraint.create(origin, normal);
-  var plane = BoundingPlaneConstraint.create(origin, normal, Infinity);
+  var origin = [1.0, 2.0, 5.0]
+  var normal = [0.0, 1.0, 0.0]
+  var bounds = BoundingPlaneConstraint.create(origin, normal)
+  var plane = BoundingPlaneConstraint.create(origin, normal, Infinity)
   ```
 
   @class BoundingPlaneConstraint
@@ -39,7 +41,7 @@ function BoundingPlaneConstraint(origin, normal, distance) {
     @type Float
     @default 0
   */
-  this.distance = distance || 0;
+  this.distance = distance || 0
 
   /**
     Damping factor to apply to particles being constrained to bounds
@@ -48,7 +50,7 @@ function BoundingPlaneConstraint(origin, normal, distance) {
     @type Float
     @default 0.05
   */
-  this.friction = 0.05;
+  this.friction = 0.05
 
   /**
     Vec3 buffer which stores plane origin and normal
@@ -57,10 +59,10 @@ function BoundingPlaneConstraint(origin, normal, distance) {
     @type Float32Array (Vec3)
     @private
   */
-  this.bufferVec3 = lib.Vec3.create(2);
+  this.bufferVec3 = Vec3.create(2)
 
-  this.setOrigin(origin);
-  this.setNormal(normal);
+  this.setOrigin(origin)
+  this.setNormal(normal)
 }
 
 /**
@@ -69,7 +71,7 @@ function BoundingPlaneConstraint(origin, normal, distance) {
   @method create
   @static
 */
-lib.inherit(BoundingPlaneConstraint, lib.Constraint);
+inherit(BoundingPlaneConstraint, Constraint)
 
 /**
   Global constraint flag
@@ -78,7 +80,7 @@ lib.inherit(BoundingPlaneConstraint, lib.Constraint);
   @type Bool
   @private
 */
-BoundingPlaneConstraint.prototype._isGlobal = true;
+BoundingPlaneConstraint.prototype._isGlobal = true
 
 /**
   Set origin
@@ -89,8 +91,8 @@ BoundingPlaneConstraint.prototype._isGlobal = true;
   @param {Float} z
 */
 BoundingPlaneConstraint.prototype.setOrigin = function (x, y, z) {
-  lib.Vec3.set(this.bufferVec3, 0, x, y, z);
-};
+  Vec3.set(this.bufferVec3, 0, x, y, z)
+}
 
 /**
   Set normal (automatically normalizes vector)
@@ -101,34 +103,34 @@ BoundingPlaneConstraint.prototype.setOrigin = function (x, y, z) {
   @param {Float} z
 */
 BoundingPlaneConstraint.prototype.setNormal = function (x, y, z) {
-  lib.Vec3.set(this.bufferVec3, 1, x, y, z);
-  lib.Vec3.normalize(this.bufferVec3, 1);
-};
+  Vec3.set(this.bufferVec3, 1, x, y, z)
+  Vec3.normalize(this.bufferVec3, 1)
+}
 
 BoundingPlaneConstraint.prototype.applyConstraint = function (index, p0, p1) {
-  var friction = this.friction;
-  var b0 = this.bufferVec3;
-  var ix = index, iy = ix + 1, iz = ix + 2;
+  var friction = this.friction
+  var b0 = this.bufferVec3
+  var ix = index, iy = ix + 1, iz = ix + 2
 
   // OP (O -> P)
-  var opX = p0[ix] - b0[0];
-  var opY = p0[iy] - b0[1];
-  var opZ = p0[iz] - b0[2];
+  var opX = p0[ix] - b0[0]
+  var opY = p0[iy] - b0[1]
+  var opZ = p0[iz] - b0[2]
 
   // N
-  var nX = b0[3];
-  var nY = b0[4];
-  var nZ = b0[5];
+  var nX = b0[3]
+  var nY = b0[4]
+  var nZ = b0[5]
 
   // Project OP onto normal vector N
-  var pt = opX * nX + opY * nY + opZ * nZ;
+  var pt = opX * nX + opY * nY + opZ * nZ
   if (pt > this.distance) { return; }
 
-  p0[ix] -= nX * pt;
-  p0[iy] -= nY * pt;
-  p0[iz] -= nZ * pt;
+  p0[ix] -= nX * pt
+  p0[iy] -= nY * pt
+  p0[iz] -= nZ * pt
 
-  p1[ix] -= (p1[ix] - p0[ix]) * friction;
-  p1[iy] -= (p1[iy] - p0[iy]) * friction;
-  p1[iz] -= (p1[iz] - p0[iz]) * friction;
-};
+  p1[ix] -= (p1[ix] - p0[ix]) * friction
+  p1[iy] -= (p1[iy] - p0[iy]) * friction
+  p1[iz] -= (p1[iz] - p0[iz]) * friction
+}

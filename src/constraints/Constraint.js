@@ -1,8 +1,10 @@
+import { inherit } from '../utils/Creator'
+
 // ..................................................
 // Constraint
 // ..................................................
 
-lib.Constraint = Constraint;
+export { Constraint }
 
 /**
   Constraints define relationships between multiple particles or
@@ -22,7 +24,7 @@ lib.Constraint = Constraint;
   @param {Int} [indexOffset]  Number of indices to save at beginning of index array
 */
 function Constraint(size, itemSize, indexOffset) {
-  indexOffset = indexOffset || 0;
+  indexOffset = indexOffset || 0
 
   /**
     Particle indices defining constraint relations
@@ -30,7 +32,7 @@ function Constraint(size, itemSize, indexOffset) {
     @property indices
     @type Uint16Array
   */
-  this.indices = new Uint16Array(size + indexOffset);
+  this.indices = new Uint16Array(size + indexOffset)
 
   /**
     Number of constraint relations managed by this instance
@@ -39,7 +41,7 @@ function Constraint(size, itemSize, indexOffset) {
     @type Int
     @private
   */
-  this._count = size / itemSize;
+  this._count = size / itemSize
 
   /**
     Number of particles per constraint relation
@@ -48,7 +50,7 @@ function Constraint(size, itemSize, indexOffset) {
     @type Int
     @private
   */
-  this._itemSize = itemSize;
+  this._itemSize = itemSize
 
   /**
     Number of indices to save at beginning of index array
@@ -57,7 +59,7 @@ function Constraint(size, itemSize, indexOffset) {
     @type Int
     @private
   */
-  this._offset = indexOffset;
+  this._offset = indexOffset
 }
 
 /**
@@ -66,7 +68,7 @@ function Constraint(size, itemSize, indexOffset) {
   @method create
   @static
 */
-lib.inherit(Constraint, Object);
+inherit(Constraint, Object)
 
 /**
   Set particle indices with `Array` or list of `arguments`.
@@ -76,14 +78,14 @@ lib.inherit(Constraint, Object);
   @param {Int}       [...a]   Particle index
 */
 Constraint.prototype.setIndices = function (indices) {
-  var offset = this._offset;
-  var inx = indices.length ? indices : arguments;
-  var ii = this.indices;
+  var offset = this._offset
+  var inx = indices.length ? indices : arguments
+  var ii = this.indices
 
   for (var i = 0; i < inx.length; i ++) {
-    ii[i + offset] = inx[i];
+    ii[i + offset] = inx[i]
   }
-};
+}
 
 /**
   Apply constraint to one set of particles defining a constrint relation.
@@ -95,4 +97,4 @@ Constraint.prototype.setIndices = function (indices) {
   @param {Float32Array (Vec3)} p1     Reference to `ParticleSystem.positionsPrev`
   @protected
 */
-Constraint.prototype.applyConstraint = function (index, p0, p1) {};
+Constraint.prototype.applyConstraint = function (index, p0, p1) {}

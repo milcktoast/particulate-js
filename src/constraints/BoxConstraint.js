@@ -1,10 +1,13 @@
-require('./Constraint');
+import { inherit } from '../utils/Creator'
+import { clamp } from '../math/Math'
+import { Vec3 } from '../math/Vec3'
+import { Constraint } from './Constraint'
 
 // ..................................................
 // BoxConstraint
 // ..................................................
 
-lib.BoxConstraint = BoxConstraint;
+export { BoxConstraint }
 
 /**
   @module constraints
@@ -15,9 +18,9 @@ lib.BoxConstraint = BoxConstraint;
   in the system to its bounds.
 
   ```javascript
-  var min = [-10.0, -10.0, -10.0];
-  var max = [10.0, 10.0, 10.0];
-  var box = BoxConstraint.create(min, max);
+  var min = [-10.0, -10.0, -10.0]
+  var max = [10.0, 10.0, 10.0]
+  var box = BoxConstraint.create(min, max)
   ```
 
   @class BoxConstraint
@@ -34,7 +37,7 @@ function BoxConstraint(min, max) {
     @type Float
     @default 0.05
   */
-  this.friction = 0.05;
+  this.friction = 0.05
 
   /**
     Vec3 buffer which stores bounds
@@ -43,9 +46,9 @@ function BoxConstraint(min, max) {
     @type Float32Array (Vec3)
     @private
   */
-  this.bufferVec3 = lib.Vec3.create(2);
+  this.bufferVec3 = Vec3.create(2)
 
-  this.setBounds(min, max);
+  this.setBounds(min, max)
 }
 
 /**
@@ -54,7 +57,7 @@ function BoxConstraint(min, max) {
   @method create
   @static
 */
-lib.inherit(BoxConstraint, lib.Constraint);
+inherit(BoxConstraint, Constraint)
 
 /**
   Global constraint flag
@@ -63,7 +66,7 @@ lib.inherit(BoxConstraint, lib.Constraint);
   @type Bool
   @private
 */
-BoxConstraint.prototype._isGlobal = true;
+BoxConstraint.prototype._isGlobal = true
 
 /**
   Set bounds
@@ -73,9 +76,9 @@ BoxConstraint.prototype._isGlobal = true;
   @param {Array (Vec3)} max
 */
 BoxConstraint.prototype.setBounds = function (min, max) {
-  this.setMin(min);
-  this.setMax(max);
-};
+  this.setMin(min)
+  this.setMax(max)
+}
 
 /**
   Set bounds minimum; alias for `Vec3.set`.
@@ -86,8 +89,8 @@ BoxConstraint.prototype.setBounds = function (min, max) {
   @param {Float} z
 */
 BoxConstraint.prototype.setMin = function (x, y, z) {
-  lib.Vec3.set(this.bufferVec3, 0, x, y, z);
-};
+  Vec3.set(this.bufferVec3, 0, x, y, z)
+}
 
 /**
   Set bounds maximum; alias for `Vec3.set`.
@@ -98,29 +101,29 @@ BoxConstraint.prototype.setMin = function (x, y, z) {
   @param {Float} z
 */
 BoxConstraint.prototype.setMax = function (x, y, z) {
-  lib.Vec3.set(this.bufferVec3, 1, x, y, z);
-};
+  Vec3.set(this.bufferVec3, 1, x, y, z)
+}
 
 BoxConstraint.prototype.applyConstraint = function (index, p0, p1) {
-  var friction = this.friction;
-  var b0 = this.bufferVec3;
-  var ix = index, iy = ix + 1, iz = ix + 2;
+  var friction = this.friction
+  var b0 = this.bufferVec3
+  var ix = index, iy = ix + 1, iz = ix + 2
 
-  var px = lib.Math.clamp(b0[0], b0[3], p0[ix]);
-  var py = lib.Math.clamp(b0[1], b0[4], p0[iy]);
-  var pz = lib.Math.clamp(b0[2], b0[5], p0[iz]);
+  var px = clamp(b0[0], b0[3], p0[ix])
+  var py = clamp(b0[1], b0[4], p0[iy])
+  var pz = clamp(b0[2], b0[5], p0[iz])
 
-  var dx = p0[ix] - px;
-  var dy = p0[iy] - py;
-  var dz = p0[iz] - pz;
+  var dx = p0[ix] - px
+  var dy = p0[iy] - py
+  var dz = p0[iz] - pz
 
-  p0[ix] = px;
-  p0[iy] = py;
-  p0[iz] = pz;
+  p0[ix] = px
+  p0[iy] = py
+  p0[iz] = pz
 
   if (dx || dy || dz) {
-    p1[ix] -= (p1[ix] - px) * friction;
-    p1[iy] -= (p1[iy] - py) * friction;
-    p1[iz] -= (p1[iz] - pz) * friction;
+    p1[ix] -= (p1[ix] - px) * friction
+    p1[iy] -= (p1[iy] - py) * friction
+    p1[iz] -= (p1[iz] - pz) * friction
   }
-};
+}

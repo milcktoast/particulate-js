@@ -12,13 +12,13 @@
   @private
   @static
 */
-lib.ctor = function ctor(Ctor) {
+export function ctor(Ctor) {
   return function () {
-    var instance = Object.create(Ctor.prototype);
-    Ctor.apply(instance, arguments);
-    return instance;
-  };
-};
+    var instance = Object.create(Ctor.prototype)
+    Ctor.apply(instance, arguments)
+    return instance
+  }
+}
 
 /**
   Functional inheritance utility
@@ -29,8 +29,8 @@ lib.ctor = function ctor(Ctor) {
   @private
   @static
 */
-lib.inherit = function inherit(Ctor, ParentCtor) {
-  Ctor.create = lib.ctor(Ctor);
-  Ctor.prototype = Object.create(ParentCtor.prototype);
-  Ctor.prototype.constructor = Ctor;
-};
+export function inherit(Ctor, ParentCtor) {
+  Ctor.create = ctor(Ctor)
+  Ctor.prototype = Object.create(ParentCtor.prototype)
+  Ctor.prototype.constructor = Ctor
+}

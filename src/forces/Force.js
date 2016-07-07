@@ -1,8 +1,11 @@
+import { Vec3 } from '../math/Vec3'
+import { inherit } from '../utils/Creator'
+
 // ..................................................
 // Force
 // ..................................................
 
-lib.Force = Force;
+export { Force }
 
 /**
   Forces are accumulated and applied to particles, affecting their
@@ -22,8 +25,8 @@ lib.Force = Force;
   @param {Int (Enum)}   [opts.type]
 */
 function Force(vector, opts) {
-  opts = opts || {};
-  this.vector = new Float32Array(3);
+  opts = opts || {}
+  this.vector = new Float32Array(3)
 
   if (opts.type) { this.type = opts.type; }
   if (vector != null) { this.set(vector); }
@@ -35,7 +38,7 @@ function Force(vector, opts) {
   @method create
   @static
 */
-lib.inherit(Force, Object);
+inherit(Force, Object)
 
 /**
   Force type enum: `Force.ATTRACTOR`, `Force.REPULSOR`, `Force.ATTRACTOR_REPULSOR`.
@@ -44,10 +47,10 @@ lib.inherit(Force, Object);
   @type {Int (Enum)}
   @default Force.ATTRACTOR
 */
-Force.ATTRACTOR = 0;
-Force.REPULSOR = 1;
-Force.ATTRACTOR_REPULSOR = 2;
-Force.prototype.type = Force.ATTRACTOR;
+Force.ATTRACTOR = 0
+Force.REPULSOR = 1
+Force.ATTRACTOR_REPULSOR = 2
+Force.prototype.type = Force.ATTRACTOR
 
 /**
   Alias for `Vec3.set`.
@@ -58,8 +61,8 @@ Force.prototype.type = Force.ATTRACTOR;
   @param {Float} z
 */
 Force.prototype.set = function (x, y, z) {
-  lib.Vec3.set(this.vector, 0, x, y, z);
-};
+  Vec3.set(this.vector, 0, x, y, z)
+}
 
 /**
   Apply force to one particle in system.
@@ -71,4 +74,4 @@ Force.prototype.set = function (x, y, z) {
   @param {Float32Array (Vec3)} p1  Reference to `ParticleSystem.positionsPrev`
   @protected
 */
-Force.prototype.applyForce = function (ix, f0, p0, p1) {};
+Force.prototype.applyForce = function (ix, f0, p0, p1) {}
