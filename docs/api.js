@@ -48,6 +48,7 @@ YUI.add("yuidoc-meta", function(Y) {
             "displayName": "utils",
             "name": "utils"
         }
-    ]
+    ],
+    "elements": []
 } };
 });
