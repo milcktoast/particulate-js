@@ -2,7 +2,7 @@
   @class Particulate
   @static
 */
-export var VERSION = '0.3.2'
+export var VERSION = '0.3.3'
 export { AngleConstraint } from './constraints/AngleConstraint'
 export { AxisConstraint } from './constraints/AxisConstraint'
 export { BoundingPlaneConstraint } from './constraints/BoundingPlaneConstraint'

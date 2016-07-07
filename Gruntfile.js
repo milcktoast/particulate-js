@@ -3,7 +3,7 @@ module.exports = function (grunt) {
   'use strict'
 
   var config = {
-    version: '0.3.2',
+    version: '0.3.3',
     src: 'src/',
     dest: 'dist/',
     test: 'test/',
@@ -48,7 +48,7 @@ module.exports = function (grunt) {
             '// ..................................................',
             '// Particulate.js',
             '//',
-            '// version : 0.3.2',
+            '// version : 0.3.3',
             '// authors : Jay Weeks',
             '// license : MIT',
             '// particulatejs.org',
