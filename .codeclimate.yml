@@ -3,5 +3,6 @@ languages:
 exclude_paths:
   - dist/*
   - examples/*
+  - site/*
   - test/*
   - Gruntfile.js
