@@ -7,7 +7,7 @@
 [![Inline Docs][docs-image]][docs-url]
 ![File Size][size-image]
 
-Particulate.js is a JavaScript particle physics micro library (~3.7kb gz) designed to be simple, extensible, fast, and stable;
+Particulate.js is a JavaScript particle physics micro library designed to be simple, extensible, fast, and stable;
 it is capable of running a simulation with tens of thousands of particles and tens of thousands of constraints in real time.
 The core system is derived from that described in [Advanced Character Physics by Thomas Jakobsen][adv-phys-url].
 
