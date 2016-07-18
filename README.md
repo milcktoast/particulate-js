@@ -5,6 +5,7 @@
 [![Test Coverage][coveralls-image]][coveralls-url]
 [![Code Climate][climate-image]][climate-url]
 [![Inline Docs][docs-image]][docs-url]
+![File Size][size-image]
 
 Particulate.js is a JavaScript particle physics micro library (~3.7kb gz) designed to be simple, extensible, fast, and stable;
 it is capable of running a simulation with tens of thousands of particles and tens of thousands of constraints in real time.
@@ -161,3 +162,4 @@ Any new or changed functionality should be documented and covered by unit tests.
 [climate-image]: https://img.shields.io/codeclimate/github/jpweeks/particulate-js.svg?style=flat-square
 [docs-url]: https://inch-ci.org/github/jpweeks/particulate-js
 [docs-image]: https://inch-ci.org/github/jpweeks/particulate-js.svg?branch=master&style=flat-square
+[size-image]: https://badge-size.herokuapp.com/jpweeks/particulate-js/master/dist/particulate.min.js.svg?compression=gzip&style=flat-square
