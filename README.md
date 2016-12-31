@@ -34,7 +34,11 @@ npm install particulate --save
 bower install particulate --save
 ```
 
-Then include the library as an AMD or commonJS module, or browser global.
+Then include the library as an ES6, AMD, or commonJS module, or browser global.
+
+```js
+import { ParticleSystem, DistanceConstraint } from 'particulate'
+```
 
 ```js
 define(['particulate'], function (Particulate) { /* ... */ });
