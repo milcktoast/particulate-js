@@ -163,7 +163,7 @@ Any new or changed functionality should be documented and covered by unit tests.
 [coveralls-url]: https://coveralls.io/r/jpweeks/particulate-js
 [coveralls-image]: https://img.shields.io/coveralls/jpweeks/particulate-js/develop.svg?style=flat-square
 [climate-url]: https://codeclimate.com/github/jpweeks/particulate-js/code
-[climate-image]: https://img.shields.io/codeclimate/github/jpweeks/particulate-js.svg?style=flat-square
+[climate-image]: https://img.shields.io/codeclimate/maintainability/jpweeks/particulate-js?style=flat-square
 [docs-url]: https://inch-ci.org/github/jpweeks/particulate-js
 [docs-image]: https://inch-ci.org/github/jpweeks/particulate-js.svg?branch=master&style=flat-square
 [size-image]: https://badge-size.herokuapp.com/jpweeks/particulate-js/master/dist/particulate.min.js.svg?compression=gzip&style=flat-square
