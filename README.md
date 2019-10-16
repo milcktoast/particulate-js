@@ -157,7 +157,7 @@ Any new or changed functionality should be documented and covered by unit tests.
 [yuidoc-url]: http://yui.github.io/yuidoc/syntax/index.html
 
 [stability-url]: https://nodejs.org/api/documentation.html#documentation_stability_index
-[stability-image]: https://img.shields.io/badge/stability-experimental-orange.svg?style=flat-square
+[stability-image]: https://img.shields.io/badge/stability-stable-green.svg?style=flat-square
 [travis-url]: https://travis-ci.org/jpweeks/particulate-js
 [travis-image]: https://img.shields.io/travis/jpweeks/particulate-js/develop.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/jpweeks/particulate-js
