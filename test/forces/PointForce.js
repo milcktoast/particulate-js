@@ -1,24 +1,24 @@
-module('Force.Point')
+QUnit.module('Force.Point')
 
 var PointForce = Particulate.PointForce
 
 // Creation
 // --------
 
-test('Creation', function () {
+QUnit.test('Creation', function (assert) {
   var radius = 4
   var force = PointForce.create([1, 2, 3], {
     radius : radius
   })
 
-  equal(force._radius2, radius * radius,
+  assert.equal(force._radius2, radius * radius,
     'Should initialize precalculated radius^2.')
 })
 
 // Application
 // -----------
 
-test('Application of attractor', function () {
+QUnit.test('Application of attractor', function (assert) {
   var point = [0, 1, 2]
   var radius = 20
   var system = Particulate.ParticleSystem.create(4, 10)
@@ -37,13 +37,13 @@ test('Application of attractor', function () {
 
   var dist1B = system.getDistance(0, 1)
 
-  ok(dist1B < dist1A,
+  assert.ok(dist1B < dist1A,
     'Attractor should move particles outside its radius toward defined point.')
-  equal(system.getDistance(0, 2), dist0,
+  assert.equal(system.getDistance(0, 2), dist0,
     'Attractor should not affect particles within its radius.')
 })
 
-test('Application of repulsor', function () {
+QUnit.test('Application of repulsor', function (assert) {
   var point = [0, 1, 2]
   var radius = 20
   var system = Particulate.ParticleSystem.create(4, 10)
@@ -63,13 +63,13 @@ test('Application of repulsor', function () {
 
   var dist1B = system.getDistance(0, 2)
 
-  ok(dist1B > dist1A,
+  assert.ok(dist1B > dist1A,
     'Repulsor should move particles within its radius away from defined point.')
-  equal(system.getDistance(0, 1), dist0,
+  assert.equal(system.getDistance(0, 1), dist0,
     'Repulsor should not affect particles outside its radius.')
 })
 
-test('Application of attractor/repulsor', function () {
+QUnit.test('Application of attractor/repulsor', function (assert) {
   var point = [0, 1, 2]
   var radius = 20
   var system = Particulate.ParticleSystem.create(4, 10)
@@ -90,8 +90,8 @@ test('Application of attractor/repulsor', function () {
   var dist0B = system.getDistance(0, 1)
   var dist1B = system.getDistance(0, 2)
 
-  ok(dist1B > dist1A,
+  assert.ok(dist1B > dist1A,
     'Attractor/Repulsor should move particles within its radius away from defined point.')
-  ok(dist0B < dist0A,
+  assert.ok(dist0B < dist0A,
     'Attractor/Repulsor should move particles outside its radius toward defined point.')
 })

@@ -32,7 +32,7 @@ module.exports = function (grunt) {
     rollup: {
       src: {
         options: {
-          moduleName: 'Particulate',
+          name: 'Particulate',
           format: 'umd'
         },
         src: config.src + 'index.js',

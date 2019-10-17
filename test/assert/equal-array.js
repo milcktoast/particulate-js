@@ -1,5 +1,4 @@
-Test.assert.equalArray = assert_equalArray
-function assert_equalArray(actual, expected, message) {
+QUnit.assert.equalArray = function (actual, expected, message) {
   var isEqual = true
 
   for (var i = 0, il = expected.length; i < il; i ++) {
@@ -9,5 +8,10 @@ function assert_equalArray(actual, expected, message) {
     }
   }
 
-  QUnit.push(isEqual, actual, expected, message)
+  this.pushResult({
+    result: isEqual,
+    actual: actual,
+    expected: expected,
+    message: message
+  })
 }

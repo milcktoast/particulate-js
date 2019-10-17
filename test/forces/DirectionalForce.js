@@ -1,10 +1,10 @@
-module('Force.Directional')
+QUnit.module('Force.Directional')
 
 var ParticleSystem = Particulate.ParticleSystem
 var DirectionalForce = Particulate.DirectionalForce
 var Vec3 = Particulate.Vec3
 
-test('Application', function () {
+QUnit.test('Application', function (assert) {
   var system = ParticleSystem.create(4, 10)
   var force = DirectionalForce.create([0, 1, 2])
 
@@ -16,6 +16,6 @@ test('Application', function () {
     Vec3.set(accumulated, i, force.vector)
   })
 
-  Test.assert.equalArray(system.accumulatedForces, accumulated,
+  assert.equalArray(system.accumulatedForces, accumulated,
     'Should be directly applied to all particles.')
 })

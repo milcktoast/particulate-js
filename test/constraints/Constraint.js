@@ -1,29 +1,29 @@
-module('Constraint')
+QUnit.module('Constraint')
 
 var Constraint = Particulate.Constraint
 
-test('Creation', function () {
+QUnit.test('Creation', function (assert) {
   var constraint = Constraint.create(3, 1)
 
-  equal(constraint.indices.length, 3,
+  assert.equal(constraint.indices.length, 3,
     'Should initialize indices as int array.')
 })
 
-test('Setting indices', function () {
+QUnit.test('Setting indices', function (assert) {
   var a = 1, b = 4
   var indices = [a, b]
   var constraint = Constraint.create(2, 1)
 
   constraint.setIndices(a, b)
-  Test.assert.equalArray(constraint.indices, indices,
+  assert.equalArray(constraint.indices, indices,
     'Should set indices from integers.')
 
   constraint.setIndices(indices)
-  Test.assert.equalArray(constraint.indices, indices,
+  assert.equalArray(constraint.indices, indices,
     'Should set indices from array.')
 })
 
-test('Setting indices with index offset', function () {
+QUnit.test('Setting indices with index offset', function (assert) {
   var a = 1, b = 4
   var size = 2, itemSize = 1, offset = 3
   var indices = [a, b]
@@ -31,10 +31,10 @@ test('Setting indices with index offset', function () {
   var constraint = Constraint.create(size, itemSize, offset)
 
   constraint.setIndices(a, b)
-  Test.assert.equalArray(constraint.indices, expectedIndices,
+  assert.equalArray(constraint.indices, expectedIndices,
     'Should set indices from integers.')
 
   constraint.setIndices(indices)
-  Test.assert.equalArray(constraint.indices, expectedIndices,
+  assert.equalArray(constraint.indices, expectedIndices,
     'Should set indices from array.')
 })
